@@ -6,14 +6,52 @@
 			<object class="sizeritem">
 				<object class="wxStaticBoxSizer" variable="StaticBoxSizer2" member="no">
 					<label>Map</label>
-					<object class="spacer">
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<object class="wxGridBagSizer" variable="GridBagSizer1" member="no">
+							<object class="spacer">
+								<col>0</col>
+								<row>0</row>
+								<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+								<option>1</option>
+								<size>477,426</size>
+							</object>
+							<object class="sizeritem">
+								<object class="wxBoxSizer" variable="BoxSizer6" member="no">
+									<object class="sizeritem">
+										<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
+											<label>Map scale:</label>
+										</object>
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="sizeritem">
+										<object class="wxScrollBar" name="ID_SCROLLBAR1" variable="ScrollBar1" member="yes">
+											<thumbsize>1</thumbsize>
+											<range>10</range>
+											<pagesize>1</pagesize>
+											<size>236,24</size>
+										</object>
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+								</object>
+								<col>0</col>
+								<row>1</row>
+								<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxSHAPED</flag>
+								<border>5</border>
+								<option>1</option>
+							</object>
+						</object>
 						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						<border>5</border>
 						<option>1</option>
-						<size>492,378</size>
 					</object>
 				</object>
-				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<flag>wxALL|wxEXPAND|wxSHAPED</flag>
 				<border>5</border>
 				<option>1</option>
 			</object>
@@ -21,10 +59,16 @@
 				<object class="wxBoxSizer" variable="BoxSizer2" member="no">
 					<orient>wxVERTICAL</orient>
 					<object class="sizeritem">
-						<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+						<object class="wxStaticBoxSizer" variable="StaticBoxSizer3" member="no">
 							<label>Routes</label>
+							<object class="spacer">
+								<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+								<option>1</option>
+								<size>482,221</size>
+							</object>
 						</object>
-						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<option>1</option>
 					</object>
@@ -52,7 +96,7 @@
 										<option>1</option>
 									</object>
 								</object>
-								<flag>wxALL|wxALIGN_RIGHT</flag>
+								<flag>wxALL|wxEXPAND</flag>
 								<border>5</border>
 								<option>1</option>
 							</object>
@@ -76,7 +120,7 @@
 										<option>1</option>
 									</object>
 								</object>
-								<flag>wxALL|wxALIGN_RIGHT</flag>
+								<flag>wxALL|wxEXPAND</flag>
 								<border>5</border>
 								<option>1</option>
 							</object>
@@ -101,7 +145,7 @@
 										<option>1</option>
 									</object>
 								</object>
-								<flag>wxALL|wxALIGN_RIGHT</flag>
+								<flag>wxALL|wxEXPAND</flag>
 								<border>5</border>
 								<option>1</option>
 							</object>
@@ -115,12 +159,12 @@
 								<option>1</option>
 							</object>
 						</object>
-						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL</flag>
+						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<option>1</option>
 					</object>
 				</object>
-				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<flag>wxALL|wxEXPAND|wxSHAPED</flag>
 				<border>5</border>
 				<option>1</option>
 			</object>

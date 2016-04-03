@@ -12,12 +12,13 @@
 
 //(*Headers(EasyRoutingFrame)
 #include <wx/spinctrl.h>
+#include <wx/scrolbar.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
 #include <wx/menu.h>
 #include <wx/statusbr.h>
-#include <wx/statbox.h>
 #include <wx/frame.h>
+#include <wx/gbsizer.h>
 #include <wx/stattext.h>
 //*)
 
@@ -36,7 +37,8 @@ class EasyRoutingFrame: public wxFrame
         //*)
 
         //(*Identifiers(EasyRoutingFrame)
-        static const long ID_STATICBOX1;
+        static const long ID_STATICTEXT4;
+        static const long ID_SCROLLBAR1;
         static const long ID_STATICTEXT1;
         static const long ID_SPINCTRL3;
         static const long ID_STATICTEXT2;
@@ -55,10 +57,11 @@ class EasyRoutingFrame: public wxFrame
         wxStaticText* StaticText1;
         wxStaticText* StaticText3;
         wxSpinCtrl* SpinCtrl3;
-        wxStaticBox* StaticBox1;
         wxSpinCtrl* SpinCtrl2;
+        wxStaticText* StaticText4;
         wxStaticText* StaticText2;
         wxSpinCtrl* SpinCtrl1;
+        wxScrollBar* ScrollBar1;
         //*)
 
         DECLARE_EVENT_TABLE()

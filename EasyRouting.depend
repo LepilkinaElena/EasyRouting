@@ -346,13 +346,15 @@
 
 1445776535 /usr/include/wx-2.8/wx/gtk/app.h
 
-1459693924 /home/dmitryz/EasyRouting/EasyRouting/EasyRoutingMain.h
+1459706806 /home/dmitryz/EasyRouting/EasyRouting/EasyRoutingMain.h
 	<wx/spinctrl.h>
+	<wx/scrolbar.h>
 	<wx/sizer.h>
 	<wx/button.h>
 	<wx/menu.h>
 	<wx/statusbr.h>
 	<wx/frame.h>
+	<wx/gbsizer.h>
 	<wx/stattext.h>
 
 1445776533 /usr/include/wx-2.8/wx/sizer.h
@@ -834,4 +836,22 @@
 	"wx/palmos/stattext.h"
 
 1445776535 /usr/include/wx-2.8/wx/gtk/stattext.h
+
+1445776533 /usr/include/wx-2.8/wx/scrolbar.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/scrolbar.h"
+	"wx/msw/scrolbar.h"
+	"wx/motif/scrolbar.h"
+	"wx/gtk/scrolbar.h"
+	"wx/gtk1/scrolbar.h"
+	"wx/mac/scrolbar.h"
+	"wx/cocoa/scrolbar.h"
+	"wx/os2/scrolbar.h"
+
+1445776535 /usr/include/wx-2.8/wx/gtk/scrolbar.h
+	"wx/defs.h"
+
+1445776533 /usr/include/wx-2.8/wx/gbsizer.h
+	"wx/sizer.h"
 
