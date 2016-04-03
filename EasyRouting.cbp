@@ -47,7 +47,9 @@
 			<envvars />
 			<debugger />
 			<wxsmith version="1">
-				<gui name="wxWidgets" src="EasyRoutingApp.cpp" main="EasyRoutingFrame" init_handlers="necessary" language="CPP" />
+				<gui name="wxWidgets" src="EasyRoutingApp.cpp" main="EasyRoutingFrame" init_handlers="necessary" language="CPP">
+					<load_resource file="EasyRouting.xrc" />
+				</gui>
 				<resources>
 					<wxFrame wxs="wxsmith/EasyRoutingframe.wxs" src="EasyRoutingMain.cpp" hdr="EasyRoutingMain.h" fwddecl="0" i18n="1" name="EasyRoutingFrame" language="CPP" />
 				</resources>
