@@ -11,6 +11,7 @@
 
 //(*AppHeaders
 #include "EasyRoutingMain.h"
+#include <wx/xrc/xmlres.h>
 #include <wx/image.h>
 //*)
 
@@ -21,6 +22,8 @@ bool EasyRoutingApp::OnInit()
     //(*AppInitialize
     bool wxsOK = true;
     wxInitAllImageHandlers();
+    wxXmlResource::Get()->InitAllHandlers();
+    wxsOK = wxsOK && wxXmlResource::Get()->Load(_T("EasyRouting.xrc"));
     if ( wxsOK )
     {
     	EasyRoutingFrame* Frame = new EasyRoutingFrame(0);

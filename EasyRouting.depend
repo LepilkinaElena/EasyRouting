@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1459692842 source:/home/dmitryz/EasyRouting/EasyRouting/EasyRoutingApp.cpp
+1459711535 source:/home/dmitryz/EasyRouting/EasyRouting/EasyRoutingApp.cpp
 	"EasyRoutingApp.h"
 	"EasyRoutingMain.h"
+	<wx/xrc/xmlres.h>
 	<wx/image.h>
 
 1459692842 /home/dmitryz/EasyRouting/EasyRouting/EasyRoutingApp.h
@@ -346,8 +347,9 @@
 
 1445776535 /usr/include/wx-2.8/wx/gtk/app.h
 
-1459706806 /home/dmitryz/EasyRouting/EasyRouting/EasyRoutingMain.h
+1459713831 /home/dmitryz/EasyRouting/EasyRouting/EasyRoutingMain.h
 	<wx/spinctrl.h>
+	<wx/combobox.h>
 	<wx/scrolbar.h>
 	<wx/sizer.h>
 	<wx/button.h>
@@ -854,4 +856,171 @@
 
 1445776533 /usr/include/wx-2.8/wx/gbsizer.h
 	"wx/sizer.h"
+
+1459713850 source:/home/dmitryz/EasyRouting/EasyRouting/EasyRoutingMain.cpp
+	"EasyRoutingMain.h"
+	<wx/msgdlg.h>
+	<wx/string.h>
+	<wx/intl.h>
+
+1445776533 /usr/include/wx-2.8/wx/msgdlg.h
+	"wx/defs.h"
+	"wx/generic/msgdlgg.h"
+	"wx/generic/msgdlgg.h"
+	"wx/palmos/msgdlg.h"
+	"wx/msw/msgdlg.h"
+	"wx/motif/msgdlg.h"
+	"wx/gtk/msgdlg.h"
+	"wx/generic/msgdlgg.h"
+	"wx/generic/msgdlgg.h"
+	"wx/mac/msgdlg.h"
+	"wx/cocoa/msgdlg.h"
+	"wx/os2/msgdlg.h"
+
+1445776533 /usr/include/wx-2.8/wx/generic/msgdlgg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+
+1445776533 /usr/include/wx-2.8/wx/dialog.h
+	"wx/defs.h"
+	"wx/containr.h"
+	"wx/toplevel.h"
+	"wx/univ/dialog.h"
+	"wx/palmos/dialog.h"
+	"wx/msw/dialog.h"
+	"wx/motif/dialog.h"
+	"wx/gtk/dialog.h"
+	"wx/gtk1/dialog.h"
+	"wx/mac/dialog.h"
+	"wx/cocoa/dialog.h"
+	"wx/os2/dialog.h"
+
+1445776535 /usr/include/wx-2.8/wx/gtk/dialog.h
+	"wx/defs.h"
+
+1445776535 /usr/include/wx-2.8/wx/gtk/msgdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+
+1445776533 /usr/include/wx-2.8/wx/combobox.h
+	"wx/defs.h"
+	"wx/textctrl.h"
+	"wx/ctrlsub.h"
+	"wx/univ/combobox.h"
+	"wx/msw/combobox.h"
+	"wx/motif/combobox.h"
+	"wx/gtk/combobox.h"
+	"wx/gtk1/combobox.h"
+	"wx/mac/combobox.h"
+	"wx/cocoa/combobox.h"
+	"wx/os2/combobox.h"
+
+1445776533 /usr/include/wx-2.8/wx/ctrlsub.h
+	"wx/defs.h"
+	"wx/control.h"
+
+1445776535 /usr/include/wx-2.8/wx/gtk/combobox.h
+
+1445776537 /usr/include/wx-2.8/wx/xrc/xmlres.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/dynarray.h"
+	"wx/datetime.h"
+	"wx/list.h"
+	"wx/gdicmn.h"
+	"wx/filesys.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/artprov.h"
+	"wx/colour.h"
+	"wx/animate.h"
+	"wx/xml/xml.h"
+
+1445776531 /usr/include/wx-2.8/wx/filesys.h
+	"wx/defs.h"
+	"wx/stream.h"
+	"wx/datetime.h"
+	"wx/filename.h"
+	"wx/hashmap.h"
+
+1445776531 /usr/include/wx-2.8/wx/filename.h
+	"wx/arrstr.h"
+	"wx/filefn.h"
+	"wx/datetime.h"
+	"wx/intl.h"
+
+1445776533 /usr/include/wx-2.8/wx/icon.h
+	"wx/iconloc.h"
+	"wx/generic/icon.h"
+	"wx/msw/icon.h"
+	"wx/motif/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/mac/icon.h"
+	"wx/cocoa/icon.h"
+	"wx/os2/icon.h"
+	"wx/variant.h"
+
+1445776531 /usr/include/wx-2.8/wx/iconloc.h
+	"wx/string.h"
+
+1445776535 /usr/include/wx-2.8/wx/generic/icon.h
+	"wx/bitmap.h"
+
+1445776533 /usr/include/wx-2.8/wx/artprov.h
+	"wx/string.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+
+1445776535 /usr/include/wx-2.8/wx/animate.h
+	"wx/defs.h"
+	"wx/animdecod.h"
+	"wx/control.h"
+	"wx/timer.h"
+	"wx/bitmap.h"
+	"wx/gtk/animate.h"
+	"wx/generic/animate.h"
+
+1445776535 /usr/include/wx-2.8/wx/animdecod.h
+	"wx/defs.h"
+	"wx/colour.h"
+	"wx/gdicmn.h"
+
+1445776532 /usr/include/wx-2.8/wx/timer.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/longlong.h"
+	"wx/event.h"
+	"wx/stopwatch.h"
+	"wx/window.h"
+	"wx/msw/timer.h"
+	"wx/motif/timer.h"
+	"wx/gtk/timer.h"
+	"wx/gtk1/timer.h"
+	"wx/generic/timer.h"
+	"wx/cocoa/timer.h"
+	"wx/mac/timer.h"
+	"wx/os2/timer.h"
+
+1445776532 /usr/include/wx-2.8/wx/stopwatch.h
+	"wx/defs.h"
+	"wx/longlong.h"
+
+1445776535 /usr/include/wx-2.8/wx/gtk/timer.h
+
+1445776533 /usr/include/wx-2.8/wx/generic/timer.h
+
+1445776536 /usr/include/wx-2.8/wx/gtk/animate.h
+
+1445776536 /usr/include/wx-2.8/wx/generic/animate.h
+	"wx/bitmap.h"
+
+1445776532 /usr/include/wx-2.8/wx/xml/xml.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/object.h"
+	"wx/list.h"
 
