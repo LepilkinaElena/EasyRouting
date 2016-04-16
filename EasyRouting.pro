@@ -17,6 +17,7 @@ SOURCES += main.cpp\
     cost.cpp
 
 HEADERS  += mainwindow.h \
-    cost.h
+    cost.h \
+    edge.h
 
 FORMS    += mainwindow.ui

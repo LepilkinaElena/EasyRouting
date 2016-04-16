@@ -4,7 +4,7 @@
 
 /*!\class Cost
 *\brief Класс веса дуги мультиграфа
-*\ref transition
+*\ref Cost
 */
 class Cost
 {
