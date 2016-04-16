@@ -1,5 +1,7 @@
 #include "cost.h"
 
+using namespace Multigraph;
+
 Cost::Cost()
 {
 }

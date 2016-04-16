@@ -14,10 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    cost.cpp
+    Multigraph/cost.cpp
 
 HEADERS  += mainwindow.h \
-    cost.h \
-    edge.h
+    Multigraph/cost.h \
+    Multigraph/edge.h \
+    Multigraph/multigraph.h
 
 FORMS    += mainwindow.ui
