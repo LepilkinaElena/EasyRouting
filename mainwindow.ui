@@ -43,11 +43,11 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>100</height>
+          <height>150</height>
          </size>
         </property>
         <property name="title">
-         <string>Управление картой</string>
+         <string>Работа с картой</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
@@ -73,7 +73,7 @@
            <item>
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Начало:</string>
+              <string>Начало маршрута:</string>
              </property>
             </widget>
            </item>
@@ -87,10 +87,20 @@
              </property>
             </widget>
            </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>Конец:</string>
+              <string>Конец маршрута:</string>
              </property>
             </widget>
            </item>
@@ -174,7 +184,7 @@
            <item>
             <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Ограничение по стоимости:</string>
+              <string>Бюджет:</string>
              </property>
             </widget>
            </item>
@@ -195,7 +205,7 @@
            <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Ограничение по вермени:</string>
+              <string>Макс. время маршрута:</string>
              </property>
             </widget>
            </item>
@@ -248,7 +258,7 @@
            <item>
             <widget class="QPushButton" name="pushButton">
              <property name="text">
-              <string>Очистить</string>
+              <string>Сброс</string>
              </property>
             </widget>
            </item>
