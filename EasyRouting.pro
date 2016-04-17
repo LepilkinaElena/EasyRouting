@@ -14,11 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    Multigraph/cost.cpp
+    Multigraph/cost.cpp \
+    ERModel/place.cpp \
+    ERModel/routecost.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
     Multigraph/edge.h \
-    Multigraph/multigraph.h
+    Multigraph/multigraph.h \
+    ERModel/place.h \
+    ERModel/routecost.h
 
 FORMS    += mainwindow.ui
