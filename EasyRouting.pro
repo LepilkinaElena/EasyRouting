@@ -4,25 +4,28 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = EasyRouting
 TEMPLATE = app
 
+CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     Multigraph/cost.cpp \
     ERModel/place.cpp \
-    ERModel/routecost.cpp
+    ERModel/routecost.cpp \
+    tests/tests.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
     Multigraph/edge.h \
     Multigraph/multigraph.h \
     ERModel/place.h \
-    ERModel/routecost.h
+    ERModel/routecost.h \
+    tests/tests.h
 
 FORMS    += mainwindow.ui
