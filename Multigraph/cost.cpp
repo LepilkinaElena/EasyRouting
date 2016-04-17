@@ -6,37 +6,37 @@ Cost::Cost()
 {
 }
 
-Cost& Cost::operator+(Cost& other)
+Cost Cost::operator+(const Cost& other)
 {
     return *this;
 }
 
-Cost& Cost::operator-(Cost& other)
+Cost Cost::operator-(const Cost& other)
 {
     return *this;
 }
 
-bool Cost::operator<(Cost& other)
+bool Cost::operator<(const Cost& other)
 {
     return false;
 }
 
-bool Cost::operator>(Cost& other)
+bool Cost::operator>(const Cost& other)
 {
     return false;
 }
 
-bool Cost::operator==(Cost& other)
+bool Cost::operator==(const Cost& other)
 {
     return false;
 }
 
-bool Cost::operator>=(Cost& other)
+bool Cost::operator>=(const Cost& other)
 {
     return false;
 }
 
-bool Cost::operator<=(Cost& other)
+bool Cost::operator<=(const Cost& other)
 {
     return false;
 }

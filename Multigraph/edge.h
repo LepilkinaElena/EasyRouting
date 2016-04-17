@@ -34,7 +34,7 @@ namespace Multigraph {
         const Cost& cost;
 
     public:
-        /*!\fn Edge(int id)
+        /*!\fn Edge(int id, const T& from, const T& to, const T& cost);
         *\brief Конструктор дуги
         *\param [in] id - идентификатор дуги
         *\param [in] from - вершина, из которой выходит дуга
