@@ -23,7 +23,7 @@ namespace Multigraph {
         /*!\var Multigraph::edges
         *\brief матрица инцендентности мультиграфа
         */
-        std::multimap<T, Edge<T>> edges;
+        std::multimap<T, Edge<T> > edges;
     public:
         Multigraph();
 
@@ -34,7 +34,7 @@ namespace Multigraph {
         *\param [in] cost - вес дуги
         *\return добавленная дуга
         */
-        Edge<T>& addEdge(const T& from, const T& to, const Cost& cost) const;
+        Edge<T> addEdge(const T& from, const T& to, const Cost& cost);
 
         /*!\fn removeEdge(int id);
         *\brief Метод удаления дуги из мультиграфа
@@ -54,20 +54,20 @@ namespace Multigraph {
         *\return дуга
         */
         Edge<T>& getEdgeById(int id);
-    };
-}
 
-using namespace Multigraph;
+        std::vector<std::vector<int> > waveAlgorithm(T start, T finish, const Cost& limits);
+    };
+
 
 template <typename T>
 Multigraph<T>::Multigraph()
 {
-    edges = std::multimap();
+    edges = std::multimap<T, Edge<T> >();
     idCounter = 0;
 }
 
 template <typename T>
-Edge<T>& Multigraph<T>::addEdge(const T& from, const T& to, const Cost& cost) const
+Edge<T> Multigraph<T>::addEdge(const T& from, const T& to, const Cost& cost)
 {
     Edge<T> edge = Edge<T>(idCounter, from, to, cost);
     edges.emplace(from, edge);
@@ -102,4 +102,12 @@ Edge<T>& Multigraph<T>::getEdgeById(int id)
         }
     }
     return nullptr;
+}
+
+template <typename T>
+std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(T start, T finish, const Cost& limits)
+{
+    return std::vector<std::vector<int>>();
+}
+
 }

@@ -6,7 +6,7 @@ RouteCost::RouteCost() : Multigraph::Cost()
 {
 }
 
-RouteCost::RouteCost(int money, int time, std::set<Interest> interest, std::set<Transport> transport) : Multigraph::Cost()
+RouteCost::RouteCost(int money, QTime time, std::set<Interest> interest, std::set<Transport> transport) : Multigraph::Cost()
 {
     this->moneyCost = money;
     this->timeCost = time;
@@ -25,7 +25,7 @@ Multigraph::Cost RouteCost::operator +(const Cost &other)
         resultTransport.insert(routeOther.transports.begin(), routeOther.transports.end());
         resultInterests.insert(routeOther.interests.begin(), routeOther.interests.end());
         RouteCost result = RouteCost(this->moneyCost + routeOther.moneyCost,
-                         this->timeCost + routeOther.timeCost,
+                         QTime(this->timeCost.hour() + routeOther.timeCost.hour(), this->timeCost.minute() + routeOther.timeCost.minute()),
                          resultInterests, resultTransport);
         return result;
     }

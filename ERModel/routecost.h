@@ -1,17 +1,21 @@
 /*!\file routecost.h
 *\brief Файл с классом для описания веса маршрута
 */
+#ifndef ROUTECOST_H
+#define ROUTECOST_H
 #include <Multigraph/cost.h>
 #include "place.h"
 #include <set>
+#include <QTime>
 
 enum Transport {CAR, UNDERGROUND, BUS, TROLLEYBUS, TRAM, TAXI, FOOT};
 
+using Multigraph::Cost;
 /*!\class RouteCost
 *\brief Класс веса маршрута
 *\ref RouteCost
 */
-class RouteCost : public Multigraph::Cost
+class RouteCost : public Cost
 {
 private:
     /*!\var RouteCost::moneyCost
@@ -22,7 +26,7 @@ private:
     /*!\var RouteCost::timeCost
     *\brief временные затраты
     */
-    int timeCost;
+    QTime timeCost;
 
     /*!\var RouteCost::interests
     *\brief категория интересов для данного маршрута
@@ -46,8 +50,10 @@ public:
     *\param [in] transport - виды транспорта для данного маршрута
     *\return вес маршрута
     */
-    RouteCost(int money, int time, std::set<Interest> interest = std::set<Interest>(),
+    RouteCost(int money, QTime time, std::set<Interest> interest = std::set<Interest>(),
               std::set<Transport> transport = std::set<Transport>());
 
     Cost operator +(const Cost& other);
 };
+
+#endif

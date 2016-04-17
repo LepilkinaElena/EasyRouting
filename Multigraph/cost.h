@@ -1,7 +1,8 @@
 /*!\file cost.h
 *\brief Файл с классом для описания веса дуги мультиграфа
 */
-
+#ifndef COST_H
+#define COST_H
 namespace Multigraph {
     /*!\class Cost
     *\brief Класс веса дуги мультиграфа
@@ -69,3 +70,5 @@ namespace Multigraph {
         virtual bool operator<=(const Cost& other);
     };
 }
+
+#endif

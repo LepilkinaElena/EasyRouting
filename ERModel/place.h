@@ -1,7 +1,8 @@
 /*!\file place.h
 *\brief Файл с классом для описания места посещения
 */
-
+#ifndef PLACE_H
+#define PLACE_H
 #include <string>
 
 enum Interest { SIGHT, CULTURE, PARK, ENTERTAINMENT };
@@ -43,6 +44,10 @@ public:
     *\param [in] interest - категория интересов, которой принадлежит объект
     *\return место посещения
     */
-    Place(double x, double y, std::string& placeName, Interest interest);
+    Place(double x, double y, std::string placeName, Interest interest);
+
+    bool operator<(const Place other) const;
 
 };
+
+#endif
