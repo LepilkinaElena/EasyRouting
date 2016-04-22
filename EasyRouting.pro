@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui testlib
+QT       += core gui testlib webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     Multigraph/cost.cpp \
     ERModel/place.cpp \
     ERModel/routecost.cpp \
-    tests/tests.cpp
+    tests/tests.cpp \
+    View/mapview.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -26,6 +27,10 @@ HEADERS  += mainwindow.h \
     Multigraph/multigraph.h \
     ERModel/place.h \
     ERModel/routecost.h \
-    tests/tests.h
+    tests/tests.h \
+    View/mapview.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    resources.qrc
