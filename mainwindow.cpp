@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QUrl url("qrc:///map/google_map.html");
 
     ui->mapWidget->load(url);
-
 }
 
 MainWindow::~MainWindow()

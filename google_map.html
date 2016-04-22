@@ -19,20 +19,41 @@
   <body>
     <div id="map"></div>
     <script>
-function initMap() {
-  var myLatlng = {lat: 59.9442436, lng: 30.307164};
+    var map;
+    function initMap() {
+      var myLatlng = {lat: 59.9442436, lng: 30.307164};
 
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 11,
-    center: myLatlng
-  });
-  google.maps.event.addListener(map, 'click', function (e) {
-                
-                Js2CppSuperAPI.recieved("Latitude: " + e.latLng.lat() + "\r\nLongitude: " + e.latLng.lng());
-  });
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 11,
+        center: myLatlng
+      });
+      google.maps.event.addListener(map, 'click', function (e) {
+                    Js2CppSuperAPI.onMapClicked(e.latLng.lat(),e.latLng.lng());
+                    //drawMark(e.latLng.lat(),e.latLng.lng(),"1.png");
+      });
 
+    }
 
-}
+    function drawLine(x1,y1,x2,y2) {
+      var line = new google.maps.Polyline({
+      path: [
+          new google.maps.LatLng(x1, y1),
+          new google.maps.LatLng(x2, y2)
+      ],
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 10,
+      map: map
+      });
+    }
+    function drawMark(x,y,img) {
+      var marker = new google.maps.Marker({
+          position: {lat: x, lng: y},
+          map: map,
+          icon: img,
+          title: 'Title'
+        });
+    }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZlzCLJx325LcgMVz363Byy4AmHshs6us&signed_in=true&callback=initMap" async defer>
