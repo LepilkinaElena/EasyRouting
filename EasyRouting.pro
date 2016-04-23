@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     ERModel/place.cpp \
     ERModel/routecost.cpp \
     tests/tests.cpp \
-    View/mapview.cpp
+    View/mapview.cpp \
+    View/selectionitem.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h \
     ERModel/place.h \
     ERModel/routecost.h \
     tests/tests.h \
-    View/mapview.h
+    View/mapview.h \
+    View/selectionitem.h
 
 FORMS    += mainwindow.ui
 

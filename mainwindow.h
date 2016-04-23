@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "View/selectionitem.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -16,6 +18,10 @@ public:
     ~MainWindow();
 
 private:
+    void setupUI();
+
+    QStandardItemModel interestsModel;
+    QStandardItemModel transportModel;
     Ui::MainWindow *ui;
 };
 
