@@ -55,7 +55,15 @@ namespace Multigraph {
         */
         Edge<T>& getEdgeById(int id);
 
-        std::vector<std::vector<int> > waveAlgorithm(T start, T finish, const Cost& limits);
+        /*!\fn waveAlgorithm(const Multigraph::T &start, const Multigraph::T &finish, const Cost& limits);
+        *\brief Метод поиска пути в графе по волновому алгоритму
+        *\param [in] start - начальная точка пути
+        *\param [in] finish - конечная точка пути
+        *\param [in] limits - ограниение на выбираемые пути
+        *\return вектор путей, представленных веткором идентификаторов дуг
+        */
+        std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
+                                                     const Cost& limits);
     };
 
 
@@ -105,7 +113,8 @@ Edge<T>& Multigraph<T>::getEdgeById(int id)
 }
 
 template <typename T>
-std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(T start, T finish, const Cost& limits)
+std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(const T& start, const T& finish,
+                                                           const Cost& limits)
 {
     return std::vector<std::vector<int>>();
 }

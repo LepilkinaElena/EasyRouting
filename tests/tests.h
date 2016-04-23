@@ -16,7 +16,12 @@ private:
     Multigraph::Multigraph<Place> getGraph();
 
 private slots:
-    void test1();
+    void no_route();
+    void one_route();
+    void several_routes();
+    void cycle_route();
+    void one_suitable_route();
+    void no_physical_route();
 };
 
 #endif // TESTS_H
