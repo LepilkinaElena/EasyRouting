@@ -26,11 +26,13 @@ HEADERS  += mainwindow.h \
     Multigraph/cost.h \
     Multigraph/edge.h \
     Multigraph/multigraph.h \
+    Multigraph/multigraphiterator.h \
     ERModel/place.h \
     ERModel/routecost.h \
     tests/tests.h \
     View/mapview.h \
-    View/selectionitem.h
+    View/selectionitem.h \
+    Multigraph/multigraphiterator.h
 
 FORMS    += mainwindow.ui
 

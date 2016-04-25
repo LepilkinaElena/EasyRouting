@@ -4,6 +4,7 @@
 
 #include "edge.h"
 #include <map>
+#include "multigraphiterator.h"
 
 namespace Multigraph {
 
@@ -14,7 +15,17 @@ namespace Multigraph {
     template <class T>
     class Multigraph
     {
+    public:
+        typedef MultigraphIterator<T > iterator;
+        typedef MultigraphIterator<T > const_iterator;
     private:
+        class waveStep
+        {
+            int stepId;
+            Cost& currentCost;
+            std::vector<std::vector<int> > routes;
+        };
+
         /*!\var Multigraph::idCounter
         *\brief счетчик идентификаторов дуг
         */
@@ -25,6 +36,7 @@ namespace Multigraph {
         */
         std::multimap<T, Edge<T> > edges;
     public:
+
         Multigraph();
 
         /*!\fn void addEdge(const T& from, const T& to, const Cost& cost);
@@ -64,6 +76,7 @@ namespace Multigraph {
         */
         std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
                                                      const Cost& limits);
+
     };
 
 
@@ -116,7 +129,36 @@ template <typename T>
 std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(const T& start, const T& finish,
                                                            const Cost& limits)
 {
-    return std::vector<std::vector<int>>();
+    std::vector<std::vector<int>> result;
+    /*std::vector<T> oldFront;
+    std::vector<T> newFront;
+    std::map<T, waveStep> currentStepState;
+    int step = 0;
+    std::set<T> keys = std::set<T>();
+    std::pair <std::multimap<T,Edge<T> >::iterator, std::multimap<T,Edge<T> >::iterator> values;
+    // Получить все вершины графа
+    for (auto const& element: edges)
+    {
+        keys.insert(element.first);
+    }
+
+    for (auto const& key: keys)
+    {
+        currentStepState[key] =
+    }
+
+    oldFront.emplace_back(start);
+    for (auto const& state: oldFront)
+    {
+        // Получить все дуги, выходящие из вершины
+        values = edges.equal_range(state);
+        for (std::multimap<T,Edge<T> >::iterator it = values.first; it != values.second; ++it)
+        {
+            Edge<T> edge = it->second;
+
+        }
+    }*/
+    return result;
 }
 
 }
