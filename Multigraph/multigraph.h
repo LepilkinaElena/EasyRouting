@@ -16,7 +16,6 @@ namespace Multigraph {
     {
     public:
         typedef MultigraphIterator<T > iterator;
-        typedef MultigraphIterator<T > const_iterator;
     private:
         class waveStep
         {
@@ -79,9 +78,6 @@ namespace Multigraph {
         iterator begin();
         iterator end();
 
-        const_iterator cbegin() const;
-        const_iterator cend() const;
-
     };
 
 
@@ -140,18 +136,6 @@ namespace Multigraph {
     typename Multigraph<T>::iterator Multigraph<T>::end()
     {
         return iterator(edges.end());
-    }
-
-    template <typename T>
-    typename Multigraph<T>::const_iterator Multigraph<T>::cbegin() const
-    {
-        return const_iterator(edges.begin());
-    }
-
-    template <typename T>
-    typename Multigraph<T>::const_iterator Multigraph<T>::cend() const
-    {
-        return const_iterator(edges.end());
     }
 
     template <typename T>

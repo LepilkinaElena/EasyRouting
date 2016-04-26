@@ -11,7 +11,7 @@ namespace Multigraph {
     class Multigraph;
 
     template<typename ValueType>
-    class MultigraphIterator: public std::iterator<std::input_iterator_tag, std::pair<const ValueType, Edge<ValueType> > >
+    class MultigraphIterator: public std::iterator<std::input_iterator_tag, std::pair<const ValueType, Edge<ValueType> >>
     {
         friend class Multigraph<ValueType>;
     private:
