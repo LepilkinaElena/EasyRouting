@@ -2,7 +2,11 @@
 *\brief Файл с классом для описания мультиграфа
 */
 
+#ifndef MULTIGRAPH_H
+#define MULTIGRAPH_H
+
 #include <map>
+#include <vector>
 #include "multigraphiterator.h"
 
 namespace Multigraph {
@@ -74,6 +78,8 @@ namespace Multigraph {
         */
         std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
                                                      const Cost& limits);
+
+        bool checkKeyExistence(const T key) const;
 
         iterator begin();
         iterator end();
@@ -174,4 +180,12 @@ namespace Multigraph {
         return result;
     }
 
+    template <typename T>
+    bool Multigraph<T>::checkKeyExistence(const T key) const
+    {
+        int count = edges.count(key);
+        return (count != 0);
+    }
+
 }
+#endif

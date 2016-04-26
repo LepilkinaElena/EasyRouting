@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/map">
         <file>google_map.html</file>
-        <file>1.png</file>
+        <file>icons/building.png</file>
+        <file>icons/road.png</file>
     </qresource>
 </RCC>

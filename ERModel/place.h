@@ -34,6 +34,10 @@ private:
     */
     Interest intersestCategory;
 
+    static int counter;
+
+    int id;
+
 public:
 
     /*!\fn Place(double x, double y, std::string& placeName, Interest interest);
@@ -49,6 +53,9 @@ public:
     bool operator<(const Place other) const;
     bool operator ==(const Place other) const;
 
+    int getId() const;
+    double getGeoCoordX() const;
+    double getGeoCoordY() const;
 };
 
 #endif

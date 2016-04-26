@@ -20,7 +20,10 @@ SOURCES += main.cpp\
     ERModel/routecost.cpp \
     tests/tests.cpp \
     View/mapview.cpp \
-    View/selectionitem.cpp
+    View/selectionitem.cpp \
+    View/placedialog.cpp \
+    ERModel/citymap.cpp \
+    View/routedialog.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -32,9 +35,14 @@ HEADERS  += mainwindow.h \
     tests/tests.h \
     View/mapview.h \
     View/selectionitem.h \
-    Multigraph/multigraphiterator.h
+    Multigraph/multigraphiterator.h \
+    View/placedialog.h \
+    ERModel/citymap.h \
+    View/routedialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    View/placedialog.ui \
+    View/routedialog.ui
 
 RESOURCES += \
     resources.qrc
