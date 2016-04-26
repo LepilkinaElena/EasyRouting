@@ -2,7 +2,6 @@
 *\brief Файл с классом для описания мультиграфа
 */
 
-#include "edge.h"
 #include <map>
 #include "multigraphiterator.h"
 
@@ -77,88 +76,118 @@ namespace Multigraph {
         std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
                                                      const Cost& limits);
 
+        iterator begin();
+        iterator end();
+
+        const_iterator cbegin() const;
+        const_iterator cend() const;
+
     };
 
 
-template <typename T>
-Multigraph<T>::Multigraph()
-{
-    edges = std::multimap<T, Edge<T> >();
-    idCounter = 0;
-}
-
-template <typename T>
-Edge<T> Multigraph<T>::addEdge(const T& from, const T& to, const Cost& cost)
-{
-    Edge<T> edge = Edge<T>(idCounter, from, to, cost);
-    edges.emplace(from, edge);
-    idCounter++;
-    return edge;
-}
-
-template <typename T>
-void Multigraph<T>::removeEdge(int id)
-{
-    Edge<T> edge = getEdgeById(id);
-    if (edge)
+    template <typename T>
+    Multigraph<T>::Multigraph()
     {
-        removeEdge(edge);
+        edges = std::multimap<T, Edge<T> >();
+        idCounter = 0;
     }
-}
 
-template <typename T>
-void Multigraph<T>::removeEdge(const Edge<T>& edge)
-{
-    edges.erase(edge.from);
-}
-
-template <typename T>
-Edge<T>& Multigraph<T>::getEdgeById(int id)
-{
-    for (auto& element: edges)
+    template <typename T>
+    Edge<T> Multigraph<T>::addEdge(const T& from, const T& to, const Cost& cost)
     {
-        if (element.second.id == id)
+        Edge<T> edge = Edge<T>(idCounter, from, to, cost);
+        edges.emplace(from, edge);
+        idCounter++;
+        return edge;
+    }
+
+    template <typename T>
+    void Multigraph<T>::removeEdge(int id)
+    {
+        Edge<T> edge = getEdgeById(id);
+        if (edge)
         {
-            return element;
+            removeEdge(edge);
         }
     }
-    return nullptr;
-}
 
-template <typename T>
-std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(const T& start, const T& finish,
-                                                           const Cost& limits)
-{
-    std::vector<std::vector<int>> result;
-    /*std::vector<T> oldFront;
-    std::vector<T> newFront;
-    std::map<T, waveStep> currentStepState;
-    int step = 0;
-    std::set<T> keys = std::set<T>();
-    std::pair <std::multimap<T,Edge<T> >::iterator, std::multimap<T,Edge<T> >::iterator> values;
-    // Получить все вершины графа
-    for (auto const& element: edges)
+    template <typename T>
+    void Multigraph<T>::removeEdge(const Edge<T>& edge)
     {
-        keys.insert(element.first);
+        edges.erase(edge.from);
     }
 
-    for (auto const& key: keys)
+    template <typename T>
+    Edge<T>& Multigraph<T>::getEdgeById(int id)
     {
-        currentStepState[key] =
-    }
-
-    oldFront.emplace_back(start);
-    for (auto const& state: oldFront)
-    {
-        // Получить все дуги, выходящие из вершины
-        values = edges.equal_range(state);
-        for (std::multimap<T,Edge<T> >::iterator it = values.first; it != values.second; ++it)
+        for (auto& element: edges)
         {
-            Edge<T> edge = it->second;
-
+            if (element.second.id == id)
+            {
+                return element;
+            }
         }
-    }*/
-    return result;
-}
+        return nullptr;
+    }
+
+    template <typename T>
+    typename Multigraph<T>::iterator Multigraph<T>::begin()
+    {
+        return iterator(edges.begin());
+    }
+
+    template <typename T>
+    typename Multigraph<T>::iterator Multigraph<T>::end()
+    {
+        return iterator(edges.end());
+    }
+
+    template <typename T>
+    typename Multigraph<T>::const_iterator Multigraph<T>::cbegin() const
+    {
+        return const_iterator(edges.begin());
+    }
+
+    template <typename T>
+    typename Multigraph<T>::const_iterator Multigraph<T>::cend() const
+    {
+        return const_iterator(edges.end());
+    }
+
+    template <typename T>
+    std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(const T& start, const T& finish,
+                                                               const Cost& limits)
+    {
+        std::vector<std::vector<int>> result;
+        /*std::vector<T> oldFront;
+        std::vector<T> newFront;
+        std::map<T, waveStep> currentStepState;
+        int step = 0;
+        std::set<T> keys = std::set<T>();
+        std::pair <std::multimap<T,Edge<T> >::iterator, std::multimap<T,Edge<T> >::iterator> values;
+        // Получить все вершины графа
+        for (auto const& element: edges)
+        {
+            keys.insert(element.first);
+        }
+
+        for (auto const& key: keys)
+        {
+            currentStepState[key] =
+        }
+
+        oldFront.emplace_back(start);
+        for (auto const& state: oldFront)
+        {
+            // Получить все дуги, выходящие из вершины
+            values = edges.equal_range(state);
+            for (std::multimap<T,Edge<T> >::iterator it = values.first; it != values.second; ++it)
+            {
+                Edge<T> edge = it->second;
+
+            }
+        }*/
+        return result;
+    }
 
 }

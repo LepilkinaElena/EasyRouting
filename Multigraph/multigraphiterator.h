@@ -3,18 +3,22 @@
 
 #include <iterator>
 #include <initializer_list>
+#include <map>
+#include "edge.h"
 
 namespace Multigraph {
     template <class T>
     class Multigraph;
 
     template<typename ValueType>
-    class MultigraphIterator: public std::iterator<std::input_iterator_tag, ValueType>
+    class MultigraphIterator: public std::iterator<std::input_iterator_tag, std::pair<const ValueType, Edge<ValueType> > >
     {
         friend class Multigraph<ValueType>;
     private:
-        MultigraphIterator(ValueType* value);
-        ValueType* value;
+        typedef typename std::multimap<ValueType, Edge<ValueType> >::iterator MapIterator;
+        MapIterator mapIterator;
+
+        MultigraphIterator(MapIterator mapIterator);
     public:
         MultigraphIterator(const MultigraphIterator &it);
 
@@ -25,35 +29,35 @@ namespace Multigraph {
     };
 
     template<typename ValueType>
-    MultigraphIterator<ValueType>::MultigraphIterator(ValueType *value) :
-        value(value)    {}
+    MultigraphIterator<ValueType>::MultigraphIterator(MapIterator mapIterator) :
+        mapIterator(mapIterator)    {}
 
     template<typename ValueType>
     MultigraphIterator<ValueType>::MultigraphIterator(const MultigraphIterator& it) :
-        value(it.value) {}
+        mapIterator(it.mapIterator) {}
 
     template<typename ValueType>
     bool MultigraphIterator<ValueType>::operator!=(MultigraphIterator const& other) const
     {
-        return value != other.value;
+        return mapIterator != other.mapIterator;
     }
 
     template<typename ValueType>
     bool MultigraphIterator<ValueType>::operator==(MultigraphIterator const& other) const
     {
-        return value == other.value;
+        return mapIterator == other.mapIterator;
     }
 
     template<typename ValueType>
     typename MultigraphIterator<ValueType>::reference MultigraphIterator<ValueType>::operator*() const
     {
-        return *value;
+        return *mapIterator;
     }
 
     template<typename ValueType>
     MultigraphIterator<ValueType> &MultigraphIterator<ValueType>::operator++()
     {
-        ++value;
+        ++mapIterator;
         return *this;
     }
 }
