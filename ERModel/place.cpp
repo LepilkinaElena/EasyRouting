@@ -7,3 +7,11 @@ bool Place::operator<(const Place other) const
 {
     return geoCoordX < other.geoCoordX;
 }
+
+bool Place::operator ==(const Place other) const
+{
+    return geoCoordX == other.geoCoordX &&
+           geoCoordY == other.geoCoordY &&
+           name == other.name &&
+           intersestCategory == other.intersestCategory;
+}

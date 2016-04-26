@@ -56,7 +56,7 @@ namespace Multigraph {
         *\param [in] this - дуга
         *\return вершина, в которую ведет дуга
         */
-        T& getTo() const;
+        const T &getTo();
     };
 
 
@@ -71,7 +71,7 @@ Cost& Edge<T>::getCost() const
 }
 
 template <typename T>
-T& Edge<T>::getTo() const
+const T& Edge<T>::getTo()
 {
     return to;
 }

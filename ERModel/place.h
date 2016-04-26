@@ -47,6 +47,7 @@ public:
     Place(double x, double y, std::string placeName, Interest interest);
 
     bool operator<(const Place other) const;
+    bool operator ==(const Place other) const;
 
 };
 
