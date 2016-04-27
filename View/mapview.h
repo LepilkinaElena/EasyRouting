@@ -19,7 +19,7 @@ class MapView : public QWebView
     Q_OBJECT
 public:
     explicit MapView(QWidget *parent = 0);
-    void drawMark(double x, double y, QString img, int placeId);
+    void drawMark(double x, double y, std::string img, int placeId, std::string placeName);
     void drawLine(double x1, double y1, double x2, double y2);
     MapState getState() const;
 

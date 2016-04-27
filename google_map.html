@@ -180,12 +180,12 @@
       });
     }
 
-    function drawMark(x,y,img,placeId) {
+    function drawMark(x,y,img,placeId,placeName) {
         var marker = new google.maps.Marker({
           position: {lat: x, lng: y},
           map: map,
           icon: img,
-          title: 'Title',
+          title: placeName,
           pId: placeId
         });
         google.maps.event.addListener(marker, 'click', function() {

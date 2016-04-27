@@ -8,9 +8,9 @@ MapView::MapView(QWidget *parent) : QWebView(parent)
     this->state = MapState::VIEW;
 }
 
-void MapView::drawMark(double x, double y, QString img, int placeId)
+void MapView::drawMark(double x, double y, std::string img, int placeId, std::string placeName)
 {
-    this->page()->mainFrame()->evaluateJavaScript("drawMark("+QString::number(x)+","+QString::number(y)+",\""+img+"\","+QString::number(placeId)+")");
+    this->page()->mainFrame()->evaluateJavaScript("drawMark("+QString::number(x)+","+QString::number(y)+",\""+QString(img.c_str())+"\","+QString::number(placeId)+",\""+QString(placeName.c_str())+"\")");
 }
 
 void MapView::drawLine(double x1, double y1, double x2, double y2)

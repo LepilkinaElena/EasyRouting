@@ -56,6 +56,7 @@ public:
     int getId() const;
     double getGeoCoordX() const;
     double getGeoCoordY() const;
+    std::string getName() const;
 };
 
 #endif

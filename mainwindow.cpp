@@ -54,7 +54,7 @@ void MainWindow::onPlaceCreated(double x, double y)
     Place * pPlace = new Place(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
     CityMap::Instance()->getSinglePlaces().push_back(pPlace);
 
-    ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace->getId());
+    ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace->getId(),pPlace->getName());
 }
 
 void MainWindow::onRouteCreated(int begin, int end)
