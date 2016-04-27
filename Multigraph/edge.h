@@ -59,21 +59,21 @@ namespace Multigraph {
         const T &getTo();
     };
 
+    template <typename T>
+    Edge<T>::Edge(int id, const T& from, const T& to, const Cost& cost):
+        id(id), from(from), to(to), cost(cost) {
+    }
 
-template <typename T>
-Edge<T>::Edge(int id, const T& from, const T& to, const Cost& cost):
-    id(id), from(from), to(to), cost(cost) {}
+    template <typename T>
+    Cost& Edge<T>::getCost() const
+    {
+        return cost;
+    }
 
-template <typename T>
-Cost& Edge<T>::getCost() const
-{
-    return cost;
-}
-
-template <typename T>
-const T& Edge<T>::getTo()
-{
-    return to;
-}
+    template <typename T>
+    const T& Edge<T>::getTo()
+    {
+        return to;
+    }
 
 }

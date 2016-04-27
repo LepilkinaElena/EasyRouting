@@ -35,7 +35,7 @@ void MainWindow::setupUI()
     transportModel.appendRow(new SelectionItem("Автобус"));
     transportModel.appendRow(new SelectionItem("Троллейбус"));
     transportModel.appendRow(new SelectionItem("Трамвай"));
-    transportModel.appendRow(new SelectionItem("Такси"));
+    transportModel.appendRow(new SelectionItem("Маршрутка"));
     transportModel.appendRow(new SelectionItem("Пешком"));
 
     Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace())));
@@ -79,7 +79,7 @@ void MainWindow::onRouteCreated(int begin, int end)
         }
         it++;
     }
-    ui->mapWidget->drawLine(x1,y1,x2,y2);
+    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), 1234);
     //TODO: добавление элементов в граф
     //CityMap::Instance()->getGraph().addEdge(p1,p2,new Cost());
 

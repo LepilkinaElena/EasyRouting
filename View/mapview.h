@@ -8,6 +8,8 @@
 #include <QtWebKitWidgets>
 #include <QtWebKitWidgets/QWebFrame>
 
+#include "ERModel/routecost.h"
+
 enum MapState { VIEW, PLACE, ROUTE_BEGIN, ROUTE_END };
 
 /*!\class MapView
@@ -20,7 +22,7 @@ class MapView : public QWebView
 public:
     explicit MapView(QWidget *parent = 0);
     void drawMark(double x, double y, std::string img, int placeId, std::string placeName);
-    void drawLine(double x1, double y1, double x2, double y2);
+    void drawLine(double x1, double y1, double x2, double y2, Transport type, int id);
     MapState getState() const;
 
 signals:
@@ -31,6 +33,7 @@ public slots:
     void createRoute();
     void onMapClicked(double geoCoordX, double geoCoordY);
     void onPlaceClicked(int placeId);
+    void onLineClicked(int lineId);
     void loadingFinished(bool status);
 private:
 
