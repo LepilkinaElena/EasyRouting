@@ -36,3 +36,8 @@ int RouteDialog::getCost()
 {
     return ui->costSpinBox->value();
 }
+
+QTime RouteDialog::getTime()
+{
+    return ui->timeEdit->time();
+}

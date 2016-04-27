@@ -17,6 +17,7 @@ public:
     ~RouteDialog();
     Transport getTransport();
     int getCost();
+    QTime getTime();
 private:
     Ui::RouteDialog *ui;
 };

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QLabel>
 #include <QMainWindow>
 
 #include "View/selectionitem.h"
@@ -28,8 +29,15 @@ private slots:
 
     void on_createRouteButton_clicked();
 
+    void onPlaceDataEntered();
+    void onRouteDataEntered();
+    void onFirstPlaceSelected();
+    void onSecondPlaceSelected();
+
 private:
     void setupUI();
+
+    QLabel statusLabel;
 
     PlaceDialog placeDialog;
     RouteDialog routeDialog;

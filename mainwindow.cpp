@@ -21,6 +21,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUI()
 {
+    ui->statusBar->addWidget(&statusLabel);
+
     ui->interestsListView->setModel( &interestsModel );
     //enum Interest { SIGHT, CULTURE, PARK, ENTERTAINMENT };
     interestsModel.appendRow(new SelectionItem("Достопримечательности"));
@@ -39,9 +41,13 @@ void MainWindow::setupUI()
     transportModel.appendRow(new SelectionItem("Пешком"));
 
     Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace())));
+    Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered())));
     Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute())));
+    Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered())));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double))));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int))));
+    Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
+    Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
 }
 
 void MainWindow::on_createPlaceButton_clicked()
@@ -51,41 +57,60 @@ void MainWindow::on_createPlaceButton_clicked()
 
 void MainWindow::onPlaceCreated(double x, double y)
 {
-    Place * pPlace = new Place(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
+    Place pPlace(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
     CityMap::Instance()->getSinglePlaces().push_back(pPlace);
 
-    ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace->getId(),pPlace->getName());
+    ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace.getId(),pPlace.getName());
+    statusLabel.setText("");
 }
 
 void MainWindow::onRouteCreated(int begin, int end)
 {
+    qDebug() << "start";
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
-    Place * p1, * p2;
-    std::vector<Place*>::iterator it = CityMap::Instance()->getSinglePlaces().begin();
-    while(it != CityMap::Instance()->getSinglePlaces().end())
-    {
-        Place * pPlace = it.operator *();
-        if((pPlace->getId() == begin))
-        {
-            x1 = pPlace->getGeoCoordX();
-            y1 = pPlace->getGeoCoordY();
-            p1 = pPlace;
-        }
-        if((pPlace->getId() == end))
-        {
-            x2 = pPlace->getGeoCoordX();
-            y2 = pPlace->getGeoCoordY();
-            p2 = pPlace;
-        }
-        it++;
-    }
-    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), 1234);
-    //TODO: добавление элементов в граф
-    //CityMap::Instance()->getGraph().addEdge(p1,p2,new Cost());
+
+    Place & p1 = CityMap::Instance()->getPlaceById(begin);
+    x1 = p1.getGeoCoordX();
+    y1 = p1.getGeoCoordY();
+    Place & p2 = CityMap::Instance()->getPlaceById(end);
+    x2 = p2.getGeoCoordX();
+    y2 = p2.getGeoCoordY();
+
+    Interest inter = p2.getIntersestCategory();
+    std::set<Interest> interests;
+    interests.insert(inter);
+
+    std::set<Transport> transports;
+    transports.insert(routeDialog.getTransport());
+    RouteCost cost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
+
+    const Multigraph::Edge<Place> & edge = CityMap::Instance()->getGraph().addEdge(p1,p2,cost);
+    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edge.getId());
+
 
 }
 
 void MainWindow::on_createRouteButton_clicked()
 {
     routeDialog.show();
+}
+
+void MainWindow::onPlaceDataEntered()
+{
+    statusLabel.setText("Укажите место на карте");
+}
+
+void MainWindow::onRouteDataEntered()
+{
+    statusLabel.setText("Выберите первое место");
+}
+
+void MainWindow::onFirstPlaceSelected()
+{
+    statusLabel.setText("Выберите второе место");
+}
+
+void MainWindow::onSecondPlaceSelected()
+{
+    statusLabel.setText("");
 }

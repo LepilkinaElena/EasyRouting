@@ -57,6 +57,7 @@ public:
     double getGeoCoordX() const;
     double getGeoCoordY() const;
     std::string getName() const;
+    Interest getIntersestCategory() const;
 };
 
 #endif

@@ -57,7 +57,14 @@ namespace Multigraph {
         *\return вершина, в которую ведет дуга
         */
         const T &getTo();
+        int getId() const;
     };
+
+    template <typename T>
+    int Edge<T>::getId() const
+    {
+        return id;
+    }
 
     template <typename T>
     Edge<T>::Edge(int id, const T& from, const T& to, const Cost& cost):

@@ -22,6 +22,11 @@ std::string Place::getName() const
     return name;
 }
 
+Interest Place::getIntersestCategory() const
+{
+    return intersestCategory;
+}
+
 Place::Place(double x, double y, std::string placeName, Interest interest):
     geoCoordX(x), geoCoordY(y), name(placeName), intersestCategory(interest) {
     id = counter;

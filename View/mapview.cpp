@@ -50,12 +50,13 @@ void MapView::onPlaceClicked(int placeId)
     {
         this->state = MapState::ROUTE_END;
         beginPlaceId = placeId;
+        emit firstPlaceSelected();
     }
     else if(this->state == MapState::ROUTE_END)
     {
         this->state = MapState::VIEW;
         this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
-
+        emit secondPlaceSelected();
         emit routeCreated(beginPlaceId,placeId);
     }
 }

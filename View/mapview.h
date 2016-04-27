@@ -28,6 +28,8 @@ public:
 signals:
     void placeCreated(double x, double y);
     void routeCreated(int begin, int end);
+    void firstPlaceSelected();
+    void secondPlaceSelected();
 public slots:
     void createPlace();
     void createRoute();
