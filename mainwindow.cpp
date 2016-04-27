@@ -60,7 +60,7 @@ void MainWindow::onPlaceCreated(double x, double y)
 void MainWindow::onRouteCreated(int begin, int end)
 {
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
-    Place * p1,p2;
+    Place * p1, * p2;
     std::vector<Place*>::iterator it = CityMap::Instance()->getSinglePlaces().begin();
     while(it != CityMap::Instance()->getSinglePlaces().end())
     {
