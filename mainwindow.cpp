@@ -66,7 +66,6 @@ void MainWindow::onPlaceCreated(double x, double y)
 
 void MainWindow::onRouteCreated(int begin, int end)
 {
-    qDebug() << "start";
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
 
     Place & p1 = CityMap::Instance()->getPlaceById(begin);
@@ -86,8 +85,6 @@ void MainWindow::onRouteCreated(int begin, int end)
 
     const Multigraph::Edge<Place> & edge = CityMap::Instance()->getGraph().addEdge(p1,p2,cost);
     ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edge.getId());
-
-
 }
 
 void MainWindow::on_createRouteButton_clicked()

@@ -15,6 +15,7 @@ void MapView::drawMark(double x, double y, std::string img, int placeId, std::st
 
 void MapView::drawLine(double x1, double y1, double x2, double y2, Transport type, int id)
 {
+    //TODO: Передавать строку соответствующую type
     this->page()->mainFrame()->evaluateJavaScript("drawLine("+QString::number(x1)+","+QString::number(y1)+","+QString::number(x2)+","+QString::number(y2)+","+"\"FOOT\""+","+QString::number(id)+")");
 }
 
@@ -33,10 +34,9 @@ void MapView::createRoute()
 
 void MapView::onMapClicked(double geoCoordX, double geoCoordY)
 {
-    qDebug()<<"User clicked at: "<<geoCoordX<<":"<<geoCoordY;
+    qDebug()<<"Clicked at coords: "<<geoCoordX<<":"<<geoCoordY;
     if(this->state == MapState::PLACE)
     {
-        //drawMark(geoCoordX,geoCoordY,"icons/building.png",rand()%100);
         this->state = MapState::VIEW;
         this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
         emit placeCreated(geoCoordX,geoCoordY);
@@ -45,7 +45,7 @@ void MapView::onMapClicked(double geoCoordX, double geoCoordY)
 
 void MapView::onPlaceClicked(int placeId)
 {
-    qDebug() << "Place id: "<< placeId;
+    qDebug() << "Clicked on place #"<< placeId;
     if(this->state == MapState::ROUTE_BEGIN)
     {
         this->state = MapState::ROUTE_END;
@@ -71,7 +71,6 @@ void MapView::loadingFinished(bool status)
     qDebug("Map loaded!");
     this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
 }
-
 
 MapState MapView::getState() const
 {
