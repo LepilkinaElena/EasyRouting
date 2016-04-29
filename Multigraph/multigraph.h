@@ -78,10 +78,23 @@ namespace Multigraph {
         */
         std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
                                                      const Cost& limits);
+        /*!\fn checkKeyExistence(const T key) const;
+        *\brief Метод проверки наличия вершины в мультиграфе
+        *\param [in] vertex - искомая вершина
+        *\return признак наличия искомой вершины в мультиграфе
+        */
+        bool checkVertexExistence(const T& vertex) const;
 
-        bool checkKeyExistence(const T key) const;
-
+        /*!\fn begin();
+         *\brief Метод получения итератора на первый элемент в мультиграфе
+         *\return итератор на первый элемент в мультиграфе
+         */
         iterator begin();
+
+        /*!\fn end();
+         *\brief Метод получения итератора на последний элемент в мультиграфе
+         *\return итератор на последний элемент в мультиграфе
+         */
         iterator end();
 
     };
@@ -181,10 +194,9 @@ namespace Multigraph {
     }
 
     template <typename T>
-    bool Multigraph<T>::checkKeyExistence(const T key) const
+    bool Multigraph<T>::checkVertexExistence(const T& vertex) const
     {
-        int count = edges.count(key);
-        return (count != 0);
+        return edges.count(vertex);
     }
 
 }
