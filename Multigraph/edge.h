@@ -49,7 +49,7 @@ namespace Multigraph {
          *\param [in] this - дуга
          *\return вес дуги
         */
-        Cost& getCost() const;
+        const Cost& getCost() const;
 
         /*!\fn T& getTo() const();
         *\brief Метод для получения вершины, в которую ведет дуга
@@ -57,6 +57,13 @@ namespace Multigraph {
         *\return вершина, в которую ведет дуга
         */
         const T &getTo();
+
+        /*!\fn T& getFrom() const();
+        *\brief Метод для получения вершины, из которой ведет дуга
+        *\param [in] this - дуга
+        *\return вершина, из которой ведет дуга
+        */
+        const T &getFrom();
         int getId() const;
     };
 
@@ -72,7 +79,7 @@ namespace Multigraph {
     }
 
     template <typename T>
-    Cost& Edge<T>::getCost() const
+    const Cost &Edge<T>::getCost() const
     {
         return cost;
     }
@@ -81,6 +88,12 @@ namespace Multigraph {
     const T& Edge<T>::getTo()
     {
         return to;
+    }
+
+    template <typename T>
+    const T& Edge<T>::getFrom()
+    {
+        return from;
     }
 
 }

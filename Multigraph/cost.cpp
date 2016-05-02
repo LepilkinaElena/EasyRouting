@@ -6,12 +6,12 @@ Cost::Cost()
 {
 }
 
-Cost Cost::operator+(const Cost& other)
+Cost Cost::operator+(const Cost& other) const
 {
     return *this;
 }
 
-Cost Cost::operator-(const Cost& other)
+Cost Cost::operator-(const Cost& other) const
 {
     return *this;
 }

@@ -53,6 +53,8 @@ public:
     bool operator<(const Place other) const;
     bool operator ==(const Place other) const;
 
+    bool operator !=(const Place other) const;
+
     int getId() const;
     double getGeoCoordX() const;
     double getGeoCoordY() const;

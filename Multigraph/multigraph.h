@@ -7,6 +7,7 @@
 
 #include <map>
 #include <vector>
+#include <set>
 #include "multigraphiterator.h"
 
 namespace Multigraph {
@@ -21,11 +22,11 @@ namespace Multigraph {
     public:
         typedef MultigraphIterator<T > iterator;
     private:
-        class waveStep
+        struct waveStep
         {
-            int stepId;
-            Cost& currentCost;
+            std::vector<Cost> costs;
             std::vector<std::vector<int> > routes;
+            std::vector<std::vector<T> > vertexes;
         };
 
         /*!\var Multigraph::idCounter
@@ -162,12 +163,11 @@ namespace Multigraph {
                                                                const Cost& limits)
     {
         std::vector<std::vector<int>> result;
-        /*std::vector<T> oldFront;
-        std::vector<T> newFront;
+        std::set<T> oldFront;
+        std::set<T> newFront;
         std::map<T, waveStep> currentStepState;
-        int step = 0;
         std::set<T> keys = std::set<T>();
-        std::pair <std::multimap<T,Edge<T> >::iterator, std::multimap<T,Edge<T> >::iterator> values;
+        std::pair <typename std::multimap<T,Edge<T> >::iterator, typename std::multimap<T,Edge<T> >::iterator> values;
         // Получить все вершины графа
         for (auto const& element: edges)
         {
@@ -176,20 +176,88 @@ namespace Multigraph {
 
         for (auto const& key: keys)
         {
-            currentStepState[key] =
+            waveStep step = waveStep();
+            currentStepState[key] = step;
         }
 
-        oldFront.emplace_back(start);
-        for (auto const& state: oldFront)
+        oldFront.insert(start);
+        while (!oldFront.empty())
         {
-            // Получить все дуги, выходящие из вершины
-            values = edges.equal_range(state);
-            for (std::multimap<T,Edge<T> >::iterator it = values.first; it != values.second; ++it)
+            for (auto const& state: oldFront)
             {
-                Edge<T> edge = it->second;
+                waveStep curStepState = currentStepState[state];
+                // Получить все дуги, выходящие из вершины
+                values = edges.equal_range(state);
+                for (typename std::multimap<T,Edge<T> >::iterator it = values.first; it != values.second; ++it)
+                {
+                    Edge<T> edge = it->second;
+                    T to = edge.getTo();
+                    waveStep toStep = currentStepState[to];
+
+
+                    // Создать новые пути и установить их стоимости
+                    if (curStepState.routes.empty())
+                    {
+                        std::vector<int> newRoute;
+                        std::vector<T> newVertexes;
+                        newVertexes.emplace_back(edge.getFrom());
+                        newVertexes.emplace_back(edge.getTo());
+                        Cost newCost = edge.getCost();
+                        if (newCost < limits && edge.getFrom() != edge.getTo())
+                        {
+                            newRoute.emplace_back(edge.getId());
+                            toStep.routes.emplace_back(newRoute);
+                            toStep.costs.emplace_back(edge.getCost());
+                            toStep.vertexes.emplace_back(newVertexes);
+                            // Добавить в новый фронт волны
+                            if (to != finish)
+                            {
+                                newFront.insert(to);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        std::vector<std::vector<int> >::iterator routeIter;
+                        std::vector<Cost>::iterator costIter;
+                        typename std::vector<std::vector<T> >::iterator vertexesIter;
+                        for (routeIter = curStepState.routes.begin(),
+                             costIter = curStepState.costs.begin(),
+                             vertexesIter = curStepState.vertexes.begin();
+                             routeIter != curStepState.routes.end();
+                             ++routeIter, ++costIter, ++ vertexesIter)
+                        {
+                            std::vector<int> route = *routeIter;
+                            std::vector<int> newRoute = std::vector<int>(route);
+                            Cost oldCost = *costIter;
+                            Cost newCost = edge.getCost() + oldCost;
+                            std::vector<T> vertexes = *vertexesIter;
+                            std::vector<T> newVertexes = std::vector<T >(vertexes);
+
+                            if (newCost < limits &&
+                                std::find(vertexes.begin(), vertexes.end(), to) == vertexes.end())
+                            {
+                                newRoute.emplace_back(edge.getId());
+                                toStep.routes.emplace_back(newRoute);
+                                toStep.costs.emplace_back(newCost);
+                                newVertexes.emplace_back(to);
+                                toStep.vertexes.emplace_back(newVertexes);
+                                // Добавить в новый фронт волны
+                                if (to != finish)
+                                {
+                                    newFront.insert(to);
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
-        }*/
+            // Старый фронт - новый фронт
+            oldFront = std::set<T>(newFront);
+            newFront.clear();
+        }
+        result = currentStepState[finish].routes;
         return result;
     }
 
@@ -198,6 +266,5 @@ namespace Multigraph {
     {
         return edges.count(vertex);
     }
-
 }
 #endif

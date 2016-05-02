@@ -45,3 +45,8 @@ bool Place::operator ==(const Place other) const
            name == other.name &&
            intersestCategory == other.intersestCategory;
 }
+
+bool Place::operator !=(const Place other) const
+{
+    return !((*this) == other);
+}

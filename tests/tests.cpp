@@ -261,6 +261,7 @@ void Tests::iterator_work()
     Multigraph::Multigraph<Place>::iterator it = graph.begin();
     Place actual = (*it).first;
     QCOMPARE(actual, place1);
+    actual = (*it).second.getTo();
     QCOMPARE((*it).second.getTo(), place4);
     ++it;
     QCOMPARE((*it).first, place1);
