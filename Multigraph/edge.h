@@ -21,17 +21,17 @@ namespace Multigraph {
         /*!\var Edge::from
          *\brief вершина, из которой исходит дуга
         */
-        const T& from;
+        const T from;
 
         /*!\var Edge::from
         *\brief вершина, в которую входит дуга
         */
-        const T& to;
+        const T to;
 
         /*!\var Edge::cost
         *\brief вес дуги
         */
-        const Cost& cost;
+        const Cost cost;
 
     public:
         /*!\fn Edge(int id, const T& from, const T& to, const T& cost);

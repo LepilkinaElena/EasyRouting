@@ -165,8 +165,10 @@ namespace Multigraph {
         std::vector<std::vector<int>> result;
         std::set<T> oldFront;
         std::set<T> newFront;
+        std::vector<int> newRoute;
+        std::vector<T> newVertexes;
         std::map<T, waveStep> currentStepState;
-        std::set<T> keys = std::set<T>();
+        std::set<T> keys;
         std::pair <typename std::multimap<T,Edge<T> >::iterator, typename std::multimap<T,Edge<T> >::iterator> values;
         // Получить все вершины графа
         for (auto const& element: edges)
@@ -174,17 +176,18 @@ namespace Multigraph {
             keys.insert(element.first);
         }
 
-        for (auto const& key: keys)
+        for (typename std::set<T>::iterator it = keys.begin(); it != keys.end(); ++it)
         {
             waveStep step = waveStep();
-            currentStepState[key] = step;
+            currentStepState[*it] = step;
         }
 
         oldFront.insert(start);
         while (!oldFront.empty())
         {
-            for (auto const& state: oldFront)
+            for (typename std::set<T>::iterator it = oldFront.begin(); it != oldFront.end(); ++it)
             {
+                T state = *it;
                 waveStep curStepState = currentStepState[state];
                 // Получить все дуги, выходящие из вершины
                 values = edges.equal_range(state);
@@ -198,11 +201,10 @@ namespace Multigraph {
                     // Создать новые пути и установить их стоимости
                     if (curStepState.routes.empty())
                     {
-                        std::vector<int> newRoute;
-                        std::vector<T> newVertexes;
+
                         newVertexes.emplace_back(edge.getFrom());
                         newVertexes.emplace_back(edge.getTo());
-                        Cost newCost = edge.getCost();
+                        auto newCost = edge.getCost();
                         if (newCost < limits && edge.getFrom() != edge.getTo())
                         {
                             newRoute.emplace_back(edge.getId());
@@ -228,11 +230,11 @@ namespace Multigraph {
                              ++routeIter, ++costIter, ++ vertexesIter)
                         {
                             std::vector<int> route = *routeIter;
-                            std::vector<int> newRoute = std::vector<int>(route);
+                            newRoute = std::vector<int>(route);
                             Cost oldCost = *costIter;
                             Cost newCost = edge.getCost() + oldCost;
                             std::vector<T> vertexes = *vertexesIter;
-                            std::vector<T> newVertexes = std::vector<T >(vertexes);
+                            newVertexes = std::vector<T >(vertexes);
 
                             if (newCost < limits &&
                                 std::find(vertexes.begin(), vertexes.end(), to) == vertexes.end())

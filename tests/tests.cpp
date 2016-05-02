@@ -60,18 +60,18 @@ Multigraph::Multigraph<Place>Tests::getGraph()
     RouteCost mCost = RouteCost(80, QTime(0, 51, 0), set2, set7);
     RouteCost nCost = RouteCost(205, QTime(1, 23, 0), set1, set6);
 
-    graph.addEdge(place1, place4, (Cost)aCost);
-    graph.addEdge(place1, place3, (Cost)dCost);
-    graph.addEdge(place1, place2, (Cost)bCost);
-    graph.addEdge(place1, place2, (Cost)cCost);
-    graph.addEdge(place3, place6, (Cost)fCost);
-    graph.addEdge(place3, place4, (Cost)eCost);
-    graph.addEdge(place2, place5, (Cost)gCost);
-    graph.addEdge(place5, place4, (Cost)hCost);
-    graph.addEdge(place4, place7, (Cost)kCost);
-    graph.addEdge(place5, place7, (Cost)lCost);
-    graph.addEdge(place6, place5, (Cost)mCost);
-    graph.addEdge(place5, place6, (Cost)nCost);
+    graph.addEdge(place1, place4, aCost);
+    graph.addEdge(place1, place3, dCost);
+    graph.addEdge(place1, place2, bCost);
+    graph.addEdge(place1, place2, cCost);
+    graph.addEdge(place3, place6, fCost);
+    graph.addEdge(place3, place4, eCost);
+    graph.addEdge(place2, place5, gCost);
+    graph.addEdge(place5, place4, hCost);
+    graph.addEdge(place4, place7, kCost);
+    graph.addEdge(place5, place7, lCost);
+    graph.addEdge(place6, place5, mCost);
+    graph.addEdge(place5, place6, nCost);
 
     return graph;
 }

@@ -1,8 +1,8 @@
 #include "place.h"
 
-int Place::counter = 0;
+unsigned int Place::counter = 0;
 
-int Place::getId() const
+unsigned int Place::getId() const
 {
     return id;
 }
@@ -49,4 +49,13 @@ bool Place::operator ==(const Place other) const
 bool Place::operator !=(const Place other) const
 {
     return !((*this) == other);
+}
+
+Place::Place(const Place &other)
+{
+    geoCoordX = other.geoCoordX;
+    geoCoordY = other.geoCoordY;
+    name = other.name;
+    id = other.id;
+    intersestCategory = other.intersestCategory;
 }

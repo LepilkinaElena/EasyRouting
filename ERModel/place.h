@@ -34,9 +34,9 @@ private:
     */
     Interest intersestCategory;
 
-    static int counter;
+    static unsigned int counter;
 
-    int id;
+    unsigned int id;
 
 public:
 
@@ -49,13 +49,14 @@ public:
     *\return место посещения
     */
     Place(double x, double y, std::string placeName, Interest interest);
+    Place(const Place& other);
 
     bool operator<(const Place other) const;
     bool operator ==(const Place other) const;
 
     bool operator !=(const Place other) const;
 
-    int getId() const;
+    unsigned int getId() const;
     double getGeoCoordX() const;
     double getGeoCoordY() const;
     std::string getName() const;

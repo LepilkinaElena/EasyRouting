@@ -35,3 +35,19 @@ Multigraph::Cost RouteCost::operator +(const Cost &other)
         std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
     }
 }
+
+bool RouteCost::operator <(const Cost &other)
+{
+    try
+    {
+        const RouteCost& routeOther = dynamic_cast<const RouteCost&>(other);
+
+        return moneyCost < routeOther.moneyCost && timeCost < routeOther.timeCost;/* &&
+                std::set_intersection(interests.begin(), interests.end(), routeOther.interests.begin(), routeOther.interests.end(),std::inserter(s3, s3.begin()));;*/
+    }
+    catch (const std::bad_cast& e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
+    }
+}

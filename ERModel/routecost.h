@@ -54,6 +54,7 @@ public:
               std::set<Transport> transport = std::set<Transport>());
 
     Cost operator +(const Cost& other);
+    bool operator <(const Cost& other);
 };
 
 #endif
