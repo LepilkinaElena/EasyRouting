@@ -54,7 +54,7 @@ public:
               std::set<Transport> transport = std::set<Transport>());
 
     Cost* operator +(const Cost& other) const;
-    bool operator <(const Cost& other) const;
+    bool operator <=(const Cost& other) const;
 };
 
 #endif

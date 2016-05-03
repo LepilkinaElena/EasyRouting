@@ -112,7 +112,7 @@ void Tests::one_route()
     std::vector<std::vector<int> > actual = graph.waveAlgorithm(place3, place5, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
-    route.emplace_back(5);
+    route.emplace_back(4);
     route.emplace_back(10);
     expected.emplace_back(route);
 
@@ -147,16 +147,16 @@ void Tests::several_routes()
     std::vector<int> route1 = std::vector<int>();
     route1.emplace_back(0);
     std::vector<int> route2 = std::vector<int>();
-    route2.emplace_back(3);
-    route2.emplace_back(4);
+    route2.emplace_back(1);
+    route2.emplace_back(5);
     std::vector<int> route3 = std::vector<int>();
-    route3.emplace_back(1);
-    route3.emplace_back(7);
+    route3.emplace_back(2);
     route3.emplace_back(6);
+    route3.emplace_back(7);
     std::vector<int> route4 = std::vector<int>();
-    route4.emplace_back(2);
-    route4.emplace_back(7);
+    route4.emplace_back(3);
     route4.emplace_back(6);
+    route4.emplace_back(7);
     expected.emplace_back(route1);
     expected.emplace_back(route2);
     expected.emplace_back(route3);
@@ -189,7 +189,7 @@ void Tests::cycle_route()
     std::vector<std::vector<int> > actual = graph.waveAlgorithm(place2, place6, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
-    route.emplace_back(7);
+    route.emplace_back(6);
     route.emplace_back(11);
     expected.emplace_back(route);
 
@@ -205,6 +205,7 @@ void Tests::one_suitable_route()
 
     std::set<Interest> interests = std::set<Interest>();
     interests.insert(Interest::CULTURE);
+    interests.insert(Interest::SIGHT);
 
     std::set<Transport> transport = std::set<Transport>();
     transport.insert(Transport::FOOT);

@@ -36,14 +36,22 @@ Multigraph::Cost *RouteCost::operator +(const Cost &other) const
     }
 }
 
-bool RouteCost::operator <(const Cost &other) const
+bool RouteCost::operator <=(const Cost &other) const
 {
     try
     {
         const RouteCost& routeOther = dynamic_cast<const RouteCost&>(other);
-
-        return moneyCost < routeOther.moneyCost && timeCost < routeOther.timeCost;/* &&
-                std::set_intersection(interests.begin(), interests.end(), routeOther.interests.begin(), routeOther.interests.end(),std::inserter(s3, s3.begin()));;*/
+        bool transportFlag = true;
+        for (std::set<Transport>::iterator it = transports.begin(); it != transports.end(); ++it)
+        {
+            transportFlag = transportFlag && routeOther.transports.find(*it) != routeOther.transports.end();
+        }
+        bool interestsFlag = true;
+        for (std::set<Interest>::iterator it = interests.begin(); it != interests.end(); ++it)
+        {
+            interestsFlag = interestsFlag && routeOther.interests.find(*it) != routeOther.interests.end();
+        }
+        return moneyCost <= routeOther.moneyCost && timeCost <= routeOther.timeCost && transportFlag && interestsFlag;
     }
     catch (const std::bad_cast& e)
     {

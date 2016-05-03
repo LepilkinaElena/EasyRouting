@@ -112,6 +112,11 @@ namespace Multigraph {
     template <typename T>
     Multigraph<T>::~Multigraph()
     {
+        for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
+        {
+            Edge<T>* edge = (*it).second;
+            delete edge;
+        }
         edges.clear();
     }
 
@@ -209,18 +214,20 @@ namespace Multigraph {
                     // Создать новые пути и установить их стоимости
                     if (curStepState.routes.empty())
                     {
-
+                        newVertexes.clear();
+                        newRoute.clear();
                         newVertexes.emplace_back(edge->getFrom());
                         newVertexes.emplace_back(edge->getTo());
                         const Cost* newCost = edge->getCost();
-                        if (newCost->operator <(limits) && edge->getFrom() != edge->getTo())
+                        if (newCost->operator <= (limits) && edge->getFrom() != edge->getTo())
                         {
                             newRoute.emplace_back(edge->getId());
                             toStep.routes.emplace_back(newRoute);
                             toStep.costs.emplace_back(edge->getCost());
                             toStep.vertexes.emplace_back(newVertexes);
+                            currentStepState[to] = toStep;
                             // Добавить в новый фронт волны
-                            if (to != finish)
+                            if (to != finish && oldFront.find(to) == oldFront.end())
                             {
                                 newFront.insert(to);
                             }
@@ -244,7 +251,7 @@ namespace Multigraph {
                             std::vector<T> vertexes = *vertexesIter;
                             newVertexes = std::vector<T >(vertexes);
 
-                            if (newCost->operator <(limits)  &&
+                            if (newCost->operator <= (limits)  &&
                                 std::find(vertexes.begin(), vertexes.end(), to) == vertexes.end())
                             {
                                 newRoute.emplace_back(edge->getId());
@@ -252,8 +259,9 @@ namespace Multigraph {
                                 toStep.costs.emplace_back(newCost);
                                 newVertexes.emplace_back(to);
                                 toStep.vertexes.emplace_back(newVertexes);
+                                currentStepState[to] = toStep;
                                 // Добавить в новый фронт волны
-                                if (to != finish)
+                                if (to != finish && oldFront.find(to) == oldFront.end())
                                 {
                                     newFront.insert(to);
                                 }

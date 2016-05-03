@@ -16,7 +16,7 @@ Cost Cost::operator-(const Cost& other) const
     return *this;
 }
 
-bool Cost::operator<(const Cost& other) const
+bool Cost::operator<=(const Cost& other) const
 {
     return false;
 }
@@ -36,7 +36,7 @@ bool Cost::operator>=(const Cost& other)
     return false;
 }
 
-bool Cost::operator<=(const Cost& other)
+bool Cost::operator<(const Cost& other)
 {
     return false;
 }
