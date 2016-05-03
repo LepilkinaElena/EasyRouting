@@ -19,7 +19,7 @@ namespace Multigraph {
          *\param [in] other - прибавляемый вес дуги
          *\return вес, являющийся результатом сложения
         */
-        virtual Cost operator+(const Cost& other) const;
+        virtual Cost* operator+(const Cost& other) const;
 
         /*!\fn Cost operator-(const Cost& other);
          *\brief Метод разности двух весов дуг
@@ -35,7 +35,7 @@ namespace Multigraph {
          *\param [in] other - сравниваемый вес дуги
          *\return признак, является ли данный вес дуги меньше переданного
         */
-        virtual bool operator<(const Cost& other);
+        virtual bool operator<(const Cost& other) const;
 
         /*!\fn bool operator>(const Cost& other);
          *\brief Метод сранения двух весов дуг

@@ -47,18 +47,18 @@ Multigraph::Multigraph<Place>Tests::getGraph()
     std::set<Transport> set11 = std::set<Transport>();
     set11.insert(Transport::FOOT);
 
-    RouteCost aCost = RouteCost(100, QTime(0, 58, 0), set1, set6 );
-    RouteCost bCost = RouteCost(132, QTime(1, 2, 0), set4, set7);
-    RouteCost cCost = RouteCost(160, QTime(0, 48, 0), set4, set5);
-    RouteCost dCost = RouteCost(35, QTime(0,32, 0), set3, set6);
-    RouteCost eCost = RouteCost(120, QTime(2, 0, 0), set1, set10);
-    RouteCost fCost = RouteCost(205, QTime(1, 24, 0), set1, set11);
-    RouteCost hCost = RouteCost(140, QTime(1, 2, 0), set1, set8);
-    RouteCost gCost = RouteCost(130, QTime(1, 15, 0), set2, set9);
-    RouteCost kCost = RouteCost(0, QTime(0, 12, 0), set2, set11);
-    RouteCost lCost = RouteCost(0, QTime(0, 20, 0), set2, set11);
-    RouteCost mCost = RouteCost(80, QTime(0, 51, 0), set2, set7);
-    RouteCost nCost = RouteCost(205, QTime(1, 23, 0), set1, set6);
+    RouteCost* aCost = new RouteCost(100, QTime(0, 58, 0), set1, set6 );
+    RouteCost* bCost = new RouteCost(132, QTime(1, 2, 0), set4, set7);
+    RouteCost* cCost = new RouteCost(160, QTime(0, 48, 0), set4, set5);
+    RouteCost* dCost = new RouteCost(35, QTime(0,32, 0), set3, set6);
+    RouteCost* eCost = new RouteCost(120, QTime(2, 0, 0), set1, set10);
+    RouteCost* fCost = new RouteCost(205, QTime(1, 24, 0), set1, set11);
+    RouteCost* hCost = new RouteCost(140, QTime(1, 2, 0), set1, set8);
+    RouteCost* gCost = new RouteCost(130, QTime(1, 15, 0), set2, set9);
+    RouteCost* kCost = new RouteCost(0, QTime(0, 12, 0), set2, set11);
+    RouteCost* lCost = new RouteCost(0, QTime(0, 20, 0), set2, set11);
+    RouteCost* mCost = new RouteCost(80, QTime(0, 51, 0), set2, set7);
+    RouteCost* nCost = new RouteCost(205, QTime(1, 23, 0), set1, set6);
 
     graph.addEdge(place1, place4, aCost);
     graph.addEdge(place1, place3, dCost);
@@ -88,7 +88,7 @@ void Tests::no_route()
     set1.insert(Interest::CULTURE);
 
     RouteCost cost = RouteCost(20, QTime(4, 0, 0), set1, set11);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place6, (Cost)cost);
+    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place6, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     QCOMPARE(actual, expected);
 }
@@ -109,12 +109,13 @@ void Tests::one_route()
     transport.insert(Transport::FOOT);
 
     RouteCost cost = RouteCost(1000, QTime(2, 50, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place3, place5, (Cost)cost);
+    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place3, place5, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
     route.emplace_back(5);
     route.emplace_back(10);
     expected.emplace_back(route);
+
     QCOMPARE(actual, expected);
 }
 
@@ -141,7 +142,7 @@ void Tests::several_routes()
     transport.insert(Transport::TAXI);
 
     RouteCost cost = RouteCost(5000, QTime(10, 0, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place4, (Cost)cost);
+    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place4, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route1 = std::vector<int>();
     route1.emplace_back(0);
@@ -185,7 +186,7 @@ void Tests::cycle_route()
     transport.insert(Transport::TAXI);
 
     RouteCost cost = RouteCost(5000, QTime(10, 0, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place2, place6, (Cost)cost);
+    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place2, place6, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
     route.emplace_back(7);
@@ -210,7 +211,7 @@ void Tests::one_suitable_route()
     transport.insert(Transport::UNDERGROUND);
 
     RouteCost cost = RouteCost(100, QTime(1, 10, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place7, (Cost)cost);
+    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place7, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
     route.emplace_back(0);
@@ -242,7 +243,7 @@ void Tests::no_physical_route()
     transport.insert(Transport::TAXI);
 
     RouteCost cost = RouteCost(5000, QTime(10, 0, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place7, place1, (Cost)cost);
+    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place7, place1, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     QCOMPARE(actual, expected);
 }
@@ -261,39 +262,39 @@ void Tests::iterator_work()
     Multigraph::Multigraph<Place>::iterator it = graph.begin();
     Place actual = (*it).first;
     QCOMPARE(actual, place1);
-    actual = (*it).second.getTo();
-    QCOMPARE((*it).second.getTo(), place4);
+    actual = (*it).second->getTo();
+    QCOMPARE((*it).second->getTo(), place4);
     ++it;
     QCOMPARE((*it).first, place1);
-    QCOMPARE((*it).second.getTo(), place3);
+    QCOMPARE((*it).second->getTo(), place3);
     ++it;
     QCOMPARE((*it).first, place1);
-    QCOMPARE((*it).second.getTo(), place2);
+    QCOMPARE((*it).second->getTo(), place2);
     ++it;
     QCOMPARE((*it).first, place1);
-    QCOMPARE((*it).second.getTo(), place2);
+    QCOMPARE((*it).second->getTo(), place2);
     ++it;
     QCOMPARE((*it).first, place2);
-    QCOMPARE((*it).second.getTo(), place5);
+    QCOMPARE((*it).second->getTo(), place5);
     ++it;
     QCOMPARE((*it).first, place3);
-    QCOMPARE((*it).second.getTo(), place6);
+    QCOMPARE((*it).second->getTo(), place6);
     ++it;
     QCOMPARE((*it).first, place3);
-    QCOMPARE((*it).second.getTo(), place4);
+    QCOMPARE((*it).second->getTo(), place4);
     ++it;
     QCOMPARE((*it).first, place4);
-    QCOMPARE((*it).second.getTo(), place7);
+    QCOMPARE((*it).second->getTo(), place7);
     ++it;
     QCOMPARE((*it).first, place5);
-    QCOMPARE((*it).second.getTo(), place4);
+    QCOMPARE((*it).second->getTo(), place4);
     ++it;
     QCOMPARE((*it).first, place5);
-    QCOMPARE((*it).second.getTo(), place7);
+    QCOMPARE((*it).second->getTo(), place7);
     ++it;
     QCOMPARE((*it).first, place5);
-    QCOMPARE((*it).second.getTo(), place6);
+    QCOMPARE((*it).second->getTo(), place6);
     ++it;
     QCOMPARE((*it).first, place6);
-    QCOMPARE((*it).second.getTo(), place5);
+    QCOMPARE((*it).second->getTo(), place5);
 }

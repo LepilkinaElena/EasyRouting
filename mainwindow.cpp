@@ -81,10 +81,10 @@ void MainWindow::onRouteCreated(int begin, int end)
 
     std::set<Transport> transports;
     transports.insert(routeDialog.getTransport());
-    RouteCost cost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
+    RouteCost* cost = new RouteCost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
 
-    const Multigraph::Edge<Place> & edge = CityMap::Instance()->getGraph().addEdge(p1,p2,cost);
-    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edge.getId());
+    int edgeIndex = CityMap::Instance()->getGraph().addEdge(p1,p2,cost);
+    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edgeIndex);
 }
 
 void MainWindow::on_createRouteButton_clicked()

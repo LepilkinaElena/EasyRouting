@@ -6,9 +6,9 @@ Cost::Cost()
 {
 }
 
-Cost Cost::operator+(const Cost& other) const
+Cost* Cost::operator+(const Cost& other) const
 {
-    return *this;
+    return nullptr;
 }
 
 Cost Cost::operator-(const Cost& other) const
@@ -16,7 +16,7 @@ Cost Cost::operator-(const Cost& other) const
     return *this;
 }
 
-bool Cost::operator<(const Cost& other)
+bool Cost::operator<(const Cost& other) const
 {
     return false;
 }

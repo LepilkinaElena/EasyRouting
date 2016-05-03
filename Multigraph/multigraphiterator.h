@@ -18,11 +18,11 @@ namespace Multigraph {
     *\ref MultigraphIterator
     */
     template<typename ValueType>
-    class MultigraphIterator: public std::iterator<std::input_iterator_tag, std::pair<const ValueType, Edge<ValueType> >>
+    class MultigraphIterator: public std::iterator<std::input_iterator_tag, std::pair<const ValueType, Edge<ValueType>* >>
     {
         friend class Multigraph<ValueType>;
     private:
-        typedef typename std::multimap<ValueType, Edge<ValueType> >::iterator MapIterator;
+        typedef typename std::multimap<ValueType, Edge<ValueType>* >::iterator MapIterator;
 
         /*!\var MultigraphIterator::mapIterator
         *\brief итератор на элемент в карте

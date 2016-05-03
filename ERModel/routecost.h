@@ -53,8 +53,8 @@ public:
     RouteCost(int money, QTime time, std::set<Interest> interest = std::set<Interest>(),
               std::set<Transport> transport = std::set<Transport>());
 
-    Cost operator +(const Cost& other);
-    bool operator <(const Cost& other);
+    Cost* operator +(const Cost& other) const;
+    bool operator <(const Cost& other) const;
 };
 
 #endif

@@ -31,7 +31,7 @@ namespace Multigraph {
         /*!\var Edge::cost
         *\brief вес дуги
         */
-        const Cost cost;
+        Cost* cost;
 
     public:
         /*!\fn Edge(int id, const T& from, const T& to, const T& cost);
@@ -42,28 +42,29 @@ namespace Multigraph {
         *\param [in] cost - вес дуги
         *\return дуга
         */
-        Edge(int id, const T& from, const T& to, const Cost &cost);
+        Edge(int id, const T& from, const T& to, Cost* cost);
+        ~Edge();
 
         /*!\fn Cost& getCost() const;
          *\brief Метод для получения веса дуги
          *\param [in] this - дуга
          *\return вес дуги
         */
-        const Cost& getCost() const;
+        Cost* getCost() const;
 
         /*!\fn T& getTo() const();
         *\brief Метод для получения вершины, в которую ведет дуга
         *\param [in] this - дуга
         *\return вершина, в которую ведет дуга
         */
-        const T &getTo();
+        const T &getTo() const;
 
         /*!\fn T& getFrom() const();
         *\brief Метод для получения вершины, из которой ведет дуга
         *\param [in] this - дуга
         *\return вершина, из которой ведет дуга
         */
-        const T &getFrom();
+        const T &getFrom() const;
         int getId() const;
     };
 
@@ -74,24 +75,30 @@ namespace Multigraph {
     }
 
     template <typename T>
-    Edge<T>::Edge(int id, const T& from, const T& to, const Cost& cost):
+    Edge<T>::~Edge()
+    {
+        delete cost;
+    }
+
+    template <typename T>
+    Edge<T>::Edge(int id, const T& from, const T& to, Cost *cost):
         id(id), from(from), to(to), cost(cost) {
     }
 
     template <typename T>
-    const Cost &Edge<T>::getCost() const
+    Cost *Edge<T>::getCost() const
     {
         return cost;
     }
 
     template <typename T>
-    const T& Edge<T>::getTo()
+    const T& Edge<T>::getTo() const
     {
         return to;
     }
 
     template <typename T>
-    const T& Edge<T>::getFrom()
+    const T& Edge<T>::getFrom() const
     {
         return from;
     }

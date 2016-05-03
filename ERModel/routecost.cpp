@@ -14,7 +14,7 @@ RouteCost::RouteCost(int money, QTime time, std::set<Interest> interest, std::se
     this->transports = transport;
 }
 
-Multigraph::Cost RouteCost::operator +(const Cost &other)
+Multigraph::Cost *RouteCost::operator +(const Cost &other) const
 {
     std::set<Transport> resultTransport = this->transports;
     std::set<Interest> resultInterests = this->interests;
@@ -24,7 +24,7 @@ Multigraph::Cost RouteCost::operator +(const Cost &other)
         const RouteCost& routeOther = dynamic_cast<const RouteCost&>(other);
         resultTransport.insert(routeOther.transports.begin(), routeOther.transports.end());
         resultInterests.insert(routeOther.interests.begin(), routeOther.interests.end());
-        RouteCost result = RouteCost(this->moneyCost + routeOther.moneyCost,
+        RouteCost* result = new RouteCost(this->moneyCost + routeOther.moneyCost,
                          QTime(this->timeCost.hour() + routeOther.timeCost.hour(), this->timeCost.minute() + routeOther.timeCost.minute()),
                          resultInterests, resultTransport);
         return result;
@@ -36,7 +36,7 @@ Multigraph::Cost RouteCost::operator +(const Cost &other)
     }
 }
 
-bool RouteCost::operator <(const Cost &other)
+bool RouteCost::operator <(const Cost &other) const
 {
     try
     {
