@@ -42,7 +42,10 @@ HEADERS  += mainwindow.h \
     View/routedialog.h \
     Multigraph/multigraphallocator.h \
     DAO/DataAccessObject.h \
-    DAO/IOFileManager.h
+    DAO/IOFileManager.h \
+    ERModel/paramsEntity.hpp \
+    ERModel/path.hpp \
+    ERModel/routeSearcher.hpp
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \
