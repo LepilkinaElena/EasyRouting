@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     View/selectionitem.cpp \
     View/placedialog.cpp \
     ERModel/citymap.cpp \
-    View/routedialog.cpp
+    View/routedialog.cpp \
+    DAO/IOFileManager.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -39,7 +40,9 @@ HEADERS  += mainwindow.h \
     View/placedialog.h \
     ERModel/citymap.h \
     View/routedialog.h \
-    Multigraph/multigraphallocator.h
+    Multigraph/multigraphallocator.h \
+    DAO/DataAccessObject.h \
+    DAO/IOFileManager.h
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \
