@@ -38,7 +38,8 @@ HEADERS  += mainwindow.h \
     Multigraph/multigraphiterator.h \
     View/placedialog.h \
     ERModel/citymap.h \
-    View/routedialog.h
+    View/routedialog.h \
+    Multigraph/multigraphallocator.h
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \
