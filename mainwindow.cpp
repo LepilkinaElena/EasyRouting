@@ -111,3 +111,8 @@ void MainWindow::onSecondPlaceSelected()
 {
     statusLabel.setText("");
 }
+
+void MainWindow::on_removeButton_clicked()
+{
+    ui->mapWidget->removeElement();
+}

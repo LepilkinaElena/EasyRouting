@@ -20,6 +20,8 @@
     <div id="map"></div>
     <script>
     var map;
+    var gmarkers = [];
+    var glines = [];
     function initMap() {
       var myLatlng = {lat: 59.9442436, lng: 30.307164};
 
@@ -183,6 +185,7 @@
       google.maps.event.addListener(line, 'click', function() {
         Js2CppSuperAPI.onLineClicked(line.lId);
       });
+      glines.push(line);
     }
 
     function drawMark(x,y,img,placeId,placeName) {
@@ -196,6 +199,21 @@
         google.maps.event.addListener(marker, 'click', function() {
           Js2CppSuperAPI.onPlaceClicked(marker.pId);
         });
+        gmarkers.push(marker);
+    }
+    function removeMark(placeId)
+    {
+        for(i=0; i<gmarkers.length; i++){
+          if(gmarkers[i].pId == placeId)
+            gmarkers[i].setMap(null);
+        }
+    }
+    function removeLine(lineId)
+    {
+        for(i=0; i<glines.length; i++){
+          if(glines[i].lId == lineId)
+            glines[i].setMap(null);
+        }
     }
     function crosshairCursor() {
         map.setOptions({draggableCursor:'crosshair'});

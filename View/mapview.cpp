@@ -19,6 +19,16 @@ void MapView::drawLine(double x1, double y1, double x2, double y2, Transport typ
     this->page()->mainFrame()->evaluateJavaScript("drawLine("+QString::number(x1)+","+QString::number(y1)+","+QString::number(x2)+","+QString::number(y2)+","+"\"FOOT\""+","+QString::number(id)+")");
 }
 
+void MapView::removeMark(int id)
+{
+    this->page()->mainFrame()->evaluateJavaScript("removeMark("+QString::number(id)+")");
+}
+
+void MapView::removeLine(int id)
+{
+    this->page()->mainFrame()->evaluateJavaScript("removeLine("+QString::number(id)+")");
+}
+
 void MapView::createPlace()
 {
     this->page()->mainFrame()->evaluateJavaScript("crosshairCursor()");
@@ -30,6 +40,12 @@ void MapView::createRoute()
     this->page()->mainFrame()->evaluateJavaScript("crosshairCursor()");
     this->state = MapState::ROUTE_BEGIN;
 
+}
+
+void MapView::removeElement()
+{
+    this->page()->mainFrame()->evaluateJavaScript("crosshairCursor()");
+    this->state = MapState::REMOVE;
 }
 
 void MapView::onMapClicked(double geoCoordX, double geoCoordY)
@@ -59,11 +75,27 @@ void MapView::onPlaceClicked(int placeId)
         emit secondPlaceSelected();
         emit routeCreated(beginPlaceId,placeId);
     }
+    else if(this->state == MapState::REMOVE)
+    {
+        qDebug() << "remove place: " << placeId;
+        removeMark(placeId);
+        this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
+        this->state = MapState::VIEW;
+        emit removePlace(placeId);
+    }
 }
 
 void MapView::onLineClicked(int lineId)
 {
     qDebug() << "Clicked on line #" << lineId;
+    if(this->state == MapState::REMOVE)
+    {
+        qDebug() << "remove route: " << lineId;
+        this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
+        this->state = MapState::VIEW;
+        removeLine(lineId);
+        emit removeRoute(lineId);
+    }
 }
 
 void MapView::loadingFinished(bool status)

@@ -34,6 +34,8 @@ private slots:
     void onFirstPlaceSelected();
     void onSecondPlaceSelected();
 
+    void on_removeButton_clicked();
+
 private:
     void setupUI();
 

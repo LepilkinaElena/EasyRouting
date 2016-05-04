@@ -10,7 +10,7 @@
 
 #include "ERModel/routecost.h"
 
-enum MapState { VIEW, PLACE, ROUTE_BEGIN, ROUTE_END };
+enum MapState { VIEW, PLACE, ROUTE_BEGIN, ROUTE_END, REMOVE };
 
 /*!\class MapView
 *\brief Класс виджета карты
@@ -23,16 +23,21 @@ public:
     explicit MapView(QWidget *parent = 0);
     void drawMark(double x, double y, std::string img, int placeId, std::string placeName);
     void drawLine(double x1, double y1, double x2, double y2, Transport type, int id);
+    void removeMark(int id);
+    void removeLine(int id);
     MapState getState() const;
 
 signals:
     void placeCreated(double x, double y);
     void routeCreated(int begin, int end);
+    void removePlace(int placeId);
+    void removeRoute(int routeId);
     void firstPlaceSelected();
     void secondPlaceSelected();
 public slots:
     void createPlace();
     void createRoute();
+    void removeElement();
     void onMapClicked(double geoCoordX, double geoCoordY);
     void onPlaceClicked(int placeId);
     void onLineClicked(int lineId);
