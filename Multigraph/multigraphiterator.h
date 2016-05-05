@@ -8,9 +8,10 @@
 #include <initializer_list>
 #include <map>
 #include "edge.h"
+#include "multigraphallocator.h"
 
 namespace Multigraph {
-    template <class T>
+    template <class T, class Alloc = MultigraphAllocator<std::pair<const T,  Edge<T>* > > >
     class Multigraph;
 
     /*!\class MultigraphIterator

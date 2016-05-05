@@ -27,7 +27,7 @@ namespace Multigraph {
         template <class U>
         struct rebind
         {
-            typedef Multigraph<U> other;
+            typedef MultigraphAllocator<U> other;
         };
 
         MultigraphAllocator() {}
@@ -70,7 +70,7 @@ namespace Multigraph {
         *\param [in] other - аллокатор для сравнения
         *\return всегда возвращает правду для аллокаторов без состояния
         */
-        bool operator==(const Mallocator& other) const;
+        bool operator==(const MultigraphAllocator& other) const;
 
         /*!\fn  construct(pointer p, const T& value) const;
         *\brief Инициализирует элементы в выделнном хранилище значением
@@ -102,19 +102,19 @@ namespace Multigraph {
     };
 
     template <typename T>
-    pointer MultigraphAllocator<T>::address (reference value) const
+    typename MultigraphAllocator<T>::pointer MultigraphAllocator<T>::address (reference value) const
     {
         return &value;
     }
 
     template <typename T>
-    const_pointer MultigraphAllocator<T>::address (const_reference value) const
+    typename MultigraphAllocator<T>::const_pointer MultigraphAllocator<T>::address (const_reference value) const
     {
         return &value;
     }
 
     template <typename T>
-    size_type MultigraphAllocator<T>::max_size () const
+    typename MultigraphAllocator<T>::size_type MultigraphAllocator<T>::max_size () const
     {
         return std::numeric_limits<std::size_t>::max() / sizeof(T);
     }
@@ -126,7 +126,7 @@ namespace Multigraph {
     }
 
     template <typename T>
-    bool MultigraphAllocator<T>::operator==(const Mallocator& other) const
+    bool MultigraphAllocator<T>::operator==(const MultigraphAllocator& other) const
     {
         return true;
     }
@@ -144,19 +144,19 @@ namespace Multigraph {
     }
 
     template <typename T>
-    pointer MultigraphAllocator<T>::allocate (size_type num)
+    typename MultigraphAllocator<T>::pointer MultigraphAllocator<T>::allocate (size_type num)
     {
-        if (n == 0)
+        if (num == 0)
         {
             return NULL;
         }
 
-        if (n > max_size())
+        if (num > max_size())
         {
             throw std::length_error("MultigraphAllocator<T>::allocate() – Integer overflow.");
         }
 
-        void* const pv = malloc(n * sizeof(T));
+        void* const pv = malloc(num * sizeof(T));
         if (pv == NULL)
         {
             throw std::bad_alloc();

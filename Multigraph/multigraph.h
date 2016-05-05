@@ -10,18 +10,20 @@
 #include <set>
 #include "multigraphiterator.h"
 
+
 namespace Multigraph {
 
     /*!\class Multigraph
     *\brief Класс мультиграфа
     *\ref Multigraph
     */
-    template <class T>
+    template <class T, class Alloc>
     class Multigraph
     {
     public:
         typedef MultigraphIterator<T > iterator;
     private:
+        typedef std::multimap<T, Edge<T>*, std::less<T>, Alloc > MultigraphMultiMap;
         struct waveStep
         {
             std::vector<Cost*> costs;
@@ -37,7 +39,7 @@ namespace Multigraph {
         /*!\var Multigraph::edges
         *\brief матрица инцендентности мультиграфа
         */
-        std::multimap<T, Edge<T>* > edges;
+        MultigraphMultiMap edges;
     public:
 
         Multigraph();
@@ -102,15 +104,15 @@ namespace Multigraph {
     };
 
 
-    template <typename T>
-    Multigraph<T>::Multigraph()
+    template <typename T, typename Alloc>
+    Multigraph<T, Alloc>::Multigraph()
     {
-        edges = std::multimap<T, Edge<T>* >();
+        edges = MultigraphMultiMap();
         idCounter = 0;
     }
 
-    template <typename T>
-    Multigraph<T>::~Multigraph()
+    template <typename T, typename Alloc>
+    Multigraph<T, Alloc>::~Multigraph()
     {
         for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
         {
@@ -120,8 +122,8 @@ namespace Multigraph {
         edges.clear();
     }
 
-    template <typename T>
-    int Multigraph<T>::addEdge(const T& from, const T& to, Cost* cost)
+    template <typename T, typename Alloc>
+    int Multigraph<T, Alloc>::addEdge(const T& from, const T& to, Cost* cost)
     {
         Edge<T>* edge = new Edge<T>(idCounter, from, to, cost);
         edges.emplace(from, edge);
@@ -129,8 +131,8 @@ namespace Multigraph {
         return edge->getId();
     }
 
-    template <typename T>
-    void Multigraph<T>::removeEdge(int id)
+    template <typename T, typename Alloc>
+    void Multigraph<T, Alloc>::removeEdge(int id)
     {
         Edge<T>* edge = getEdgeById(id);
         if (edge)
@@ -139,15 +141,15 @@ namespace Multigraph {
         }
     }
 
-    template <typename T>
-    void Multigraph<T>::removeEdge(const Edge<T>* edge)
+    template <typename T, typename Alloc>
+    void Multigraph<T, Alloc>::removeEdge(const Edge<T>* edge)
     {
         edges.erase(edge->getFrom());
         delete edge;
     }
 
-    template <typename T>
-    Edge<T> *Multigraph<T>::getEdgeById(int id)
+    template <typename T, typename Alloc>
+    Edge<T> *Multigraph<T, Alloc>::getEdgeById(int id)
     {
         for (auto& element: edges)
         {
@@ -159,20 +161,20 @@ namespace Multigraph {
         return nullptr;
     }
 
-    template <typename T>
-    typename Multigraph<T>::iterator Multigraph<T>::begin()
+    template <typename T, typename Alloc>
+    typename Multigraph<T, Alloc>::iterator Multigraph<T, Alloc>::begin()
     {
         return iterator(edges.begin());
     }
 
-    template <typename T>
-    typename Multigraph<T>::iterator Multigraph<T>::end()
+    template <typename T, typename Alloc>
+    typename Multigraph<T, Alloc>::iterator Multigraph<T, Alloc>::end()
     {
         return iterator(edges.end());
     }
 
-    template <typename T>
-    std::vector<std::vector<int>> Multigraph<T>::waveAlgorithm(const T& start, const T& finish,
+    template <typename T, typename Alloc>
+    std::vector<std::vector<int>> Multigraph<T, Alloc>::waveAlgorithm(const T& start, const T& finish,
                                                                const Cost& limits)
     {
         std::vector<std::vector<int>> result;
@@ -279,8 +281,8 @@ namespace Multigraph {
         return result;
     }
 
-    template <typename T>
-    bool Multigraph<T>::checkVertexExistence(const T& vertex) const
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::checkVertexExistence(const T& vertex) const
     {
         return edges.count(vertex);
     }
