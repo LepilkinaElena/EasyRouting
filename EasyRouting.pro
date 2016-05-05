@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     View/placedialog.cpp \
     ERModel/citymap.cpp \
     View/routedialog.cpp \
-    DAO/IOFileManager.cpp
+    DAO/IOFileManager.cpp \
+    Exceptions/nullpointerexception.cpp \
+    Exceptions/absencemultigraphexception.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -45,7 +47,9 @@ HEADERS  += mainwindow.h \
     DAO/IOFileManager.h \
     ERModel/paramsEntity.hpp \
     ERModel/path.hpp \
-    ERModel/routeSearcher.hpp
+    ERModel/routeSearcher.hpp \
+    Exceptions/nullpointerexception.h \
+    Exceptions/absencemultigraphexception.h
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \
