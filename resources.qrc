@@ -4,5 +4,6 @@
         <file>icons/building.png</file>
         <file>icons/road.png</file>
         <file>icons/delete.png</file>
+        <file>icons/edit.png</file>
     </qresource>
 </RCC>

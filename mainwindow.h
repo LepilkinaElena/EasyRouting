@@ -35,10 +35,11 @@ private slots:
     void onSecondPlaceSelected();
 
     void on_removeButton_clicked();
+    void editMode();
 
 private:
     void setupUI();
-
+    bool editModeOn;
     QLabel statusLabel;
 
     PlaceDialog placeDialog;

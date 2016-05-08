@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mapWidget->load(url);
 
     setupUI();
+    editModeOn = false;
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +41,10 @@ void MainWindow::setupUI()
     transportModel.appendRow(new SelectionItem("Маршрутка"));
     transportModel.appendRow(new SelectionItem("Пешком"));
 
+    ui->createPlaceButton->setEnabled(false);
+    ui->createRouteButton->setEnabled(false);
+    ui->removeButton->setEnabled(false);
+
     Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace())));
     Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered())));
     Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute())));
@@ -48,6 +53,25 @@ void MainWindow::setupUI()
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int))));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
+    Q_ASSERT(connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode())));
+}
+
+void MainWindow::editMode()
+{
+    editModeOn = !editModeOn;
+    if (editModeOn)
+    {
+        // Отобразить карту TODO
+        ui->editMapButton->setStyleSheet(" background-color: lightgreen; ");
+    }
+    else
+    {
+        // Убрать с виджета всю карту TODO
+        ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
+    }
+    ui->createPlaceButton->setEnabled(editModeOn);
+    ui->createRouteButton->setEnabled(editModeOn);
+    ui->removeButton->setEnabled(editModeOn);
 }
 
 void MainWindow::on_createPlaceButton_clicked()
