@@ -9,6 +9,9 @@
 #include <vector>
 #include <set>
 #include "multigraphiterator.h"
+#include "Exceptions/nullpointerexception.h"
+#include "Exceptions/edgeabsencemultigraphexception.h"
+#include "Exceptions/vertexabsencemultigraphexception.h"
 
 
 namespace Multigraph {
@@ -52,7 +55,7 @@ namespace Multigraph {
         *\param [in] cost - вес дуги
         *\return добавленная дуга
         */
-        int addEdge(const T& from, const T& to, Cost *cost);
+        int addEdge(const T& from, const T& to, Cost *cost) throw (NullPointerException);
 
         /*!\fn removeEdge(int id);
         *\brief Метод удаления дуги из мультиграфа
@@ -64,14 +67,14 @@ namespace Multigraph {
         *\brief Метод удаления дуги из мультиграфа
         *\param [in] edge - удаляемая дуга
         */
-        void removeEdge(const Edge<T> *edge);
+        void removeEdge(const Edge<T> *edge) throw (NullPointerException);
 
         /*!\fn getEdgeById(int id);
         *\brief Метод получения дуги по идентификатору
         *\param [in] id - идентификатор дуга
         *\return дуга
         */
-        Edge<T>* getEdgeById(int id);
+        Edge<T>* getEdgeById(int id) throw (EdgeAbsenceMultigraphException);
 
         /*!\fn waveAlgorithm(const Multigraph::T &start, const Multigraph::T &finish, const Cost& limits);
         *\brief Метод поиска пути в графе по волновому алгоритму
@@ -81,7 +84,7 @@ namespace Multigraph {
         *\return вектор путей, представленных веткором идентификаторов дуг
         */
         std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
-                                                     const Cost& limits);
+                                                     const Cost& limits) throw(VertexAbsenceMultigraphException);
         /*!\fn checkKeyExistence(const T key) const;
         *\brief Метод проверки наличия вершины в мультиграфе
         *\param [in] vertex - искомая вершина
@@ -123,8 +126,12 @@ namespace Multigraph {
     }
 
     template <typename T, typename Alloc>
-    int Multigraph<T, Alloc>::addEdge(const T& from, const T& to, Cost* cost)
+    int Multigraph<T, Alloc>::addEdge(const T& from, const T& to, Cost* cost) throw (NullPointerException)
     {
+        if (cost == NULL)
+        {
+            throw (NullPointerException("Указатель на стоимость дуги при добавлении дуги."));
+        }
         Edge<T>* edge = new Edge<T>(idCounter, from, to, cost);
         edges.emplace(from, edge);
         idCounter++;
@@ -134,22 +141,30 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     void Multigraph<T, Alloc>::removeEdge(int id)
     {
+        try {
         Edge<T>* edge = getEdgeById(id);
-        if (edge)
-        {
-            removeEdge(edge);
+            if (edge)
+            {
+                removeEdge(edge);
+            }
+        } catch (EdgeAbsenceMultigraphException e) {
+            std::cerr << e.what();
         }
     }
 
     template <typename T, typename Alloc>
-    void Multigraph<T, Alloc>::removeEdge(const Edge<T>* edge)
+    void Multigraph<T, Alloc>::removeEdge(const Edge<T>* edge) throw (NullPointerException)
     {
+        if (edge == NULL)
+        {
+            throw (NullPointerException("Указатель на дугу при попытке ее удалить нулевой."));
+        }
         edges.erase(edge->getFrom());
         delete edge;
     }
 
     template <typename T, typename Alloc>
-    Edge<T> *Multigraph<T, Alloc>::getEdgeById(int id)
+    Edge<T> *Multigraph<T, Alloc>::getEdgeById(int id) throw (EdgeAbsenceMultigraphException)
     {
         for (auto& element: edges)
         {
@@ -158,7 +173,7 @@ namespace Multigraph {
                 return element.second;
             }
         }
-        return nullptr;
+        throw EdgeAbsenceMultigraphException("Нет дуги с идентификатором " + std::to_string(id));
     }
 
     template <typename T, typename Alloc>
@@ -175,7 +190,7 @@ namespace Multigraph {
 
     template <typename T, typename Alloc>
     std::vector<std::vector<int>> Multigraph<T, Alloc>::waveAlgorithm(const T& start, const T& finish,
-                                                               const Cost& limits)
+                                                               const Cost& limits) throw (VertexAbsenceMultigraphException)
     {
         std::vector<std::vector<int>> result;
         std::set<T> oldFront;
@@ -185,6 +200,15 @@ namespace Multigraph {
         std::map<T, waveStep> currentStepState;
         std::set<T> keys;
         std::pair <typename std::multimap<T,Edge<T>* >::iterator, typename std::multimap<T,Edge<T>* >::iterator> values;
+
+        if (!checkVertexExistence(start))
+        {
+            throw (VertexAbsenceMultigraphException("Отсутствует вершина, откуда ищутся пути."));
+        }
+        /*if (!checkVertexExistence(finish))
+        {
+            throw (VertexAbsenceMultigraphException("Отсутствует вершина, куда ищутся пути."));
+        }*/
         // Получить все вершины графа
         for (auto const& element: edges)
         {
@@ -284,7 +308,14 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     bool Multigraph<T, Alloc>::checkVertexExistence(const T& vertex) const
     {
-        return edges.count(vertex);
+        for (auto const& element: edges)
+        {
+            if (element.first == vertex || element.second->getTo() == vertex)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 #endif

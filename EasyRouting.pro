@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     View/routedialog.cpp \
     DAO/IOFileManager.cpp \
     Exceptions/nullpointerexception.cpp \
-    Exceptions/absencemultigraphexception.cpp
+    Exceptions/absencemultigraphexception.cpp \
+    Exceptions/edgeabsencemultigraphexception.cpp \
+    Exceptions/vertexabsencemultigraphexception.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -49,7 +51,9 @@ HEADERS  += mainwindow.h \
     ERModel/path.hpp \
     ERModel/routeSearcher.hpp \
     Exceptions/nullpointerexception.h \
-    Exceptions/absencemultigraphexception.h
+    Exceptions/absencemultigraphexception.h \
+    Exceptions/edgeabsencemultigraphexception.h \
+    Exceptions/vertexabsencemultigraphexception.h
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \

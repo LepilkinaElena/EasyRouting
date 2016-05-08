@@ -6,10 +6,10 @@
 
 class AbsenceMultigraphException : public std::exception
 {
-private:
+protected:
     std::string message;
 public:
-    explicit AbsenceMultigraphException(const std::string& message);
+    explicit AbsenceMultigraphException(const std::string& message = "");
     const char* what() const throw();
 };
 
