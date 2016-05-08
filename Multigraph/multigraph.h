@@ -205,10 +205,10 @@ namespace Multigraph {
         {
             throw (VertexAbsenceMultigraphException("Отсутствует вершина, откуда ищутся пути."));
         }
-        /*if (!checkVertexExistence(finish))
+        if (!checkVertexExistence(finish))
         {
             throw (VertexAbsenceMultigraphException("Отсутствует вершина, куда ищутся пути."));
-        }*/
+        }
         // Получить все вершины графа
         for (auto const& element: edges)
         {
