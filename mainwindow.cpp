@@ -107,7 +107,7 @@ void MainWindow::onRouteCreated(int begin, int end)
     transports.insert(routeDialog.getTransport());
     RouteCost* cost = new RouteCost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
 
-    int edgeIndex = CityMap::Instance().getGraph().addEdge(p1,p2,cost);
+    int edgeIndex = CityMap::Instance().addRoute(p1,p2,cost);
     ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edgeIndex);
 }
 

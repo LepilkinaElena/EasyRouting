@@ -16,9 +16,16 @@ CityMap::~CityMap()
 
 }
 
-Multigraph::Multigraph<Place > & CityMap::getGraph()
+int CityMap::addRoute(const Place &from, const Place &to, RouteCost *cost)
 {
-    return graph;
+    try
+    {
+        return graph.addEdge(from, to, cost);
+    }
+    catch (EdgeAbsenceMultigraphException)
+    {
+        std::cerr << "Добавляемая стоимость пути нулевая.";
+    }
 }
 
 Place &CityMap::getPlaceById(int id)

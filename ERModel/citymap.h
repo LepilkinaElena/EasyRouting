@@ -11,7 +11,7 @@ public:
     static CityMap& Instance();
 
     std::vector<Place > & getSinglePlaces();
-    Multigraph::Multigraph<Place > & getGraph();
+    int addRoute(const Place& from, const Place& to, RouteCost *cost);
     Place & getPlaceById(int id);
 private:
     CityMap();
