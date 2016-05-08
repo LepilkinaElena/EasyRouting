@@ -11,6 +11,7 @@
 #include <ERModel/place.h>
 #include <ERModel/citymap.h>
 #include "Controller/controller.h"
+#include "Controller/searchparameters.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +39,7 @@ private slots:
 
     void on_removeButton_clicked();
     void editMode();
+    void runRouteSearching();
 
 private:
     void setupUI();

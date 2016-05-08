@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     Exceptions/edgeabsencemultigraphexception.cpp \
     Exceptions/vertexabsencemultigraphexception.cpp \
     Controller/controller.cpp \
-    ERModel/routesearcher.cpp
+    ERModel/routesearcher.cpp \
+    Controller/searchparameters.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     Exceptions/vertexabsencemultigraphexception.h \
     ERModel/routesearcher.h \
     ERModel/path.h \
-    Controller/controller.h
+    Controller/controller.h \
+    Controller/searchparameters.h
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \

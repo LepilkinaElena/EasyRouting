@@ -57,6 +57,33 @@ void MainWindow::setupUI()
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
     Q_ASSERT(connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode())));
+    Q_ASSERT(connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching())));
+}
+
+void MainWindow::runRouteSearching()
+{
+    // Собрать всю информацию
+    SearchParameters parameters;
+    parameters.setStart(ui->startList->currentData().toInt());
+    parameters.setFinish(ui->finishList->currentData().toInt());
+    parameters.setTravellersNumber(ui->peopleCount->value());
+    parameters.setTime(ui->timeEdit->time());
+    parameters.setMoney(ui->moneyCount->value());
+    for (int i = 0; i <= ENTERTAINMENT; i++)
+    {
+        if (interestsModel.item(i)->checkState())
+        {
+            parameters.addInterest((Interest)i);
+        }
+    }
+
+    for (int i = 0; i <= FOOT; i++)
+    {
+        if (transportModel.item(i)->checkState())
+        {
+            parameters.addTransport((Transport)i);
+        }
+    }
 }
 
 void MainWindow::fillPlaces(QComboBox *box)
