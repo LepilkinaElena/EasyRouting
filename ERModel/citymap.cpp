@@ -1,15 +1,17 @@
 #include "citymap.h"
 
-CityMap * CityMap::instance = 0;
-
-CityMap * CityMap::Instance()
+CityMap& CityMap::Instance()
 {
-    if(!instance)
-        instance = new CityMap();
+    static CityMap instance;
     return instance;
 }
 
 CityMap::CityMap()
+{
+
+}
+
+CityMap::~CityMap()
 {
 
 }

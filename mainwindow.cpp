@@ -82,7 +82,7 @@ void MainWindow::on_createPlaceButton_clicked()
 void MainWindow::onPlaceCreated(double x, double y)
 {
     Place pPlace(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
-    CityMap::Instance()->getSinglePlaces().push_back(pPlace);
+    CityMap::Instance().getSinglePlaces().push_back(pPlace);
 
     ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace.getId(),pPlace.getName());
     statusLabel.setText("");
@@ -92,10 +92,10 @@ void MainWindow::onRouteCreated(int begin, int end)
 {
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
 
-    Place & p1 = CityMap::Instance()->getPlaceById(begin);
+    Place & p1 = CityMap::Instance().getPlaceById(begin);
     x1 = p1.getGeoCoordX();
     y1 = p1.getGeoCoordY();
-    Place & p2 = CityMap::Instance()->getPlaceById(end);
+    Place & p2 = CityMap::Instance().getPlaceById(end);
     x2 = p2.getGeoCoordX();
     y2 = p2.getGeoCoordY();
 
@@ -107,7 +107,7 @@ void MainWindow::onRouteCreated(int begin, int end)
     transports.insert(routeDialog.getTransport());
     RouteCost* cost = new RouteCost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
 
-    int edgeIndex = CityMap::Instance()->getGraph().addEdge(p1,p2,cost);
+    int edgeIndex = CityMap::Instance().getGraph().addEdge(p1,p2,cost);
     ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edgeIndex);
 }
 

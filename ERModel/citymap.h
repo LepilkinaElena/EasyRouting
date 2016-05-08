@@ -8,14 +8,14 @@
 class CityMap
 {
 public:
-    static CityMap * Instance();
+    static CityMap& Instance();
 
     std::vector<Place > & getSinglePlaces();
     Multigraph::Multigraph<Place > & getGraph();
     Place & getPlaceById(int id);
 private:
     CityMap();
-    static CityMap * instance;
+    ~CityMap();
     Multigraph::Multigraph<Place> graph;
     std::vector<Place> singlePlaces;
 };
