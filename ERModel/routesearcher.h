@@ -11,7 +11,7 @@ private:
     
 public:
     RouteSearcher();
-    void searchRoutes (const Place& start, const Place& finish);
+    void searchRoutes (int start, int finish, const RouteCost& limits);
     const CityMap& getCityMap();
     void load();
     void save();

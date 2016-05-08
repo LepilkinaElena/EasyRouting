@@ -3,6 +3,7 @@
 */
 
 #include "cost.h"
+#include <algorithm>
 
 namespace Multigraph {
     /*!\class Edge

@@ -14,3 +14,9 @@ std::vector<std::pair<std::string, int> > Controller::getAllPlacesOnMap()
     }
     return result;
 }
+
+void Controller::runRouteSearch(SearchParameters parameters)
+{
+    routeSearcher.searchRoutes(parameters.getStart(), parameters.getFinish(),
+                               parameters.toRouteCost());
+}

@@ -28,7 +28,7 @@ public:
     int getStart();
     int getFinish();
 
-    RouteCost* toRouteCost();
+    RouteCost toRouteCost();
 };
 
 #endif // SEARCHPARAMETERS_H

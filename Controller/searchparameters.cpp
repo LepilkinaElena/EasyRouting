@@ -49,7 +49,7 @@ int SearchParameters::getFinish()
     return finish;
 }
 
-RouteCost* SearchParameters::toRouteCost()
+RouteCost SearchParameters::toRouteCost()
 {
-    return new RouteCost(money/travellersNumber, time, interests, transport);
+    return RouteCost(money/travellersNumber, time, interests, transport);
 }

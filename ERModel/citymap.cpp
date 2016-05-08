@@ -117,3 +117,9 @@ std::vector<Place > & CityMap::getSinglePlaces()
 {
     return singlePlaces;
 }
+
+void CityMap::getRoutes(const Place &start, const Place &finish,
+                        const RouteCost& limits)
+{
+    graph.waveAlgorithm(start, finish, limits);
+}

@@ -84,6 +84,7 @@ void MainWindow::runRouteSearching()
             parameters.addTransport((Transport)i);
         }
     }
+    controller.runRouteSearch(parameters);
 }
 
 void MainWindow::fillPlaces(QComboBox *box)
