@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QMainWindow>
+#include <QComboBox>
 
 #include "View/selectionitem.h"
 #include "View/placedialog.h"
@@ -40,6 +41,7 @@ private slots:
 
 private:
     void setupUI();
+    void fillPlaces(QComboBox* box);
     bool editModeOn;
     Controller controller;
     QLabel statusLabel;

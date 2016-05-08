@@ -45,6 +45,9 @@ void MainWindow::setupUI()
     ui->createRouteButton->setEnabled(false);
     ui->removeButton->setEnabled(false);
 
+    fillPlaces(ui->startList);
+    fillPlaces(ui->finishList);
+
     Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace())));
     Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered())));
     Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute())));
@@ -54,6 +57,18 @@ void MainWindow::setupUI()
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
     Q_ASSERT(connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode())));
+}
+
+void MainWindow::fillPlaces(QComboBox *box)
+{
+    box->clear();
+    // Получить все места на карте
+    std::vector<std::pair<std::string, int> > places = controller.getAllPlacesOnMap();
+    std::vector<std::pair<std::string, int> >::iterator it;
+    for (it = places.begin(); it != places.end(); ++it)
+    {
+        box->addItem(QString((*it).first.c_str()), QVariant((*it).second));
+    }
 }
 
 void MainWindow::editMode()

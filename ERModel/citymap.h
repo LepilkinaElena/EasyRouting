@@ -12,6 +12,7 @@ public:
     std::vector<Place > & getSinglePlaces();
     int addRoute(const Place& from, const Place& to, RouteCost *cost);
     Place & getPlaceById(int id);
+    std::vector<Place> getAllPlaces() const;
 
 private:
     CityMap();

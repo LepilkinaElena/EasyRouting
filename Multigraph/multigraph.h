@@ -104,6 +104,8 @@ namespace Multigraph {
          */
         iterator end();
 
+        std::vector<T> getAllVertexes() const;
+
     };
 
 
@@ -186,6 +188,20 @@ namespace Multigraph {
     typename Multigraph<T, Alloc>::iterator Multigraph<T, Alloc>::end()
     {
         return iterator(edges.end());
+    }
+
+    template <typename T, typename Alloc>
+    std::vector<T> Multigraph<T, Alloc>::getAllVertexes() const
+    {
+        std::set<T> vertexes;
+        std::vector<T> result;
+        for (auto const& element: edges)
+        {
+            vertexes.insert(element.first);
+            vertexes.insert(element.second->getTo());
+        }
+        std::copy(vertexes.begin(), vertexes.end(), std::back_inserter(result));
+        return result;
     }
 
     template <typename T, typename Alloc>

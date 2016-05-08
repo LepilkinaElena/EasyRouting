@@ -10,6 +10,7 @@ private:
 
 public:
     Controller();
+    std::vector<std::pair<std::string, int> > getAllPlacesOnMap();
 };
 
 #endif // CONTROLLER_H
