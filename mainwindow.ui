@@ -174,7 +174,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox">
+            <widget class="QComboBox" name="startList">
              <property name="minimumSize">
               <size>
                <width>130</width>
@@ -201,7 +201,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_2">
+            <widget class="QComboBox" name="finishList">
              <property name="minimumSize">
               <size>
                <width>130</width>

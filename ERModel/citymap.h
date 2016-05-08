@@ -9,10 +9,10 @@ class CityMap
 {
 public:
     static CityMap& Instance();
-
     std::vector<Place > & getSinglePlaces();
     int addRoute(const Place& from, const Place& to, RouteCost *cost);
     Place & getPlaceById(int id);
+
 private:
     CityMap();
     ~CityMap();

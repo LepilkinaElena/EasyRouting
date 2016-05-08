@@ -9,6 +9,7 @@
 #include "View/routedialog.h"
 #include <ERModel/place.h>
 #include <ERModel/citymap.h>
+#include "Controller/controller.h"
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +41,7 @@ private slots:
 private:
     void setupUI();
     bool editModeOn;
+    Controller controller;
     QLabel statusLabel;
 
     PlaceDialog placeDialog;
