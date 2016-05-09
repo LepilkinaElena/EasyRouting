@@ -84,7 +84,7 @@ void MainWindow::runRouteSearching()
             parameters.addTransport((Transport)i);
         }
     }
-    controller.runRouteSearch(parameters);
+    std::vector<std::vector<SearchParameters> > routes = controller.runRouteSearch(parameters);
 }
 
 void MainWindow::fillPlaces(QComboBox *box)

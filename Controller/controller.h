@@ -12,7 +12,7 @@ private:
 public:
     Controller();
     std::vector<std::pair<std::string, int> > getAllPlacesOnMap();
-    void runRouteSearch(SearchParameters parameters);
+    std::vector<std::vector<SearchParameters> > runRouteSearch(SearchParameters parameters);
 };
 
 #endif // CONTROLLER_H

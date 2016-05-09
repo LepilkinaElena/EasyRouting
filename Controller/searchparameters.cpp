@@ -49,6 +49,11 @@ int SearchParameters::getFinish()
     return finish;
 }
 
+int SearchParameters::getTravellersNumber()
+{
+    return travellersNumber;
+}
+
 RouteCost SearchParameters::toRouteCost()
 {
     return RouteCost(money/travellersNumber, time, interests, transport);

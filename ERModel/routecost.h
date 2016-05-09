@@ -55,6 +55,11 @@ public:
 
     Cost* operator +(const Cost& other) const;
     bool operator <=(const Cost& other) const;
+
+    int getMoneyCost() const;
+    QTime getTimeCost() const;
+    std::set<Interest> getInterests() const;
+    std::set<Transport> getTransport() const;
 };
 
 #endif

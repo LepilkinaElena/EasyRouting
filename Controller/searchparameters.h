@@ -27,6 +27,7 @@ public:
 
     int getStart();
     int getFinish();
+    int getTravellersNumber();
 
     RouteCost toRouteCost();
 };

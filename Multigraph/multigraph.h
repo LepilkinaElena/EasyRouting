@@ -43,6 +43,15 @@ namespace Multigraph {
         *\brief матрица инцендентности мультиграфа
         */
         MultigraphMultiMap edges;
+
+    protected:
+        /*!\fn getEdgeById(int id);
+        *\brief Метод получения дуги по идентификатору
+        *\param [in] id - идентификатор дуга
+        *\return дуга
+        */
+        Edge<T>* getEdgeById(int id) throw (EdgeAbsenceMultigraphException);
+
     public:
 
         Multigraph();
@@ -69,13 +78,6 @@ namespace Multigraph {
         */
         void removeEdge(const Edge<T> *edge) throw (NullPointerException);
 
-        /*!\fn getEdgeById(int id);
-        *\brief Метод получения дуги по идентификатору
-        *\param [in] id - идентификатор дуга
-        *\return дуга
-        */
-        Edge<T>* getEdgeById(int id) throw (EdgeAbsenceMultigraphException);
-
         /*!\fn waveAlgorithm(const Multigraph::T &start, const Multigraph::T &finish, const Cost& limits);
         *\brief Метод поиска пути в графе по волновому алгоритму
         *\param [in] start - начальная точка пути
@@ -98,6 +100,27 @@ namespace Multigraph {
          */
         iterator begin();
 
+        /*!\fn T& getTo() const();
+        *\brief Метод для получения вершины, в которую ведет дуга
+        *\param [in] this - дуга
+        *\return вершина, в которую ведет дуга
+        */
+        const T &getTo(int edgeId);
+
+        /*!\fn T& getFrom() const();
+        *\brief Метод для получения вершины, из которой ведет дуга
+        *\param [in] this - дуга
+        *\return вершина, из которой ведет дуга
+        */
+        const T &getFrom(int edgeId);
+
+        /*!\fn Cost& getCost() const;
+         *\brief Метод для получения веса дуги
+         *\param [in] this - дуга
+         *\return вес дуги
+        */
+        Cost* getCost(int edgeId);
+
         /*!\fn end();
          *\brief Метод получения итератора на последний элемент в мультиграфе
          *\return итератор на последний элемент в мультиграфе
@@ -107,6 +130,45 @@ namespace Multigraph {
         std::vector<T> getAllVertexes() const;
 
     };
+
+    template <typename T, typename Alloc>
+    const T& Multigraph<T, Alloc>::getTo(int edgeId)
+    {
+        try
+        {
+            return getEdgeById(edgeId)->getTo();
+        }
+        catch (EdgeAbsenceMultigraphException e)
+        {
+            std::cerr << e.what();
+        }
+    }
+
+    template <typename T, typename Alloc>
+    const T& Multigraph<T, Alloc>::getFrom(int edgeId)
+    {
+        try
+        {
+            return getEdgeById(edgeId)->getFrom();
+        }
+        catch (EdgeAbsenceMultigraphException e)
+        {
+            std::cerr << e.what();
+        }
+    }
+
+    template <typename T, typename Alloc>
+    Cost* Multigraph<T, Alloc>::getCost(int edgeId)
+    {
+        try
+        {
+            return getEdgeById(edgeId)->getCost();
+        }
+        catch (EdgeAbsenceMultigraphException e)
+        {
+            std::cerr << e.what();
+        }
+    }
 
 
     template <typename T, typename Alloc>

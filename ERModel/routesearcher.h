@@ -11,7 +11,7 @@ private:
     
 public:
     RouteSearcher();
-    void searchRoutes (int start, int finish, const RouteCost& limits);
+    std::vector<std::vector<Path> > searchRoutes (int start, int finish, const RouteCost& limits);
     const CityMap& getCityMap();
     void load();
     void save();

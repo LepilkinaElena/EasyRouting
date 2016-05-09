@@ -59,3 +59,23 @@ bool RouteCost::operator <=(const Cost &other) const
         std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
     }
 }
+
+int RouteCost::getMoneyCost() const
+{
+    return moneyCost;
+}
+
+QTime RouteCost::getTimeCost() const
+{
+    return timeCost;
+}
+
+std::set<Interest> RouteCost::getInterests() const
+{
+    return interests;
+}
+
+std::set<Transport> RouteCost::getTransport() const
+{
+    return transports;
+}

@@ -118,8 +118,32 @@ std::vector<Place > & CityMap::getSinglePlaces()
     return singlePlaces;
 }
 
-void CityMap::getRoutes(const Place &start, const Place &finish,
+std::vector<std::vector<Path> > CityMap::getRoutes(const Place &start, const Place &finish,
                         const RouteCost& limits)
 {
-    graph.waveAlgorithm(start, finish, limits);
+    std::vector<std::vector<Path> > routes;
+    std::vector<std::vector<int> > result = graph.waveAlgorithm(start, finish, limits);
+    std::vector<std::vector<int> >::iterator it;
+
+    for (it = result.begin(); it != result.end(); ++it)
+    {
+        std::vector<int> current = (*it);
+        std::vector<Path> route = std::vector<Path>();
+        for (std::vector<int>::iterator iter = current.begin(); iter != current.end(); ++iter)
+        {
+            try
+            {
+                const RouteCost* routeCost = dynamic_cast<const RouteCost*>(graph.getCost(*iter));
+                Path path = Path(graph.getFrom(*iter), graph.getTo(*iter), *routeCost);
+                route.emplace_back(path);
+            }
+            catch (const std::bad_cast& e)
+            {
+                std::cerr << e.what() << std::endl;
+                std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
+            }
+        }
+        routes.emplace_back(route);
+    }
+    return routes;
 }

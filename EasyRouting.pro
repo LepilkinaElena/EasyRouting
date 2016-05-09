@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     Exceptions/vertexabsencemultigraphexception.cpp \
     Controller/controller.cpp \
     ERModel/routesearcher.cpp \
-    Controller/searchparameters.cpp
+    Controller/searchparameters.cpp \
+    ERModel/path.cpp
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
