@@ -40,9 +40,11 @@ private slots:
     void on_removeButton_clicked();
     void editMode();
     void runRouteSearching();
+    void initMap();
 
 private:
     void setupUI();
+
     void fillPlaces(QComboBox* box);
     bool editModeOn;
     Controller controller;

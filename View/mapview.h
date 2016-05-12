@@ -28,6 +28,7 @@ public:
     MapState getState() const;
 
 signals:
+    void mapReady();
     void placeCreated(double x, double y);
     void routeCreated(int begin, int end);
     void removePlace(int placeId);
@@ -38,12 +39,13 @@ public slots:
     void createPlace();
     void createRoute();
     void removeElement();
+    void onMapLoaded();
     void onMapClicked(double geoCoordX, double geoCoordY);
     void onPlaceClicked(int placeId);
     void onLineClicked(int lineId);
     void loadingFinished(bool status);
 private:
-
+    bool mapLoaded;
     int beginPlaceId;
     MapState state;
 };

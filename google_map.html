@@ -31,8 +31,11 @@
         disableDefaultUI: true
       });
       google.maps.event.addListener(map, 'click', function (e) {
-                    Js2CppSuperAPI.onMapClicked(e.latLng.lat(),e.latLng.lng());
+          Js2CppSuperAPI.onMapClicked(e.latLng.lat(),e.latLng.lng());
                     //drawMark(e.latLng.lat(),e.latLng.lng(),"1.png");
+      });
+      google.maps.event.addListenerOnce(map, 'idle', function(){
+          Js2CppSuperAPI.onMapLoaded();
       });
       var styles = [
         {

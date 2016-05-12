@@ -18,6 +18,7 @@ public:
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
 
+
 private:
     CityMap();
     ~CityMap();

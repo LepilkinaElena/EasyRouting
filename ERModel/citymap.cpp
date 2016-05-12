@@ -9,13 +9,13 @@ CityMap& CityMap::Instance()
 CityMap::CityMap()
 {
     // TODO load from file
-    Place place1 = Place(0, 0, std::string("Эрмитаж"), Interest::SIGHT);
-    Place place2 = Place(1, 1, std::string("Кино"), Interest::ENTERTAINMENT);
-    Place place3 = Place(2, 2, std::string("Парк Победы"), Interest::PARK);
-    Place place4 = Place(3, 3, std::string("Театр"), Interest::CULTURE);
-    Place place5 = Place(4, 4, std::string("Казанский собор"), Interest::SIGHT);
-    Place place6 = Place(5, 5, std::string("Выставка"), Interest::CULTURE);
-    Place place7 = Place(6, 6, std::string("Медный всадник"), Interest::SIGHT);
+    Place place1 = Place(59.9165, 30.3072, std::string("Эрмитаж"), Interest::SIGHT);
+    Place place2 = Place(59.9539, 30.3113, std::string("Кино"), Interest::ENTERTAINMENT);
+    Place place3 = Place(59.9465, 30.4143, std::string("Парк Победы"), Interest::PARK);
+    Place place4 = Place(59.9746, 30.3673, std::string("Театр"), Interest::CULTURE);
+    Place place5 = Place(59.9632, 30.1874, std::string("Казанский собор"), Interest::SIGHT);
+    Place place6 = Place(59.9413, 30.2775, std::string("Выставка"), Interest::CULTURE);
+    Place place7 = Place(59.9528, 30.2763, std::string("Медный всадник"), Interest::SIGHT);
 
     std::set<Interest> set1 = std::set<Interest>();
     set1.insert(Interest::CULTURE);
@@ -101,8 +101,8 @@ std::vector<Place> CityMap::getAllPlaces() const
 
 Place &CityMap::getPlaceById(int id)
 {
-    std::vector<Place>::iterator it = singlePlaces.begin();
-    while(it != singlePlaces.end())
+    std::vector<Place>::iterator it = graph.getAllVertexes().begin();
+    while(it != graph.getAllVertexes().end())
     {
         if((it.operator *().getId() == id))
         {

@@ -56,8 +56,32 @@ void MainWindow::setupUI()
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int))));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
     Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
+    Q_ASSERT(connect(ui->mapWidget, SIGNAL(mapReady()), this, SLOT(initMap())));
     Q_ASSERT(connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode())));
     Q_ASSERT(connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching())));
+
+}
+
+void MainWindow::initMap()
+{
+    qDebug("Map ready!");
+    std::vector<Place> places = CityMap::Instance().getAllPlaces();
+    std::vector<Place>::iterator it = places.begin();
+    while(it != places.end())
+    {
+        qDebug((it.operator *()).getName().c_str());
+        double x = it.operator *().getGeoCoordX();
+        double y = it.operator *().getGeoCoordY();
+        int id = it.operator *().getId();
+        std::string str = it.operator *().getName();
+
+        qDebug() << "x: " << x << " y: " << y;
+        ui->mapWidget->drawMark(x,y,"icons/building.png",id,str);
+        it++;
+    }
+
+    //Multigraph::MultigraphIterator it2 = CityMap.graph
+
 }
 
 void MainWindow::runRouteSearching()

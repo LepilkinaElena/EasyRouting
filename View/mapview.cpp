@@ -48,6 +48,12 @@ void MapView::removeElement()
     this->state = MapState::REMOVE;
 }
 
+void MapView::onMapLoaded()
+{
+    this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
+    emit mapReady();
+}
+
 void MapView::onMapClicked(double geoCoordX, double geoCoordY)
 {
     qDebug()<<"Clicked at coords: "<<geoCoordX<<":"<<geoCoordY;
@@ -100,8 +106,7 @@ void MapView::onLineClicked(int lineId)
 
 void MapView::loadingFinished(bool status)
 {
-    qDebug("Map loaded!");
-    this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
+    qDebug("HTML loaded!");
 }
 
 MapState MapView::getState() const
