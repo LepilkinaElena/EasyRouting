@@ -2,6 +2,7 @@
 #define CITYMAP_H
 
 #include "Multigraph/multigraph.h"
+#include <typeinfo.h>
 #include "place.h"
 #include "routecost.h"
 #include "path.h"
