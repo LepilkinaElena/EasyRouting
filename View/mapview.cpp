@@ -13,10 +13,9 @@ void MapView::drawMark(double x, double y, std::string img, int placeId, std::st
     this->page()->mainFrame()->evaluateJavaScript("drawMark("+QString::number(x)+","+QString::number(y)+",\""+QString(img.c_str())+"\","+QString::number(placeId)+",\""+QString(placeName.c_str())+"\")");
 }
 
-void MapView::drawLine(double x1, double y1, double x2, double y2, Transport type, int id)
+void MapView::drawLine(double x1, double y1, double x2, double y2, int id)
 {
-    //TODO: Передавать строку соответствующую type
-    this->page()->mainFrame()->evaluateJavaScript("drawLine("+QString::number(x1)+","+QString::number(y1)+","+QString::number(x2)+","+QString::number(y2)+","+"\"FOOT\""+","+QString::number(id)+")");
+    this->page()->mainFrame()->evaluateJavaScript("drawLine("+QString::number(x1)+","+QString::number(y1)+","+QString::number(x2)+","+QString::number(y2)+","+QString::number(id)+")");
 }
 
 void MapView::removeMark(int id)

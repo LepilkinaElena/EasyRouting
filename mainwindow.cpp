@@ -79,8 +79,7 @@ void MainWindow::initMap()
         ui->mapWidget->drawMark(x,y,"icons/building.png",id,str);
         it++;
     }
-//TODO: рисование граней на карте
-    /*
+
     std::vector<CityMap::routeId> routeIds = CityMap::Instance().getAllRoutes();
     std::vector<CityMap::routeId>::iterator it2 = routeIds.begin();
     while(it2!=routeIds.end())
@@ -89,9 +88,10 @@ void MainWindow::initMap()
         int idTo = it2.operator *().to;
         Place & from = CityMap::Instance().getPlaceById(idFrom);
         Place & to = CityMap::Instance().getPlaceById(idTo);
-        //ui->mapWidget->drawLine();
+        RouteCost * rc = CityMap::Instance().getRouteCostById(it2.operator *().id);
+        ui->mapWidget->drawLine(from.getGeoCoordX(),from.getGeoCoordY(),to.getGeoCoordX(),to.getGeoCoordY(),it2.operator *().id);
         it2++;
-    }*/
+    }
 
 }
 
@@ -177,17 +177,17 @@ void MainWindow::onRouteCreated(int begin, int end)
     Place & p2 = CityMap::Instance().getPlaceById(end);
     x2 = p2.getGeoCoordX();
     y2 = p2.getGeoCoordY();
-
     Interest inter = p2.getIntersestCategory();
+
     std::set<Interest> interests;
     interests.insert(inter);
 
     std::set<Transport> transports;
     transports.insert(routeDialog.getTransport());
     RouteCost* cost = new RouteCost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
-
     int edgeIndex = CityMap::Instance().addRoute(p1,p2,cost);
-    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edgeIndex);
+
+    ui->mapWidget->drawLine(x1,y1,x2,y2, edgeIndex);
 }
 
 void MainWindow::on_createRouteButton_clicked()

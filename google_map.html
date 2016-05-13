@@ -172,7 +172,7 @@
 
     }
 
-    function drawLine(x1,y1,x2,y2,lineType,lineId) {
+    function drawLine(x1,y1,x2,y2,lineId) {
       var line = new google.maps.Polyline({
       path: [
           new google.maps.LatLng(x1, y1),
@@ -181,7 +181,6 @@
       strokeColor: "#000000",
       strokeOpacity: 1.0,
       strokeWeight: 2,
-      tType: lineType,
       lId: lineId,
       map: map
       });

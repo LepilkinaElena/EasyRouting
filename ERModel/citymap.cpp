@@ -101,9 +101,8 @@ std::vector<Place> CityMap::getAllPlaces() const
 
 std::vector<CityMap::routeId> CityMap::getAllRoutes()
 {
-    graph.getAllEdges();
     std::vector<CityMap::routeId> result;
-    std::vector<int> edges;// = graph.getAllEdges();
+    std::vector<int> edges = graph.getAllEdges();
     std::vector<int>::iterator it = edges.begin();
     while(it != edges.end())
     {
@@ -116,7 +115,12 @@ std::vector<CityMap::routeId> CityMap::getAllRoutes()
 
         it++;
     }
+    return result;
+}
 
+RouteCost *CityMap::getRouteCostById(int id)
+{
+    return (RouteCost*)graph.getCost(id);
 }
 
 Place &CityMap::getPlaceById(int id)

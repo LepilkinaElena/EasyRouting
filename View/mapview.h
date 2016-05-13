@@ -22,7 +22,7 @@ class MapView : public QWebView
 public:
     explicit MapView(QWidget *parent = 0);
     void drawMark(double x, double y, std::string img, int placeId, std::string placeName);
-    void drawLine(double x1, double y1, double x2, double y2, Transport type, int id);
+    void drawLine(double x1, double y1, double x2, double y2, int id);
     void removeMark(int id);
     void removeLine(int id);
     MapState getState() const;
