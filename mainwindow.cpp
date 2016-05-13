@@ -171,10 +171,10 @@ void MainWindow::onRouteCreated(int begin, int end)
 {
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
 
-    Place & p1 = CityMap::Instance().getPlaceById(begin);
+    Place & p1 = ui->mapWidget->getPlaceById(begin);
     x1 = p1.getGeoCoordX();
     y1 = p1.getGeoCoordY();
-    Place & p2 = CityMap::Instance().getPlaceById(end);
+    Place & p2 = ui->mapWidget->getPlaceById(end);
     x2 = p2.getGeoCoordX();
     y2 = p2.getGeoCoordY();
     Interest inter = p2.getIntersestCategory();

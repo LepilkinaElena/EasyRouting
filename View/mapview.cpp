@@ -114,7 +114,7 @@ MapState MapView::getState() const
     return state;
 }
 
-Place &MapView::getSinglePlaceById(int id)
+Place &MapView::getPlaceById(int id)
 {
     std::vector<Place>::iterator it = singlePlaces.begin();
     while(it != singlePlaces.end())
@@ -123,6 +123,15 @@ Place &MapView::getSinglePlaceById(int id)
         if(ref.getId() == id)
             return ref;
         it++;
+    }
+    std::vector<Place> multigraphPlaces = CityMap::Instance().getAllPlaces();
+    std::vector<Place>::iterator it2 = multigraphPlaces.begin();
+    while(it2 != multigraphPlaces.end())
+    {
+        Place & ref = *it2;
+        if(ref.getId() == id)
+            return ref;
+        it2++;
     }
 }
 
