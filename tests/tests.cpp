@@ -299,3 +299,45 @@ void Tests::iterator_work()
     QCOMPARE((*it).first, place6);
     QCOMPARE((*it).second->getTo(), place5);
 }
+
+void Tests::remove_vertex_test()
+{
+    Multigraph::Multigraph<Place> graph = getGraph();
+    Place place1 = Place(0, 0, std::string("Эрмитаж"), Interest::SIGHT);
+    Place place2 = Place(1, 1, std::string("Кино"), Interest::ENTERTAINMENT);
+    Place place3 = Place(2, 2, std::string("Парк Победы"), Interest::PARK);
+    Place place4 = Place(3, 3, std::string("Театр"), Interest::CULTURE);
+    Place place5 = Place(4, 4, std::string("Казанский собор"), Interest::SIGHT);
+    Place place6 = Place(5, 5, std::string("Выставка"), Interest::CULTURE);
+    Place place7 = Place(6, 6, std::string("Медный всадник"), Interest::SIGHT);
+    graph.removeVertex(place3);
+    Multigraph::Multigraph<Place>::iterator it = graph.begin();
+    Place actual = (*it).first;
+    QCOMPARE(actual, place1);
+    actual = (*it).second->getTo();
+    QCOMPARE((*it).second->getTo(), place4);
+    ++it;
+    QCOMPARE((*it).first, place1);
+    QCOMPARE((*it).second->getTo(), place2);
+    ++it;
+    QCOMPARE((*it).first, place1);
+    QCOMPARE((*it).second->getTo(), place2);
+    ++it;
+    QCOMPARE((*it).first, place2);
+    QCOMPARE((*it).second->getTo(), place5);
+    ++it;
+    QCOMPARE((*it).first, place4);
+    QCOMPARE((*it).second->getTo(), place7);
+    ++it;
+    QCOMPARE((*it).first, place5);
+    QCOMPARE((*it).second->getTo(), place4);
+    ++it;
+    QCOMPARE((*it).first, place5);
+    QCOMPARE((*it).second->getTo(), place7);
+    ++it;
+    QCOMPARE((*it).first, place5);
+    QCOMPARE((*it).second->getTo(), place6);
+    ++it;
+    QCOMPARE((*it).first, place6);
+    QCOMPARE((*it).second->getTo(), place5);
+}

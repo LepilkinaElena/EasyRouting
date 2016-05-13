@@ -78,6 +78,8 @@ namespace Multigraph {
         */
         void removeEdge(const Edge<T> *edge) throw (NullPointerException);
 
+        void removeVertex(const T& vertex);
+
         /*!\fn waveAlgorithm(const Multigraph::T &start, const Multigraph::T &finish, const Cost& limits);
         *\brief Метод поиска пути в графе по волновому алгоритму
         *\param [in] start - начальная точка пути
@@ -225,8 +227,35 @@ namespace Multigraph {
         {
             throw (NullPointerException("Указатель на дугу при попытке ее удалить нулевой."));
         }
-        edges.erase(edge->getFrom());
+        for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
+        {
+            Edge<T>* curEdge = (*it).second;
+            if (edge == curEdge)
+            {
+                edges.erase(it);
+                break;
+            }
+        }
         delete edge;
+    }
+
+    template <typename T, typename Alloc>
+    void Multigraph<T, Alloc>::removeVertex(const T& vertex)
+    {
+        std::vector<int> edgesToRemove;
+        edges.erase(vertex);
+        for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
+        {
+            Edge<T>* edge = (*it).second;
+            if (edge->getTo() == vertex)
+            {
+                edgesToRemove.emplace_back(edge->getId());
+            }
+        }
+        for (std::vector<int>::iterator it = edgesToRemove.begin(); it != edgesToRemove.end(); ++it)
+        {
+            removeEdge(*it);
+        }
     }
 
     template <typename T, typename Alloc>
