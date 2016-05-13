@@ -162,6 +162,11 @@ void MainWindow::onRouteCreated(int begin, int end)
     int edgeIndex = CityMap::Instance().addRoute(p1,p2,cost);
 
     ui->mapWidget->drawLine(x1,y1,x2,y2, edgeIndex);
+
+    if(ui->mapWidget->isSinglePlace(begin))
+        ui->mapWidget->removeSinglePlace(begin);
+    if(ui->mapWidget->isSinglePlace(end))
+        ui->mapWidget->removeSinglePlace(end);
 }
 
 void MainWindow::on_createRouteButton_clicked()

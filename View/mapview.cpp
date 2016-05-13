@@ -152,6 +152,20 @@ void MapView::addSinglePlace(Place &ref)
     singlePlaces.push_back(ref);
 }
 
+void MapView::removeSinglePlace(int id)
+{
+    std::vector<Place>::iterator it = singlePlaces.begin();
+    while(it != singlePlaces.end())
+    {
+        Place & ref = *it;
+        if(ref.getId() == id) {
+            singlePlaces.erase(it);
+            break;
+        }
+        it++;
+    }
+}
+
 void MapView::redrawMap(bool drawLines)
 {
     this->page()->mainFrame()->evaluateJavaScript("clearMap()");

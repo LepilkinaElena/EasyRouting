@@ -30,6 +30,7 @@ public:
     Place & getPlaceById(int id);
     bool isSinglePlace(int id);
     void addSinglePlace(Place & ref);
+    void removeSinglePlace(int id);
     void redrawMap(bool drawLines);
 
 
