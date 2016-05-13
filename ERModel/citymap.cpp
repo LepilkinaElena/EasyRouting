@@ -99,6 +99,26 @@ std::vector<Place> CityMap::getAllPlaces() const
     return graph.getAllVertexes();
 }
 
+std::vector<CityMap::routeId> CityMap::getAllRoutes()
+{
+    //TODO: graph.getAllEdges();
+    std::vector<CityMap::routeId> result;
+    std::vector<int> edges;// = graph.getAllEdges();
+    std::vector<int>::iterator it = edges.begin();
+    while(it != edges.end())
+    {
+        int id = *it;
+        CityMap::routeId routeTemp;
+        routeTemp.id = it.operator *();
+        routeTemp.from = graph.getFrom(id).getId();
+        routeTemp.to = graph.getTo(id).getId();
+        result.push_back(routeTemp);
+
+        it++;
+    }
+
+}
+
 Place &CityMap::getPlaceById(int id)
 {
     std::vector<Place>::iterator it = graph.getAllVertexes().begin();

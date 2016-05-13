@@ -7,14 +7,24 @@
 #include "routecost.h"
 #include "path.h"
 
+
+
 class CityMap
 {
 public:
+    struct routeId
+    {
+        int id;
+        int from;
+        int to;
+    };
+
     static CityMap& Instance();
     std::vector<Place > & getSinglePlaces();
     int addRoute(const Place& from, const Place& to, RouteCost *cost);
     Place & getPlaceById(int id);
     std::vector<Place> getAllPlaces() const;
+    std::vector<routeId> getAllRoutes();
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
 

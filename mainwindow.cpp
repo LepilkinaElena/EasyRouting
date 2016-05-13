@@ -79,8 +79,19 @@ void MainWindow::initMap()
         ui->mapWidget->drawMark(x,y,"icons/building.png",id,str);
         it++;
     }
-
-    //Multigraph::MultigraphIterator it2 = CityMap.graph
+//TODO: рисование граней на карте
+    /*
+    std::vector<CityMap::routeId> routeIds = CityMap::Instance().getAllRoutes();
+    std::vector<CityMap::routeId>::iterator it2 = routeIds.begin();
+    while(it2!=routeIds.end())
+    {
+        int idFrom = it2.operator *().from;
+        int idTo = it2.operator *().to;
+        Place & from = CityMap::Instance().getPlaceById(idFrom);
+        Place & to = CityMap::Instance().getPlaceById(idTo);
+        //ui->mapWidget->drawLine();
+        it2++;
+    }*/
 
 }
 
