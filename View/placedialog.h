@@ -5,6 +5,8 @@
 #include <QStandardItemModel>
 #include "View/selectionitem.h"
 #include "ERModel/place.h"
+#include <QMessageBox>
+#include <QCloseEvent>
 
 namespace Ui {
 class PlaceDialog;
@@ -34,11 +36,10 @@ public:
     */
     Interest getInterest();
 
-private slots:
-    void on_checkBox_clicked();
-
 private:
     Ui::PlaceDialog *ui;
+protected:
+    void accept();
 };
 
 #endif // PLACEDIALOG_H

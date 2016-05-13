@@ -77,6 +77,10 @@ void MainWindow::runRouteSearching()
     parameters.setFinish(ui->finishList->currentData().toInt());
     parameters.setTravellersNumber(ui->peopleCount->value());
     parameters.setTime(ui->timeEdit->time());
+    if (ui->timeEdit->time() == QTime(0,0))
+    {
+        QMessageBox::warning(this,"Ошибка в вводе праметров", "Не задано время! Ничего найдено не будет!");
+    }
     parameters.setMoney(ui->moneyCount->value());
     int count = 0;
     for (int i = 0; i <= ENTERTAINMENT; i++)

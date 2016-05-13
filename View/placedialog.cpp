@@ -6,7 +6,6 @@ PlaceDialog::PlaceDialog(QWidget *parent) :
     ui(new Ui::PlaceDialog)
 {
     ui->setupUi(this);
-
 }
 
 PlaceDialog::~PlaceDialog()
@@ -32,7 +31,14 @@ Interest PlaceDialog::getInterest()
     return Interest::SIGHT;
 }
 
-void PlaceDialog::on_checkBox_clicked()
+void PlaceDialog::accept()
 {
-    ui->spinBox->setEnabled(ui->checkBox->isChecked());
+    if (ui->lineEdit->text().isEmpty())
+    {
+        QMessageBox::warning(this,"Ошибка при вводе", "Не задано название места!");
+    }
+    else
+    {
+        QDialog::accept();
+    }
 }
