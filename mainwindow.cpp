@@ -160,8 +160,9 @@ void MainWindow::on_createPlaceButton_clicked()
 void MainWindow::onPlaceCreated(double x, double y)
 {
     Place pPlace(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
-    CityMap::Instance().getSinglePlaces().push_back(pPlace);
+    //CityMap::Instance().getSinglePlaces().push_back(pPlace);
 
+    ui->mapWidget->addSinglePlace(pPlace);
     ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace.getId(),pPlace.getName());
     statusLabel.setText("");
 }

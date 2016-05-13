@@ -26,6 +26,10 @@ public:
     void removeMark(int id);
     void removeLine(int id);
     MapState getState() const;
+    Place & getSinglePlaceById(int id);
+    bool isSinglePlace(int id);
+    void addSinglePlace(Place & ref);
+
 
 signals:
     void mapReady();
@@ -45,6 +49,7 @@ public slots:
     void onLineClicked(int lineId);
     void loadingFinished(bool status);
 private:
+    std::vector<Place> singlePlaces;
     bool mapLoaded;
     int beginPlaceId;
     MapState state;

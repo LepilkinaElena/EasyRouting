@@ -133,10 +133,10 @@ Place &CityMap::getPlaceById(int id)
     }
 }
 
-std::vector<Place > & CityMap::getSinglePlaces()
+/*std::vector<Place > & CityMap::getSinglePlaces()
 {
     return singlePlaces;
-}
+}*/
 
 std::vector<std::vector<Path> > CityMap::getRoutes(const Place &start, const Place &finish,
                         const RouteCost& limits)

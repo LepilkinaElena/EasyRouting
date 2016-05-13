@@ -109,7 +109,37 @@ void MapView::loadingFinished(bool status)
     qDebug("HTML loaded!");
 }
 
+
 MapState MapView::getState() const
 {
     return state;
+}
+
+Place &MapView::getSinglePlaceById(int id)
+{
+    std::vector<Place>::iterator it = singlePlaces.begin();
+    while(it != singlePlaces.end())
+    {
+        Place & ref = *it;
+        if(ref.getId() == id)
+            return ref;
+        it++;
+    }
+}
+
+bool MapView::isSinglePlace(int id)
+{
+    std::vector<Place>::iterator it = singlePlaces.begin();
+    while(it != singlePlaces.end())
+    {
+        Place & ref = *it;
+        if(ref.getId() == id)
+            return true;
+        it++;
+    }
+}
+
+void MapView::addSinglePlace(Place &ref)
+{
+    singlePlaces.push_back(ref);
 }
