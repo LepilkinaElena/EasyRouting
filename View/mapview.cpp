@@ -114,7 +114,7 @@ MapState MapView::getState() const
     return state;
 }
 
-Place &MapView::getPlaceById(int id)
+Place MapView::getPlaceById(int id)
 {
     std::vector<Place>::iterator it = singlePlaces.begin();
     while(it != singlePlaces.end())
@@ -189,12 +189,16 @@ void MapView::redrawMap(bool drawLines)
         std::vector<CityMap::routeId>::iterator it2 = routeIds.begin();
         while(it2!=routeIds.end())
         {
+            int id = it2.operator *().id;
             int idFrom = it2.operator *().from;
             int idTo = it2.operator *().to;
-            Place & from = CityMap::Instance().getPlaceById(idFrom);
-            Place & to = CityMap::Instance().getPlaceById(idTo);
-            RouteCost * rc = CityMap::Instance().getRouteCostById(it2.operator *().id);
-            drawLine(from.getGeoCoordX(),from.getGeoCoordY(),to.getGeoCoordX(),to.getGeoCoordY(),it2.operator *().id);
+            const Place & from = CityMap::Instance().getPlaceById(idFrom);
+            const Place & to = CityMap::Instance().getPlaceById(idTo);
+            double x1 = from.getGeoCoordX();
+            double y1 = from.getGeoCoordY();
+            double x2 = to.getGeoCoordX();
+            double y2 = to.getGeoCoordY();
+            drawLine(x1,y1,x2,y2,id);
             it2++;
         }
     }

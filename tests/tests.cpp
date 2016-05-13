@@ -1,6 +1,6 @@
 #include "tests.h"
 
-Multigraph::Multigraph<Place>Tests::getGraph()
+Multigraph::Multigraph<Place> Tests::getGraph()
 {
     Multigraph::Multigraph<Place> graph = Multigraph::Multigraph<Place>();
 

@@ -53,7 +53,7 @@ CityMap::CityMap()
     RouteCost* aCost = new RouteCost(100, QTime(0, 58, 0), set1, set6 );
     RouteCost* bCost = new RouteCost(132, QTime(1, 2, 0), set4, set7);
     RouteCost* cCost = new RouteCost(160, QTime(0, 48, 0), set4, set5);
-    RouteCost* dCost = new RouteCost(35, QTime(0,32, 0), set3, set6);
+    RouteCost* dCost = new RouteCost(35, QTime(0, 32, 0), set3, set6);
     RouteCost* eCost = new RouteCost(120, QTime(2, 0, 0), set1, set10);
     RouteCost* fCost = new RouteCost(205, QTime(1, 24, 0), set1, set11);
     RouteCost* hCost = new RouteCost(140, QTime(1, 2, 0), set1, set8);
@@ -108,7 +108,7 @@ std::vector<CityMap::routeId> CityMap::getAllRoutes()
     {
         int id = *it;
         CityMap::routeId routeTemp;
-        routeTemp.id = it.operator *();
+        routeTemp.id = id;
         routeTemp.from = graph.getFrom(id).getId();
         routeTemp.to = graph.getTo(id).getId();
         result.push_back(routeTemp);
@@ -118,23 +118,19 @@ std::vector<CityMap::routeId> CityMap::getAllRoutes()
     return result;
 }
 
-RouteCost *CityMap::getRouteCostById(int id)
+Place CityMap::getPlaceById(int id)
 {
-    return (RouteCost*)graph.getCost(id);
-}
-
-Place &CityMap::getPlaceById(int id)
-{
-    std::vector<Place>::iterator it = graph.getAllVertexes().begin();
-    while(it != graph.getAllVertexes().end())
+    std::vector<Place> places = graph.getAllVertexes();
+    std::vector<Place>::iterator it = places.begin();
+    while(it != places.end())
     {
-        if((it.operator *().getId() == id))
+        if(it.operator *().getId() == id)
         {
-            return it.operator *();
-
+            return (it.operator *());
         }
         it++;
     }
+    return places.back();
 }
 
 /*std::vector<Place > & CityMap::getSinglePlaces()

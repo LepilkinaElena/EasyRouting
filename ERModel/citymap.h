@@ -22,10 +22,9 @@ public:
     static CityMap& Instance();
     //std::vector<Place > & getSinglePlaces();
     int addRoute(const Place& from, const Place& to, RouteCost *cost);
-    Place & getPlaceById(int id);
+    Place getPlaceById(int id);
     std::vector<Place> getAllPlaces() const;
     std::vector<routeId> getAllRoutes();
-    RouteCost * getRouteCostById(int id);
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
 

@@ -301,9 +301,9 @@ namespace Multigraph {
     std::vector<int> Multigraph<T, Alloc>::getAllEdges()
     {
         std::vector<int> result;
-        for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
+        for (auto const& element: edges)
         {
-            int edgeid = (*it).second->getId();
+            int edgeid = element.second->getId();
             result.push_back(edgeid);
         }
         return result;

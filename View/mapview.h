@@ -27,7 +27,7 @@ public:
     void removeMark(int id);
     void removeLine(int id);
     MapState getState() const;
-    Place & getPlaceById(int id);
+    Place getPlaceById(int id);
     bool isSinglePlace(int id);
     void addSinglePlace(Place & ref);
     void removeSinglePlace(int id);

@@ -48,17 +48,17 @@ void MainWindow::setupUI()
     fillPlaces(ui->startList);
     fillPlaces(ui->finishList);
 
-    Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace())));
-    Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered())));
-    Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute())));
-    Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered())));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double))));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int))));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
-    Q_ASSERT(connect(ui->mapWidget, SIGNAL(mapReady()), this, SLOT(initMap())));
-    Q_ASSERT(connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode())));
-    Q_ASSERT(connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching())));
+    connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace()));
+    connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered()));
+    connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute()));
+    connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered()));
+    connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double)));
+    connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int)));
+    connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected()));
+    connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected()));
+    connect(ui->mapWidget, SIGNAL(mapReady()), this, SLOT(initMap()));
+    connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode()));
+    connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching()));
 
 }
 
@@ -163,10 +163,10 @@ void MainWindow::onRouteCreated(int begin, int end)
 {
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
 
-    Place & p1 = ui->mapWidget->getPlaceById(begin);
+    const Place & p1 = ui->mapWidget->getPlaceById(begin);
     x1 = p1.getGeoCoordX();
     y1 = p1.getGeoCoordY();
-    Place & p2 = ui->mapWidget->getPlaceById(end);
+    const Place & p2 = ui->mapWidget->getPlaceById(end);
     x2 = p2.getGeoCoordX();
     y2 = p2.getGeoCoordY();
     Interest inter = p2.getIntersestCategory();
