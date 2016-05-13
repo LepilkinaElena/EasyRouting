@@ -169,6 +169,7 @@ void MapView::removeSinglePlace(int id)
 void MapView::redrawMap(bool drawLines)
 {
     this->page()->mainFrame()->evaluateJavaScript("clearMap()");
+    this->page()->mainFrame()->evaluateJavaScript("clearPath()");
     std::vector<Place> places = CityMap::Instance().getAllPlaces();
     std::vector<Place>::iterator it = places.begin();
     while(it != places.end())
@@ -196,5 +197,23 @@ void MapView::redrawMap(bool drawLines)
             drawLine(from.getGeoCoordX(),from.getGeoCoordY(),to.getGeoCoordX(),to.getGeoCoordY(),it2.operator *().id);
             it2++;
         }
+    }
+}
+
+void MapView::drawPath(std::vector<Path> &ref)
+{
+    this->page()->mainFrame()->evaluateJavaScript("clearPath()");
+    std::vector<Path>::iterator it = ref.begin();
+    while(it != ref.end())
+    {
+        const Place & from = (*it).getFrom();
+        const Place & to = (*it).getTo();
+        double x1 = from.getGeoCoordX();
+        double y1 = from.getGeoCoordY();
+        double x2 = to.getGeoCoordX();
+        double y2 = to.getGeoCoordY();
+        this->page()->mainFrame()->evaluateJavaScript("drawPathLine("+QString::number(x1)+","+QString::number(y1)+","+QString::number(x2)+","+QString::number(y2)+")");
+
+        it++;
     }
 }

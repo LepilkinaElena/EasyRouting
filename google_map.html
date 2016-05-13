@@ -22,6 +22,7 @@
     var map;
     var gmarkers = [];
     var glines = [];
+    var pathlines = [];
     function initMap() {
       var myLatlng = {lat: 59.9442436, lng: 30.307164};
 
@@ -189,6 +190,21 @@
       });
       glines.push(line);
     }
+    function drawPathLine(x1,y1,x2,y2) {
+      var line = new google.maps.Polyline({
+        path: [
+            new google.maps.LatLng(x1, y1),
+            new google.maps.LatLng(x2, y2)
+        ],
+        strokeColor: "#2F0000",
+        strokeOpacity: 0.6,
+        strokeWeight: 5,
+        lId: lineId,
+        map: map
+        });
+        pathlines.push(line);
+    }
+
 
     function drawMark(x,y,img,placeId,placeName) {
         var marker = new google.maps.Marker({
@@ -227,6 +243,13 @@
       }
       gmarkers = [];
       glines = [];
+    }
+    function clearPath()
+    {
+      for(i=0; i<pathlines.length; i++){
+          pathlines[i].setMap(null);
+      }
+      pathlines = [];
     }
     function crosshairCursor() {
         map.setOptions({draggableCursor:'crosshair'});

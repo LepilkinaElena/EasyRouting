@@ -32,7 +32,7 @@ public:
     void addSinglePlace(Place & ref);
     void removeSinglePlace(int id);
     void redrawMap(bool drawLines);
-
+    void drawPath(std::vector<Path> & ref);
 
 signals:
     void mapReady();
