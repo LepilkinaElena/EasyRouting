@@ -101,7 +101,7 @@ std::vector<Place> CityMap::getAllPlaces() const
 
 std::vector<CityMap::routeId> CityMap::getAllRoutes()
 {
-    //TODO: graph.getAllEdges();
+    graph.getAllEdges();
     std::vector<CityMap::routeId> result;
     std::vector<int> edges;// = graph.getAllEdges();
     std::vector<int>::iterator it = edges.begin();
