@@ -217,6 +217,17 @@
             glines[i].setMap(null);
         }
     }
+    function clearMap()
+    {
+      for(i=0; i<gmarkers.length; i++){
+          gmarkers[i].setMap(null);
+      }
+      for(i=0; i<glines.length; i++){
+          glines[i].setMap(null);
+      }
+      gmarkers = [];
+      glines = [];
+    }
     function crosshairCursor() {
         map.setOptions({draggableCursor:'crosshair'});
     }

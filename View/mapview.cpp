@@ -151,3 +151,36 @@ void MapView::addSinglePlace(Place &ref)
 {
     singlePlaces.push_back(ref);
 }
+
+void MapView::redrawMap(bool drawLines)
+{
+    this->page()->mainFrame()->evaluateJavaScript("clearMap()");
+    std::vector<Place> places = CityMap::Instance().getAllPlaces();
+    std::vector<Place>::iterator it = places.begin();
+    while(it != places.end())
+    {
+        qDebug((it.operator *()).getName().c_str());
+        double x = it.operator *().getGeoCoordX();
+        double y = it.operator *().getGeoCoordY();
+        int id = it.operator *().getId();
+        std::string str = it.operator *().getName();
+
+        qDebug() << "x: " << x << " y: " << y;
+        drawMark(x,y,"icons/building.png",id,str);
+        it++;
+    }
+    if(drawLines) {
+        std::vector<CityMap::routeId> routeIds = CityMap::Instance().getAllRoutes();
+        std::vector<CityMap::routeId>::iterator it2 = routeIds.begin();
+        while(it2!=routeIds.end())
+        {
+            int idFrom = it2.operator *().from;
+            int idTo = it2.operator *().to;
+            Place & from = CityMap::Instance().getPlaceById(idFrom);
+            Place & to = CityMap::Instance().getPlaceById(idTo);
+            RouteCost * rc = CityMap::Instance().getRouteCostById(it2.operator *().id);
+            drawLine(from.getGeoCoordX(),from.getGeoCoordY(),to.getGeoCoordX(),to.getGeoCoordY(),it2.operator *().id);
+            it2++;
+        }
+    }
+}

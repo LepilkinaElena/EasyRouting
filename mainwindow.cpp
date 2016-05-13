@@ -65,33 +65,7 @@ void MainWindow::setupUI()
 void MainWindow::initMap()
 {
     qDebug("Map ready!");
-    std::vector<Place> places = CityMap::Instance().getAllPlaces();
-    std::vector<Place>::iterator it = places.begin();
-    while(it != places.end())
-    {
-        qDebug((it.operator *()).getName().c_str());
-        double x = it.operator *().getGeoCoordX();
-        double y = it.operator *().getGeoCoordY();
-        int id = it.operator *().getId();
-        std::string str = it.operator *().getName();
-
-        qDebug() << "x: " << x << " y: " << y;
-        ui->mapWidget->drawMark(x,y,"icons/building.png",id,str);
-        it++;
-    }
-
-    std::vector<CityMap::routeId> routeIds = CityMap::Instance().getAllRoutes();
-    std::vector<CityMap::routeId>::iterator it2 = routeIds.begin();
-    while(it2!=routeIds.end())
-    {
-        int idFrom = it2.operator *().from;
-        int idTo = it2.operator *().to;
-        Place & from = CityMap::Instance().getPlaceById(idFrom);
-        Place & to = CityMap::Instance().getPlaceById(idTo);
-        RouteCost * rc = CityMap::Instance().getRouteCostById(it2.operator *().id);
-        ui->mapWidget->drawLine(from.getGeoCoordX(),from.getGeoCoordY(),to.getGeoCoordX(),to.getGeoCoordY(),it2.operator *().id);
-        it2++;
-    }
+    ui->mapWidget->redrawMap(false);
 
 }
 
@@ -139,12 +113,12 @@ void MainWindow::editMode()
     editModeOn = !editModeOn;
     if (editModeOn)
     {
-        // Отобразить карту TODO
+        ui->mapWidget->redrawMap(true);
         ui->editMapButton->setStyleSheet(" background-color: lightgreen; ");
     }
     else
     {
-        // Убрать с виджета всю карту TODO
+        ui->mapWidget->redrawMap(false);
         ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
     }
     ui->createPlaceButton->setEnabled(editModeOn);
