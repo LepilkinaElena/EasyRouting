@@ -78,20 +78,34 @@ void MainWindow::runRouteSearching()
     parameters.setTravellersNumber(ui->peopleCount->value());
     parameters.setTime(ui->timeEdit->time());
     parameters.setMoney(ui->moneyCount->value());
+    int count = 0;
     for (int i = 0; i <= ENTERTAINMENT; i++)
     {
         if (interestsModel.item(i)->checkState())
         {
             parameters.addInterest((Interest)i);
+            count++;
         }
     }
 
+    if (count == 0)
+    {
+        QMessageBox::warning(this,"Ошибка в вводе праметров", "Не выбрана ни одна категория интересов!");
+    }
+
+    count = 0;
     for (int i = 0; i <= FOOT; i++)
     {
         if (transportModel.item(i)->checkState())
         {
             parameters.addTransport((Transport)i);
+            count++;
         }
+    }
+
+    if (count == 0)
+    {
+        QMessageBox::warning(this,"Ошибка в вводе праметров", "Не выбран ни один вид транспорта!");
     }
     std::vector<std::vector<SearchParameters> > routes = controller.runRouteSearch(parameters);
 }
