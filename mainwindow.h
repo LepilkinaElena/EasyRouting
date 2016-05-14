@@ -41,12 +41,19 @@ private slots:
     void editMode();
     void runRouteSearching();
     void initMap();
+    void cancelCreatingPlace();
+    void cancelCreatingRoute();
 
 private:
     void setupUI();
 
     void fillPlaces(QComboBox* box);
+    void activateButton(QAbstractButton* button);
+    void deactivateButton(QAbstractButton* button);
     bool editModeOn;
+    bool placeCreatedModeOn;
+    bool routeCreatedModeOn;
+    bool removeModeOn;
     Controller controller;
     QLabel statusLabel;
 

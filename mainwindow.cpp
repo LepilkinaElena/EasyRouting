@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupUI();
     editModeOn = false;
+    placeCreatedModeOn = false;
+    routeCreatedModeOn = false;
+    removeModeOn = false;
 }
 
 MainWindow::~MainWindow()
@@ -49,8 +52,10 @@ void MainWindow::setupUI()
     fillPlaces(ui->finishList);
 
     connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace()));
+    connect(&placeDialog,SIGNAL(rejected()), this, SLOT(cancelCreatingPlace()));
     connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered()));
     connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute()));
+    connect(&routeDialog,SIGNAL(rejected()), this, SLOT(cancelCreatingRoute()));
     connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered()));
     connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double)));
     connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int)));
@@ -137,6 +142,15 @@ void MainWindow::editMode()
     else
     {
         ui->mapWidget->redrawMap(false);
+        placeDialog.close();
+        routeDialog.close();
+        deactivateButton(ui->removeButton);
+        deactivateButton(ui->createPlaceButton);
+        deactivateButton(ui->createRouteButton);
+
+        routeCreatedModeOn = false;
+        placeCreatedModeOn = false;
+        removeModeOn = false;
         ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
     }
     ui->createPlaceButton->setEnabled(editModeOn);
@@ -144,9 +158,47 @@ void MainWindow::editMode()
     ui->removeButton->setEnabled(editModeOn);
 }
 
+void MainWindow::activateButton(QAbstractButton *button)
+{
+    button->setStyleSheet(" background-color: lightgreen; ");
+}
+
+void MainWindow::deactivateButton(QAbstractButton *button)
+{
+    button->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
+}
+
 void MainWindow::on_createPlaceButton_clicked()
 {
-    placeDialog.show();
+    if (!placeCreatedModeOn)
+    {
+        routeDialog.close();
+        placeDialog.show();
+        deactivateButton(ui->createRouteButton);
+        deactivateButton(ui->removeButton);
+        activateButton(ui->createPlaceButton);
+        placeCreatedModeOn = true;
+        routeCreatedModeOn = false;
+        removeModeOn = false;
+    }
+    else
+    {
+        deactivateButton(ui->createPlaceButton);
+        placeCreatedModeOn = false;
+        placeDialog.close();
+    }
+}
+
+void MainWindow::cancelCreatingPlace()
+{
+    deactivateButton(ui->createPlaceButton);
+    placeCreatedModeOn = false;
+}
+
+void MainWindow::cancelCreatingRoute()
+{
+    deactivateButton(ui->createRouteButton);
+    routeCreatedModeOn = false;
 }
 
 void MainWindow::onPlaceCreated(double x, double y)
@@ -189,7 +241,23 @@ void MainWindow::onRouteCreated(int begin, int end)
 
 void MainWindow::on_createRouteButton_clicked()
 {
-    routeDialog.show();
+    if (!routeCreatedModeOn)
+    {
+        routeDialog.show();
+        placeDialog.close();
+        deactivateButton(ui->createPlaceButton);
+        deactivateButton(ui->removeButton);
+        activateButton(ui->createRouteButton);
+        routeCreatedModeOn = true;
+        placeCreatedModeOn = false;
+        removeModeOn = false;
+    }
+    else
+    {
+        deactivateButton(ui->createRouteButton);
+        routeCreatedModeOn = false;
+        routeDialog.close();
+    }
 }
 
 void MainWindow::onPlaceDataEntered()
@@ -214,5 +282,22 @@ void MainWindow::onSecondPlaceSelected()
 
 void MainWindow::on_removeButton_clicked()
 {
-    ui->mapWidget->removeElement();
+    if (!removeModeOn)
+    {
+        routeDialog.close();
+        placeDialog.close();
+        ui->mapWidget->removeElement();
+        deactivateButton(ui->createRouteButton);
+        deactivateButton(ui->createPlaceButton);
+        activateButton(ui->removeButton);
+        placeCreatedModeOn = false;
+        routeCreatedModeOn = false;
+        removeModeOn = true;
+    }
+    else
+    {
+        deactivateButton(ui->removeButton);
+        removeModeOn = false;
+    }
+
 }
