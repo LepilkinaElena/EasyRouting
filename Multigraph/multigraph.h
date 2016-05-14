@@ -195,8 +195,10 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     Multigraph<T, Alloc>::Multigraph(const Multigraph &other)
     {
-        idCounter = other.idCounter;
-        edges = MultigraphMultiMap(other.edges);
+        for (auto const& element:other.edges)
+        {
+            addEdge(element.first, element.second->getTo(), element.second->getCost());
+        }
     }
 
     template <typename T, typename Alloc>
@@ -205,7 +207,11 @@ namespace Multigraph {
         for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
         {
             Edge<T>* edge = (*it).second;
-            delete edge;
+            if (edge != NULL)
+            {
+                delete edge;
+                edge = NULL;
+            }
         }
         edges.clear();
     }

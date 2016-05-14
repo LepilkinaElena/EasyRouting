@@ -177,7 +177,6 @@ void MainWindow::editMode()
         }
         saveDialog.show();
     }
-
 }
 
 void MainWindow::activateButton(QAbstractButton *button)
