@@ -44,3 +44,7 @@ bool Cost::operator<(const Cost& other)
 std::ostream& Cost::save(std::ostream& output) const {
     return output;
 }
+
+std::istream& Cost::load(std::istream& input) {
+    return input;
+}

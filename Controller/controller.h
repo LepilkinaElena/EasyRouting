@@ -6,11 +6,11 @@
 
 class Controller
 {
-private:
-    RouteSearcher routeSearcher;
+
 
 public:
     Controller();
+    RouteSearcher routeSearcher;
     std::vector<std::pair<std::string, int> > getAllPlacesOnMap();
     std::vector<std::vector<SearchParameters> > runRouteSearch(SearchParameters parameters);
 };

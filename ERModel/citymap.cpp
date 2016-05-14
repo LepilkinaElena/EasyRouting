@@ -156,6 +156,6 @@ std::ostream& operator<< (std::ostream& output, const CityMap& object)
 
 std::istream& operator>> (std::istream& input, CityMap& object)
 {
-//    input >> object.graph;
+    input >> object.graph;
     return input;
 }

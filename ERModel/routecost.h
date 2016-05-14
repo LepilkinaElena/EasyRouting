@@ -62,6 +62,7 @@ public:
     std::set<Transport> getTransport() const;
 
     std::ostream& save(std::ostream& output) const;
+    std::istream& load(std::istream& input);
 };
 
 #endif

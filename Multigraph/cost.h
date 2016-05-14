@@ -77,6 +77,13 @@ namespace Multigraph {
             object.save(output);
             return output;
         }
+
+        virtual std::istream& load(std::istream& input);
+        friend std::istream& operator>> (std::istream& input, Cost& object)
+        {
+            object.load(input);
+            return input;
+        }
     };
 }
 

@@ -82,7 +82,12 @@ std::set<Transport> RouteCost::getTransport() const
 
 std::ostream& RouteCost::save (std::ostream& output) const {
     output.write((char*) &moneyCost, sizeof(moneyCost));
-    output.write((char*) &timeCost, sizeof(timeCost));
+    int hour = timeCost.hour();
+    int min = timeCost.minute();
+    int sec = timeCost.second();
+    output.write((char*) &hour, sizeof(int));
+    output.write((char*) &min, sizeof(int));
+    output.write((char*) &sec, sizeof(int));
     unsigned int interestsCount = (unsigned int) interests.size();
     unsigned int transportsCount = (unsigned int) transports.size();
     output.write((char*) &interestsCount, sizeof(interestsCount));
@@ -95,5 +100,44 @@ std::ostream& RouteCost::save (std::ostream& output) const {
     }
 
     return output;
+}
+
+std::istream& RouteCost::load(std::istream& input)
+{
+    char moneyBuf[sizeof(int)];
+    input.read(moneyBuf, sizeof(int));
+    this->moneyCost = (int) *moneyBuf;
+
+    char timeBuf[sizeof(int)];
+    input.read(timeBuf, sizeof(int));
+    int hour = (int) *timeBuf;
+    input.read(timeBuf, sizeof(int));
+    int min = (int) *timeBuf;
+    input.read(timeBuf, sizeof(int));
+    int sec = (int) *timeBuf;
+    this->timeCost = QTime(hour, min, sec);
+
+    char countBuf[sizeof(unsigned int)];
+    input.read(countBuf, sizeof(unsigned int));
+    unsigned int interestsCount = (unsigned int) *countBuf;
+    interests = std::set<Interest>();
+
+    char interestBuf[sizeof(Interest)];
+    for (int i = 0; i < interestsCount; i++) {
+        input.read(interestBuf, sizeof(Interest));
+        interests.insert((Interest) *interestBuf);
+    }
+
+    input.read(countBuf, sizeof(unsigned int));
+    unsigned int transportsCount = (unsigned int) *countBuf;
+    transports = std::set<Transport>();
+
+    char transportBuf[sizeof(Transport)];
+    for (int i = 0; i < transportsCount; i++) {
+        input.read(transportBuf, sizeof(Transport));
+        transports.insert((Transport) *transportBuf);
+    }
+
+    return input;
 }
 

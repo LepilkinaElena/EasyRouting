@@ -84,6 +84,27 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
 
 std::istream& operator>> (std::istream& input, Place& object)
 {
+    char idBuf[sizeof(unsigned int)];
+    input.read(idBuf, sizeof(unsigned int));
+    unsigned int id = (int) *idBuf;
+    char coordBuf[sizeof(double)];
+    input.read(coordBuf, sizeof(double));
+    double x = (double) *coordBuf;
+    input.read(coordBuf, sizeof(double));
+    double y = (double) *coordBuf;
+    char interestBuf[sizeof(Interest)];
+    input.read(interestBuf, sizeof(Interest));
+    Interest interest = (Interest) *interestBuf;
+    char nameBuf[sizeof(std::string)];
+    input.read(nameBuf, sizeof(std::string));
+    std::string name(nameBuf);
+
+    object.id = id;
+    object.geoCoordX = x;
+    object.geoCoordY = y;
+    object.intersestCategory = interest;
+    object.name = name;
+
     return input;
 }
 

@@ -499,7 +499,7 @@ namespace Multigraph {
     template <typename _T, typename _Alloc>
     std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object)
     {
-        char* data = new char[sizeof(unsigned int)];
+        char data[sizeof(unsigned int)];
         input.read(data, sizeof(unsigned int));
         unsigned int count = (unsigned int) *data;
 
