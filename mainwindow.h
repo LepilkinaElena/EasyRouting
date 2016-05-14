@@ -8,6 +8,7 @@
 #include "View/selectionitem.h"
 #include "View/placedialog.h"
 #include "View/routedialog.h"
+#include "View/savedialog.h"
 #include <ERModel/place.h>
 #include <ERModel/citymap.h>
 #include "Controller/controller.h"
@@ -45,6 +46,7 @@ private slots:
     void cancelCreatingRoute();
 
     void onElementRemoved();
+    void endEditing();
 
 private:
     void setupUI();
@@ -61,6 +63,7 @@ private:
 
     PlaceDialog placeDialog;
     RouteDialog routeDialog;
+    SaveDialog saveDialog;
 
     QStandardItemModel interestsModel;
     QStandardItemModel transportModel;

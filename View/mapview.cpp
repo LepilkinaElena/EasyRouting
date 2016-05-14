@@ -3,7 +3,7 @@
 
 MapView::MapView(QWidget *parent) : QWebView(parent)
 {
-    Q_ASSERT(connect(this,SIGNAL(loadFinished(bool)),this,SLOT(loadingFinished(bool))));
+    connect(this,SIGNAL(loadFinished(bool)),this,SLOT(loadingFinished(bool)));
     this->page()->mainFrame()->addToJavaScriptWindowObject( QString("Js2CppSuperAPI"), this );
     this->state = MapState::VIEW;
 }
@@ -116,6 +116,11 @@ void MapView::loadingFinished(bool status)
 MapState MapView::getState() const
 {
     return state;
+}
+
+bool MapView::hasSinglePlaces()
+{
+    return !(singlePlaces.empty());
 }
 
 Place MapView::getPlaceById(int id)

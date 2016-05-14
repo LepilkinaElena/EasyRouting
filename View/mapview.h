@@ -34,6 +34,7 @@ public:
     void redrawMap(bool drawLines);
     void drawPath(std::vector<Path> & ref);
     void resetMode();
+    bool hasSinglePlaces();
 
 signals:
     void mapReady();

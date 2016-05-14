@@ -57,6 +57,7 @@ void MainWindow::setupUI()
     connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute()));
     connect(&routeDialog,SIGNAL(rejected()), this, SLOT(cancelCreatingRoute()));
     connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered()));
+    connect(&saveDialog,SIGNAL(accepted()),this,SLOT(endEditing()));
     connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double)));
     connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int)));
     connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected()));
@@ -132,35 +133,51 @@ void MainWindow::fillPlaces(QComboBox *box)
     }
 }
 
-
-void MainWindow::editMode()
+void MainWindow::endEditing()
 {
     editModeOn = !editModeOn;
-    if (editModeOn)
-    {
-        ui->mapWidget->redrawMap(true);
-        ui->editMapButton->setStyleSheet(" background-color: lightgreen; ");
-    }
-    else
-    {
-        ui->mapWidget->redrawMap(false);
-        fillPlaces(ui->startList);
-        fillPlaces(ui->finishList);
-        placeDialog.close();
-        routeDialog.close();
-        deactivateButton(ui->removeButton);
-        deactivateButton(ui->createPlaceButton);
-        deactivateButton(ui->createRouteButton);
+    ui->mapWidget->redrawMap(false);
+    fillPlaces(ui->startList);
+    fillPlaces(ui->finishList);
+    placeDialog.close();
+    routeDialog.close();
+    deactivateButton(ui->removeButton);
+    deactivateButton(ui->createPlaceButton);
+    deactivateButton(ui->createRouteButton);
 
-        routeCreatedModeOn = false;
-        placeCreatedModeOn = false;
-        removeModeOn = false;
-        ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
-        ui->mapWidget->resetMode();
-    }
+    routeCreatedModeOn = false;
+    placeCreatedModeOn = false;
+    removeModeOn = false;
+    ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
+    ui->mapWidget->resetMode();
     ui->createPlaceButton->setEnabled(editModeOn);
     ui->createRouteButton->setEnabled(editModeOn);
     ui->removeButton->setEnabled(editModeOn);
+    ui->searchRoutesButton->setEnabled(!editModeOn);
+    // Todo serialize
+}
+
+void MainWindow::editMode()
+{
+    if (!editModeOn)
+    {
+        ui->mapWidget->redrawMap(true);
+        ui->editMapButton->setStyleSheet(" background-color: lightgreen; ");
+        editModeOn = !editModeOn;
+        ui->createPlaceButton->setEnabled(editModeOn);
+        ui->createRouteButton->setEnabled(editModeOn);
+        ui->removeButton->setEnabled(editModeOn);
+        ui->searchRoutesButton->setEnabled(!editModeOn);
+    }
+    else
+    {
+        if (ui->mapWidget->hasSinglePlaces())
+        {
+            QMessageBox::warning(this,"Ошибка при редактировании", "На карте есть места, не соединенные с другими! Данные места сохранены не будут");
+        }
+        saveDialog.show();
+    }
+
 }
 
 void MainWindow::activateButton(QAbstractButton *button)
