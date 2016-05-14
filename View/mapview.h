@@ -40,6 +40,7 @@ signals:
     void routeCreated(int begin, int end);
     void firstPlaceSelected();
     void secondPlaceSelected();
+    void elementRemoved();
 public slots:
     void createPlace();
     void createRoute();

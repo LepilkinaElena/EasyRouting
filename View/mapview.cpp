@@ -88,6 +88,7 @@ void MapView::onPlaceClicked(int placeId)
         this->state = MapState::VIEW;
         CityMap::Instance().removePlaceById(placeId);
         redrawMap(true);
+        emit elementRemoved();
     }
 }
 
@@ -102,6 +103,7 @@ void MapView::onLineClicked(int lineId)
         removeLine(lineId);
         CityMap::Instance().removeRouteById(lineId);
         redrawMap(true);
+        emit elementRemoved();
     }
 }
 

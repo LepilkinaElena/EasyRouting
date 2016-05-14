@@ -44,6 +44,8 @@ private slots:
     void cancelCreatingPlace();
     void cancelCreatingRoute();
 
+    void onElementRemoved();
+
 private:
     void setupUI();
 

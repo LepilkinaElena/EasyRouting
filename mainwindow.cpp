@@ -62,6 +62,7 @@ void MainWindow::setupUI()
     connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected()));
     connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected()));
     connect(ui->mapWidget, SIGNAL(mapReady()), this, SLOT(initMap()));
+    connect(ui->mapWidget, SIGNAL(elementRemoved()), this, SLOT(onElementRemoved()));
     connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode()));
     connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching()));
 
@@ -130,6 +131,7 @@ void MainWindow::fillPlaces(QComboBox *box)
         box->addItem(QString((*it).first.c_str()), QVariant((*it).second));
     }
 }
+
 
 void MainWindow::editMode()
 {
@@ -202,6 +204,12 @@ void MainWindow::cancelCreatingRoute()
 {
     deactivateButton(ui->createRouteButton);
     routeCreatedModeOn = false;
+}
+
+void MainWindow::onElementRemoved()
+{
+    deactivateButton(ui->removeButton);
+    removeModeOn = false;
 }
 
 void MainWindow::onPlaceCreated(double x, double y)
