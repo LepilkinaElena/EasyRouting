@@ -32,7 +32,7 @@ SOURCES += main.cpp\
     ERModel/routesearcher.cpp \
     Controller/searchparameters.cpp \
     ERModel/path.cpp \
-    Multigraph/cost.cpp
+    Multigraph/cost.cpp \
     View/savedialog.cpp
 
 HEADERS  += mainwindow.h \
