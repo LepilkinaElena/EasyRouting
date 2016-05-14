@@ -17,6 +17,7 @@ public:
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
     friend std::ostream& operator<< (std::ostream& output, const CityMap& object);
+    friend std::istream& operator>> (std::istream& input, CityMap& object);
 
 private:
     CityMap();

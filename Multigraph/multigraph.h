@@ -27,6 +27,9 @@ namespace Multigraph {
         typedef MultigraphIterator<T > iterator;
         template <typename _T, typename _Alloc>
         friend std::ostream& operator<< (std::ostream& output, const Multigraph<_T,_Alloc>& object);
+        template <typename _T, typename _Alloc>
+        friend std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object);
+
     private:
         typedef std::multimap<T, Edge<T>*, std::less<T>, Alloc > MultigraphMultiMap;
         struct waveStep
@@ -410,5 +413,16 @@ namespace Multigraph {
         }
         return output;
     }
+
+    template <typename _T, typename _Alloc>
+    std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object)
+    {
+        char* data = new char[sizeof(unsigned int)];
+        input.read(data, sizeof(unsigned int));
+        unsigned int count = (unsigned int) *data;
+
+        return input;
+    }
+
 }
 #endif
