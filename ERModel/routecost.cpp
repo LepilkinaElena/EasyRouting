@@ -18,7 +18,6 @@ Multigraph::Cost *RouteCost::operator +(const Cost &other) const
 {
     std::set<Transport> resultTransport = this->transports;
     std::set<Interest> resultInterests = this->interests;
-
     try
     {
         const RouteCost& routeOther = dynamic_cast<const RouteCost&>(other);
@@ -34,6 +33,7 @@ Multigraph::Cost *RouteCost::operator +(const Cost &other) const
         std::cerr << e.what() << std::endl;
         std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
     }
+    return NULL;
 }
 
 bool RouteCost::operator <=(const Cost &other) const
@@ -58,6 +58,7 @@ bool RouteCost::operator <=(const Cost &other) const
         std::cerr << e.what() << std::endl;
         std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
     }
+    return NULL;
 }
 
 bool RouteCost::operator ==(const Cost &other) const
@@ -82,6 +83,7 @@ bool RouteCost::operator ==(const Cost &other) const
         std::cerr << e.what() << std::endl;
         std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
     }
+    return false;
 }
 
 int RouteCost::getMoneyCost() const

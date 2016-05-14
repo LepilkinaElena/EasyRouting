@@ -118,7 +118,7 @@ std::vector<CityMap::routeId> CityMap::getAllRoutes()
     return result;
 }
 
-void CityMap::removePlaceById(int id)
+void CityMap::removePlaceById(unsigned int id)
 {
     std::vector<Place> places = graph.getAllVertexes();
     std::vector<Place>::iterator it = places.begin();
@@ -138,7 +138,7 @@ void CityMap::removeRouteById(int id)
     graph.removeEdge(id);
 }
 
-Place CityMap::getPlaceById(int id)
+Place CityMap::getPlaceById(unsigned int id)
 {
     std::vector<Place> places = graph.getAllVertexes();
     std::vector<Place>::iterator it = places.begin();

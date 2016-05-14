@@ -27,10 +27,10 @@ public:
     void removeMark(int id);
     void removeLine(int id);
     MapState getState() const;
-    Place getPlaceById(int id);
-    bool isSinglePlace(int id);
+    Place getPlaceById(unsigned int id);
+    bool isSinglePlace(unsigned int id);
     void addSinglePlace(Place & ref);
-    void removeSinglePlace(int id);
+    void removeSinglePlace(unsigned int id);
     void redrawMap(bool drawLines);
     void drawPath(std::vector<Path> & ref);
     void resetMode();
@@ -51,7 +51,7 @@ public slots:
     void onMapClicked(double geoCoordX, double geoCoordY);
     void onPlaceClicked(int placeId);
     void onLineClicked(int lineId);
-    void loadingFinished(bool status);
+    void loadingFinished();
 private:
     std::vector<Place> singlePlaces;
     bool mapLoaded;

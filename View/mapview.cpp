@@ -107,7 +107,7 @@ void MapView::onLineClicked(int lineId)
     }
 }
 
-void MapView::loadingFinished(bool status)
+void MapView::loadingFinished()
 {
     qDebug("HTML loaded!");
 }
@@ -123,7 +123,7 @@ bool MapView::hasSinglePlaces()
     return !(singlePlaces.empty());
 }
 
-Place MapView::getPlaceById(int id)
+Place MapView::getPlaceById(unsigned int id)
 {
     std::vector<Place>::iterator it = singlePlaces.begin();
     while(it != singlePlaces.end())
@@ -144,7 +144,7 @@ Place MapView::getPlaceById(int id)
     }
 }
 
-bool MapView::isSinglePlace(int id)
+bool MapView::isSinglePlace(unsigned int id)
 {
     std::vector<Place>::iterator it = singlePlaces.begin();
     while(it != singlePlaces.end())
@@ -154,6 +154,7 @@ bool MapView::isSinglePlace(int id)
             return true;
         it++;
     }
+    return false;
 }
 
 void MapView::addSinglePlace(Place &ref)
@@ -161,7 +162,7 @@ void MapView::addSinglePlace(Place &ref)
     singlePlaces.push_back(ref);
 }
 
-void MapView::removeSinglePlace(int id)
+void MapView::removeSinglePlace(unsigned int id)
 {
     std::vector<Place>::iterator it = singlePlaces.begin();
     while(it != singlePlaces.end())
