@@ -70,12 +70,15 @@ namespace Multigraph {
         */
         const T &getFrom() const;
         int getId() const;
+<<<<<<< HEAD
 
         template <typename _T>
         friend std::ostream& operator<< (std::ostream& output, const Edge<_T>& object);
         template <typename _T>
         friend std::istream& operator>> (std::istream& input, Edge<_T>& object);
 
+=======
+>>>>>>> dev
         bool operator==(const Edge& other);
     };
 
@@ -119,6 +122,7 @@ namespace Multigraph {
         return from;
     }
 
+<<<<<<< HEAD
     template <typename _T>
     std::ostream& operator<< (std::ostream& output, const Edge<_T>& object)
     {
@@ -156,6 +160,8 @@ namespace Multigraph {
         return input;
     }
 
+=======
+>>>>>>> dev
     template <typename T>
     bool Edge<T>::operator==(const Edge& other)
     {

@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupUI();
     editModeOn = false;
+    placeCreatedModeOn = false;
+    routeCreatedModeOn = false;
+    removeModeOn = false;
 }
 
 MainWindow::~MainWindow()
@@ -48,16 +51,30 @@ void MainWindow::setupUI()
     fillPlaces(ui->startList);
     fillPlaces(ui->finishList);
 
-    Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace())));
-    Q_ASSERT(connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered())));
-    Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute())));
-    Q_ASSERT(connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered())));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double))));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int))));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected())));
-    Q_ASSERT(connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected())));
-    Q_ASSERT(connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode())));
-    Q_ASSERT(connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching())));
+    connect(&placeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createPlace()));
+    connect(&placeDialog,SIGNAL(rejected()), this, SLOT(cancelCreatingPlace()));
+    connect(&placeDialog,SIGNAL(accepted()),this,SLOT(onPlaceDataEntered()));
+    connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute()));
+    connect(&routeDialog,SIGNAL(rejected()), this, SLOT(cancelCreatingRoute()));
+    connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered()));
+    connect(&saveDialog,SIGNAL(accepted()),this,SLOT(save()));
+    connect(&saveDialog,SIGNAL(rejected()),this,SLOT(cancel()));
+    connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double)));
+    connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int)));
+    connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected()));
+    connect(ui->mapWidget,SIGNAL(secondPlaceSelected()),this,SLOT(onSecondPlaceSelected()));
+    connect(ui->mapWidget, SIGNAL(mapReady()), this, SLOT(initMap()));
+    connect(ui->mapWidget, SIGNAL(elementRemoved()), this, SLOT(onElementRemoved()));
+    connect(ui->editMapButton, SIGNAL(clicked()), this, SLOT(editMode()));
+    connect(ui->searchRoutesButton, SIGNAL(clicked()), this, SLOT(runRouteSearching()));
+
+}
+
+void MainWindow::initMap()
+{
+    qDebug("Map ready!");
+    ui->mapWidget->redrawMap(false);
+
 }
 
 void MainWindow::runRouteSearching()
@@ -68,21 +85,39 @@ void MainWindow::runRouteSearching()
     parameters.setFinish(ui->finishList->currentData().toInt());
     parameters.setTravellersNumber(ui->peopleCount->value());
     parameters.setTime(ui->timeEdit->time());
+    if (ui->timeEdit->time() == QTime(0,0))
+    {
+        QMessageBox::warning(this,"Ошибка в вводе праметров", "Не задано время! Ничего найдено не будет!");
+    }
     parameters.setMoney(ui->moneyCount->value());
+    int count = 0;
     for (int i = 0; i <= ENTERTAINMENT; i++)
     {
         if (interestsModel.item(i)->checkState())
         {
             parameters.addInterest((Interest)i);
+            count++;
         }
     }
 
+    if (count == 0)
+    {
+        QMessageBox::warning(this,"Ошибка в вводе праметров", "Не выбрана ни одна категория интересов!");
+    }
+
+    count = 0;
     for (int i = 0; i <= FOOT; i++)
     {
         if (transportModel.item(i)->checkState())
         {
             parameters.addTransport((Transport)i);
+            count++;
         }
+    }
+
+    if (count == 0)
+    {
+        QMessageBox::warning(this,"Ошибка в вводе праметров", "Не выбран ни один вид транспорта!");
     }
     std::vector<std::vector<SearchParameters> > routes = controller.runRouteSearch(parameters);
 }
@@ -99,34 +134,126 @@ void MainWindow::fillPlaces(QComboBox *box)
     }
 }
 
-void MainWindow::editMode()
+void MainWindow::save()
+{
+    endEditing();
+    // Todo serialize
+}
+
+void MainWindow::cancel()
+{
+    //TODO read old file
+    endEditing();
+}
+
+void MainWindow::endEditing()
 {
     editModeOn = !editModeOn;
-    if (editModeOn)
-    {
-        // Отобразить карту TODO
-        ui->editMapButton->setStyleSheet(" background-color: lightgreen; ");
-    }
-    else
-    {
-        // Убрать с виджета всю карту TODO
-        ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
-    }
+    ui->mapWidget->redrawMap(false);
+    fillPlaces(ui->startList);
+    fillPlaces(ui->finishList);
+    placeDialog.close();
+    routeDialog.close();
+    deactivateButton(ui->removeButton);
+    deactivateButton(ui->createPlaceButton);
+    deactivateButton(ui->createRouteButton);
+
+    routeCreatedModeOn = false;
+    placeCreatedModeOn = false;
+    removeModeOn = false;
+    ui->editMapButton->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
+    ui->mapWidget->resetMode();
     ui->createPlaceButton->setEnabled(editModeOn);
     ui->createRouteButton->setEnabled(editModeOn);
     ui->removeButton->setEnabled(editModeOn);
+    ui->searchRoutesButton->setEnabled(!editModeOn);
+
+}
+
+void MainWindow::editMode()
+{
+    if (!editModeOn)
+    {
+        ui->mapWidget->redrawMap(true);
+        ui->editMapButton->setStyleSheet(" background-color: lightgreen; ");
+        editModeOn = !editModeOn;
+        ui->createPlaceButton->setEnabled(editModeOn);
+        ui->createRouteButton->setEnabled(editModeOn);
+        ui->removeButton->setEnabled(editModeOn);
+        ui->searchRoutesButton->setEnabled(!editModeOn);
+    }
+    else
+    {
+        if (ui->mapWidget->hasSinglePlaces())
+        {
+            QMessageBox::warning(this,"Ошибка при редактировании", "На карте есть места, не соединенные с другими! Данные места сохранены не будут");
+        }
+        saveDialog.show();
+    }
+}
+
+void MainWindow::activateButton(QAbstractButton *button)
+{
+    button->setStyleSheet(" background-color: lightgreen; ");
+}
+
+void MainWindow::deactivateButton(QAbstractButton *button)
+{
+    button->setStyleSheet(" background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #f6f7fa, stop: 1 #dadbde); ");
 }
 
 void MainWindow::on_createPlaceButton_clicked()
 {
-    placeDialog.show();
+    if (!placeCreatedModeOn)
+    {
+        routeDialog.close();
+        placeDialog.show();
+        deactivateButton(ui->createRouteButton);
+        deactivateButton(ui->removeButton);
+        activateButton(ui->createPlaceButton);
+        placeCreatedModeOn = true;
+        routeCreatedModeOn = false;
+        removeModeOn = false;
+
+    }
+    else
+    {
+        deactivateButton(ui->createPlaceButton);
+        placeCreatedModeOn = false;
+        placeDialog.close();
+        ui->mapWidget->resetMode();
+    }
+}
+
+void MainWindow::cancelCreatingPlace()
+{
+    deactivateButton(ui->createPlaceButton);
+    placeDialog.clear();
+    placeCreatedModeOn = false;
+    ui->mapWidget->resetMode();
+}
+
+void MainWindow::cancelCreatingRoute()
+{
+    deactivateButton(ui->createRouteButton);
+    routeCreatedModeOn = false;
+    ui->mapWidget->resetMode();
+}
+
+void MainWindow::onElementRemoved()
+{
+    deactivateButton(ui->removeButton);
+    removeModeOn = false;
+    ui->mapWidget->resetMode();
 }
 
 void MainWindow::onPlaceCreated(double x, double y)
 {
     Place pPlace(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
-    CityMap::Instance().getSinglePlaces().push_back(pPlace);
+    cancelCreatingPlace();
+    //CityMap::Instance().getSinglePlaces().push_back(pPlace);
 
+    ui->mapWidget->addSinglePlace(pPlace);
     ui->mapWidget->drawMark(x,y,"icons/building.png",pPlace.getId(),pPlace.getName());
     statusLabel.setText("");
 }
@@ -135,28 +262,52 @@ void MainWindow::onRouteCreated(int begin, int end)
 {
     double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
 
-    Place & p1 = CityMap::Instance().getPlaceById(begin);
+    const Place & p1 = ui->mapWidget->getPlaceById(begin);
     x1 = p1.getGeoCoordX();
     y1 = p1.getGeoCoordY();
-    Place & p2 = CityMap::Instance().getPlaceById(end);
+    const Place & p2 = ui->mapWidget->getPlaceById(end);
     x2 = p2.getGeoCoordX();
     y2 = p2.getGeoCoordY();
-
     Interest inter = p2.getIntersestCategory();
+    cancelCreatingRoute();
     std::set<Interest> interests;
     interests.insert(inter);
 
     std::set<Transport> transports;
     transports.insert(routeDialog.getTransport());
     RouteCost* cost = new RouteCost(routeDialog.getCost(), routeDialog.getTime(), interests, transports);
-
     int edgeIndex = CityMap::Instance().addRoute(p1,p2,cost);
-    ui->mapWidget->drawLine(x1,y1,x2,y2, routeDialog.getTransport(), edgeIndex);
+
+    ui->mapWidget->drawLine(x1,y1,x2,y2, edgeIndex);
+
+    if(ui->mapWidget->isSinglePlace(begin))
+        ui->mapWidget->removeSinglePlace(begin);
+    if(ui->mapWidget->isSinglePlace(end))
+        ui->mapWidget->removeSinglePlace(end);
 }
 
 void MainWindow::on_createRouteButton_clicked()
 {
-    routeDialog.show();
+    if (!routeCreatedModeOn)
+    {
+        routeDialog.show();
+        placeDialog.close();
+        placeDialog.clear();
+        deactivateButton(ui->createPlaceButton);
+        deactivateButton(ui->removeButton);
+        activateButton(ui->createRouteButton);
+        routeCreatedModeOn = true;
+        placeCreatedModeOn = false;
+        removeModeOn = false;
+
+    }
+    else
+    {
+        deactivateButton(ui->createRouteButton);
+        routeCreatedModeOn = false;
+        routeDialog.close();
+        ui->mapWidget->resetMode();
+    }
 }
 
 void MainWindow::onPlaceDataEntered()
@@ -181,5 +332,22 @@ void MainWindow::onSecondPlaceSelected()
 
 void MainWindow::on_removeButton_clicked()
 {
-    ui->mapWidget->removeElement();
+    if (!removeModeOn)
+    {
+        routeDialog.close();
+        placeDialog.close();
+        placeDialog.clear();
+        ui->mapWidget->removeElement();
+        deactivateButton(ui->createRouteButton);
+        deactivateButton(ui->createPlaceButton);
+        activateButton(ui->removeButton);
+        placeCreatedModeOn = false;
+        routeCreatedModeOn = false;
+        removeModeOn = true;
+    }
+    else
+    {
+        deactivateButton(ui->removeButton);
+        removeModeOn = false;
+    }
 }

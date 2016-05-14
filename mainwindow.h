@@ -8,6 +8,7 @@
 #include "View/selectionitem.h"
 #include "View/placedialog.h"
 #include "View/routedialog.h"
+#include "View/savedialog.h"
 #include <ERModel/place.h>
 #include <ERModel/citymap.h>
 #include "Controller/controller.h"
@@ -40,16 +41,31 @@ private slots:
     void on_removeButton_clicked();
     void editMode();
     void runRouteSearching();
+    void initMap();
+    void cancelCreatingPlace();
+    void cancelCreatingRoute();
+
+    void onElementRemoved();
+    void save();
+    void cancel();
 
 private:
     void setupUI();
+
     void fillPlaces(QComboBox* box);
+    void activateButton(QAbstractButton* button);
+    void deactivateButton(QAbstractButton* button);
     bool editModeOn;
+    bool placeCreatedModeOn;
+    bool routeCreatedModeOn;
+    bool removeModeOn;
+    void endEditing();
     Controller controller;
     QLabel statusLabel;
 
     PlaceDialog placeDialog;
     RouteDialog routeDialog;
+    SaveDialog saveDialog;
 
     QStandardItemModel interestsModel;
     QStandardItemModel transportModel;

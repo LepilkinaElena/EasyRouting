@@ -26,7 +26,7 @@ bool Cost::operator>(const Cost& other)
     return false;
 }
 
-bool Cost::operator==(const Cost& other)
+bool Cost::operator==(const Cost& other) const
 {
     return false;
 }

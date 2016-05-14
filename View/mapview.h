@@ -7,6 +7,7 @@
 #include <QtWebKit>
 #include <QtWebKitWidgets>
 #include <QtWebKitWidgets/QWebFrame>
+#include <ERModel/citymap.h>
 
 #include "ERModel/routecost.h"
 
@@ -22,28 +23,38 @@ class MapView : public QWebView
 public:
     explicit MapView(QWidget *parent = 0);
     void drawMark(double x, double y, std::string img, int placeId, std::string placeName);
-    void drawLine(double x1, double y1, double x2, double y2, Transport type, int id);
+    void drawLine(double x1, double y1, double x2, double y2, int id);
     void removeMark(int id);
     void removeLine(int id);
     MapState getState() const;
+    Place getPlaceById(unsigned int id);
+    bool isSinglePlace(unsigned int id);
+    void addSinglePlace(Place & ref);
+    void removeSinglePlace(unsigned int id);
+    void redrawMap(bool drawLines);
+    void drawPath(std::vector<Path> & ref);
+    void resetMode();
+    bool hasSinglePlaces();
 
 signals:
+    void mapReady();
     void placeCreated(double x, double y);
     void routeCreated(int begin, int end);
-    void removePlace(int placeId);
-    void removeRoute(int routeId);
     void firstPlaceSelected();
     void secondPlaceSelected();
+    void elementRemoved();
 public slots:
     void createPlace();
     void createRoute();
     void removeElement();
+    void onMapLoaded();
     void onMapClicked(double geoCoordX, double geoCoordY);
     void onPlaceClicked(int placeId);
     void onLineClicked(int lineId);
-    void loadingFinished(bool status);
+    void loadingFinished();
 private:
-
+    std::vector<Place> singlePlaces;
+    bool mapLoaded;
     int beginPlaceId;
     MapState state;
 };

@@ -30,7 +30,7 @@ namespace Multigraph {
         */
         MapIterator mapIterator;
 
-        MultigraphIterator(MapIterator mapIterator);
+        MultigraphIterator(const MapIterator &mapIterator);
     public:
         MultigraphIterator(const MultigraphIterator &it);
 
@@ -68,7 +68,7 @@ namespace Multigraph {
     };
 
     template<typename ValueType>
-    MultigraphIterator<ValueType>::MultigraphIterator(MapIterator mapIterator) :
+    MultigraphIterator<ValueType>::MultigraphIterator(const MapIterator& mapIterator) :
         mapIterator(mapIterator)    {}
 
     template<typename ValueType>

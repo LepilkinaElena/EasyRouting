@@ -26,6 +26,12 @@ private slots:
 
     // Тесты на работу итераторов
     void iterator_work();
+    void iter_cycle();
+
+    // Тест на удаление вершины
+    void remove_vertex_test();
+
+    void graph_equals();
 };
 
 #endif // TESTS_H

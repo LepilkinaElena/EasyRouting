@@ -284,6 +284,9 @@
              <property name="suffix">
               <string> чел.</string>
              </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
             </widget>
            </item>
           </layout>

@@ -9,13 +9,13 @@ CityMap& CityMap::Instance()
 CityMap::CityMap()
 {
     // TODO load from file
-    Place place1 = Place(0, 0, std::string("Эрмитаж"), Interest::SIGHT);
-    Place place2 = Place(1, 1, std::string("Кино"), Interest::ENTERTAINMENT);
-    Place place3 = Place(2, 2, std::string("Парк Победы"), Interest::PARK);
-    Place place4 = Place(3, 3, std::string("Театр"), Interest::CULTURE);
-    Place place5 = Place(4, 4, std::string("Казанский собор"), Interest::SIGHT);
-    Place place6 = Place(5, 5, std::string("Выставка"), Interest::CULTURE);
-    Place place7 = Place(6, 6, std::string("Медный всадник"), Interest::SIGHT);
+    Place place1 = Place(59.9165, 30.3072, std::string("Эрмитаж"), Interest::SIGHT);
+    Place place2 = Place(59.9539, 30.3113, std::string("Кино"), Interest::ENTERTAINMENT);
+    Place place3 = Place(59.9465, 30.4143, std::string("Парк Победы"), Interest::PARK);
+    Place place4 = Place(59.9746, 30.3673, std::string("Театр"), Interest::CULTURE);
+    Place place5 = Place(59.9632, 30.1874, std::string("Казанский собор"), Interest::SIGHT);
+    Place place6 = Place(59.9413, 30.2775, std::string("Выставка"), Interest::CULTURE);
+    Place place7 = Place(59.9528, 30.2763, std::string("Медный всадник"), Interest::SIGHT);
 
     std::set<Interest> set1 = std::set<Interest>();
     set1.insert(Interest::CULTURE);
@@ -53,7 +53,7 @@ CityMap::CityMap()
     RouteCost* aCost = new RouteCost(100, QTime(0, 58, 0), set1, set6 );
     RouteCost* bCost = new RouteCost(132, QTime(1, 2, 0), set4, set7);
     RouteCost* cCost = new RouteCost(160, QTime(0, 48, 0), set4, set5);
-    RouteCost* dCost = new RouteCost(35, QTime(0,32, 0), set3, set6);
+    RouteCost* dCost = new RouteCost(35, QTime(0, 32, 0), set3, set6);
     RouteCost* eCost = new RouteCost(120, QTime(2, 0, 0), set1, set10);
     RouteCost* fCost = new RouteCost(205, QTime(1, 24, 0), set1, set11);
     RouteCost* hCost = new RouteCost(140, QTime(1, 2, 0), set1, set8);
@@ -99,24 +99,64 @@ std::vector<Place> CityMap::getAllPlaces() const
     return graph.getAllVertexes();
 }
 
-Place &CityMap::getPlaceById(int id)
+std::vector<CityMap::routeId> CityMap::getAllRoutes()
 {
-    std::vector<Place>::iterator it = singlePlaces.begin();
-    while(it != singlePlaces.end())
+    std::vector<CityMap::routeId> result;
+    std::vector<int> edges = graph.getAllEdges();
+    std::vector<int>::iterator it = edges.begin();
+    while(it != edges.end())
     {
-        if((it.operator *().getId() == id))
-        {
-            return it.operator *();
+        int id = *it;
+        CityMap::routeId routeTemp;
+        routeTemp.id = id;
+        routeTemp.from = graph.getFrom(id).getId();
+        routeTemp.to = graph.getTo(id).getId();
+        result.push_back(routeTemp);
 
+        it++;
+    }
+    return result;
+}
+
+void CityMap::removePlaceById(unsigned int id)
+{
+    std::vector<Place> places = graph.getAllVertexes();
+    std::vector<Place>::iterator it = places.begin();
+    while(it != places.end())
+    {
+        if(it.operator *().getId() == id)
+        {
+            graph.removeVertex((it.operator *()));
+            break;
         }
         it++;
     }
 }
 
-std::vector<Place > & CityMap::getSinglePlaces()
+void CityMap::removeRouteById(int id)
+{
+    graph.removeEdge(id);
+}
+
+Place CityMap::getPlaceById(unsigned int id)
+{
+    std::vector<Place> places = graph.getAllVertexes();
+    std::vector<Place>::iterator it = places.begin();
+    while(it != places.end())
+    {
+        if(it.operator *().getId() == id)
+        {
+            return (it.operator *());
+        }
+        it++;
+    }
+    return places.back();
+}
+
+/*std::vector<Place > & CityMap::getSinglePlaces()
 {
     return singlePlaces;
-}
+}*/
 
 std::vector<std::vector<Path> > CityMap::getRoutes(const Place &start, const Place &finish,
                         const RouteCost& limits)

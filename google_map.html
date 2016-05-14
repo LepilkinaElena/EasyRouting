@@ -22,6 +22,7 @@
     var map;
     var gmarkers = [];
     var glines = [];
+    var pathlines = [];
     function initMap() {
       var myLatlng = {lat: 59.9442436, lng: 30.307164};
 
@@ -31,8 +32,11 @@
         disableDefaultUI: true
       });
       google.maps.event.addListener(map, 'click', function (e) {
-                    Js2CppSuperAPI.onMapClicked(e.latLng.lat(),e.latLng.lng());
+          Js2CppSuperAPI.onMapClicked(e.latLng.lat(),e.latLng.lng());
                     //drawMark(e.latLng.lat(),e.latLng.lng(),"1.png");
+      });
+      google.maps.event.addListenerOnce(map, 'idle', function(){
+          Js2CppSuperAPI.onMapLoaded();
       });
       var styles = [
         {
@@ -169,7 +173,7 @@
 
     }
 
-    function drawLine(x1,y1,x2,y2,lineType,lineId) {
+    function drawLine(x1,y1,x2,y2,lineId) {
       var line = new google.maps.Polyline({
       path: [
           new google.maps.LatLng(x1, y1),
@@ -178,7 +182,6 @@
       strokeColor: "#000000",
       strokeOpacity: 1.0,
       strokeWeight: 2,
-      tType: lineType,
       lId: lineId,
       map: map
       });
@@ -187,6 +190,21 @@
       });
       glines.push(line);
     }
+    function drawPathLine(x1,y1,x2,y2) {
+      var line = new google.maps.Polyline({
+        path: [
+            new google.maps.LatLng(x1, y1),
+            new google.maps.LatLng(x2, y2)
+        ],
+        strokeColor: "#2F0000",
+        strokeOpacity: 0.6,
+        strokeWeight: 5,
+        lId: lineId,
+        map: map
+        });
+        pathlines.push(line);
+    }
+
 
     function drawMark(x,y,img,placeId,placeName) {
         var marker = new google.maps.Marker({
@@ -214,6 +232,24 @@
           if(glines[i].lId == lineId)
             glines[i].setMap(null);
         }
+    }
+    function clearMap()
+    {
+      for(i=0; i<gmarkers.length; i++){
+          gmarkers[i].setMap(null);
+      }
+      for(i=0; i<glines.length; i++){
+          glines[i].setMap(null);
+      }
+      gmarkers = [];
+      glines = [];
+    }
+    function clearPath()
+    {
+      for(i=0; i<pathlines.length; i++){
+          pathlines[i].setMap(null);
+      }
+      pathlines = [];
     }
     function crosshairCursor() {
         map.setOptions({draggableCursor:'crosshair'});

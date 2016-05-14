@@ -32,7 +32,11 @@ SOURCES += main.cpp\
     ERModel/routesearcher.cpp \
     Controller/searchparameters.cpp \
     ERModel/path.cpp \
+<<<<<<< HEAD
     Multigraph/cost.cpp
+=======
+    View/savedialog.cpp
+>>>>>>> dev
 
 HEADERS  += mainwindow.h \
     Multigraph/cost.h \
@@ -58,11 +62,13 @@ HEADERS  += mainwindow.h \
     ERModel/routesearcher.h \
     ERModel/path.h \
     Controller/controller.h \
-    Controller/searchparameters.h
+    Controller/searchparameters.h \
+    View/savedialog.h
 
 FORMS    += mainwindow.ui \
     View/placedialog.ui \
-    View/routedialog.ui
+    View/routedialog.ui \
+    View/savedialog.ui
 
 RESOURCES += \
     resources.qrc

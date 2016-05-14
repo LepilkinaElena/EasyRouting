@@ -55,6 +55,7 @@ public:
 
     Cost* operator +(const Cost& other) const;
     bool operator <=(const Cost& other) const;
+    bool operator ==(const Cost& other) const;
 
     int getMoneyCost() const;
     QTime getTimeCost() const;
