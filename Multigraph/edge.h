@@ -92,6 +92,11 @@ namespace Multigraph {
     }
 
     template <typename T>
+    Edge<T>::Edge()
+    {
+    }
+
+    template <typename T>
     Edge<T>::Edge(int id, const T& from, const T& to, Cost *cost):
         id(id), from(from), to(to), cost(cost) {
     }
