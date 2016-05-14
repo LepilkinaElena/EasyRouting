@@ -36,6 +36,8 @@ public:
     */
     Interest getInterest();
 
+    void clear();
+
 private:
     Ui::PlaceDialog *ui;
 protected:

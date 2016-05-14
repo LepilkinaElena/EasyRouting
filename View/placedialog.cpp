@@ -18,6 +18,11 @@ QString PlaceDialog::getPlaceName()
     return ui->lineEdit->text();
 }
 
+void PlaceDialog::clear()
+{
+    ui->lineEdit->clear();
+}
+
 Interest PlaceDialog::getInterest()
 {
     if(ui->sightRadioButton->isChecked())

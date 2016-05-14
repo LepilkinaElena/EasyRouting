@@ -192,6 +192,7 @@ void MainWindow::on_createPlaceButton_clicked()
 void MainWindow::cancelCreatingPlace()
 {
     deactivateButton(ui->createPlaceButton);
+    placeDialog.clear();
     placeCreatedModeOn = false;
 }
 
@@ -204,6 +205,7 @@ void MainWindow::cancelCreatingRoute()
 void MainWindow::onPlaceCreated(double x, double y)
 {
     Place pPlace(x,y,placeDialog.getPlaceName().toStdString(),placeDialog.getInterest());
+    cancelCreatingPlace();
     //CityMap::Instance().getSinglePlaces().push_back(pPlace);
 
     ui->mapWidget->addSinglePlace(pPlace);
@@ -222,7 +224,7 @@ void MainWindow::onRouteCreated(int begin, int end)
     x2 = p2.getGeoCoordX();
     y2 = p2.getGeoCoordY();
     Interest inter = p2.getIntersestCategory();
-
+    cancelCreatingRoute();
     std::set<Interest> interests;
     interests.insert(inter);
 
@@ -245,6 +247,7 @@ void MainWindow::on_createRouteButton_clicked()
     {
         routeDialog.show();
         placeDialog.close();
+        placeDialog.clear();
         deactivateButton(ui->createPlaceButton);
         deactivateButton(ui->removeButton);
         activateButton(ui->createRouteButton);
@@ -286,6 +289,7 @@ void MainWindow::on_removeButton_clicked()
     {
         routeDialog.close();
         placeDialog.close();
+        placeDialog.clear();
         ui->mapWidget->removeElement();
         deactivateButton(ui->createRouteButton);
         deactivateButton(ui->createPlaceButton);
