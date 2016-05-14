@@ -5,8 +5,7 @@
 #include "place.h"
 #include "routecost.h"
 #include "path.h"
-
-
+#include <typeinfo>
 
 class CityMap
 {
