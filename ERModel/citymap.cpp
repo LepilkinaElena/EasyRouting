@@ -118,6 +118,26 @@ std::vector<CityMap::routeId> CityMap::getAllRoutes()
     return result;
 }
 
+void CityMap::removePlaceById(int id)
+{
+    std::vector<Place> places = graph.getAllVertexes();
+    std::vector<Place>::iterator it = places.begin();
+    while(it != places.end())
+    {
+        if(it.operator *().getId() == id)
+        {
+            graph.removeVertex((it.operator *()));
+            break;
+        }
+        it++;
+    }
+}
+
+void CityMap::removeRouteById(int id)
+{
+    graph.removeEdge(id);
+}
+
 Place CityMap::getPlaceById(int id)
 {
     std::vector<Place> places = graph.getAllVertexes();

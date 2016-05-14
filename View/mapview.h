@@ -38,8 +38,6 @@ signals:
     void mapReady();
     void placeCreated(double x, double y);
     void routeCreated(int begin, int end);
-    void removePlace(int placeId);
-    void removeRoute(int routeId);
     void firstPlaceSelected();
     void secondPlaceSelected();
 public slots:

@@ -25,6 +25,8 @@ public:
     Place getPlaceById(int id);
     std::vector<Place> getAllPlaces() const;
     std::vector<routeId> getAllRoutes();
+    void removePlaceById(int id);
+    void removeRouteById(int id);
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
 

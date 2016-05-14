@@ -86,7 +86,8 @@ void MapView::onPlaceClicked(int placeId)
         removeMark(placeId);
         this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
         this->state = MapState::VIEW;
-        emit removePlace(placeId);
+        CityMap::Instance().removePlaceById(placeId);
+        redrawMap(true);
     }
 }
 
@@ -99,7 +100,8 @@ void MapView::onLineClicked(int lineId)
         this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
         this->state = MapState::VIEW;
         removeLine(lineId);
-        emit removeRoute(lineId);
+        CityMap::Instance().removeRouteById(lineId);
+        redrawMap(true);
     }
 }
 
