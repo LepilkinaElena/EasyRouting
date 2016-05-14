@@ -21,3 +21,9 @@ void RouteSearcher::save() {
     f << cityMap;
     f.close();
 }
+
+void RouteSearcher::load() {
+    std::ifstream f("data", std::ios::binary);
+    f >> cityMap;
+    f.close();
+}

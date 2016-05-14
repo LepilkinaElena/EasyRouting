@@ -51,6 +51,11 @@ bool Place::operator !=(const Place other) const
     return !((*this) == other);
 }
 
+Place::Place()
+{
+
+}
+
 Place::Place(const Place &other)
 {
     geoCoordX = other.geoCoordX;
@@ -60,7 +65,8 @@ Place::Place(const Place &other)
     intersestCategory = other.intersestCategory;
 }
 
-std::ostream& operator<< (std::ostream& output, const Place& object) {
+std::ostream& operator<< (std::ostream& output, const Place& object)
+{
     unsigned int id = object.getId();
     double x = object.getGeoCoordX();
     double y = object.getGeoCoordY();
@@ -75,4 +81,10 @@ std::ostream& operator<< (std::ostream& output, const Place& object) {
 
     return output;
 }
+
+std::istream& operator>> (std::istream& input, Place& object)
+{
+    return input;
+}
+
 

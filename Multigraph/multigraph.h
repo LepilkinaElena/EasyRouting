@@ -8,6 +8,7 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <cassert>
 #include "multigraphiterator.h"
 #include "Exceptions/nullpointerexception.h"
 #include "Exceptions/edgeabsencemultigraphexception.h"
@@ -60,7 +61,10 @@ namespace Multigraph {
     public:
 
         Multigraph();
+        Multigraph(const Multigraph& other);
         ~Multigraph();
+
+        bool checkMultigraph() const;
 
         /*!\fn void addEdge(const T& from, const T& to, const Cost& cost);
         *\brief Метод для добавления дуги в мультиграф
@@ -82,6 +86,8 @@ namespace Multigraph {
         *\param [in] edge - удаляемая дуга
         */
         void removeEdge(const Edge<T> *edge) throw (NullPointerException);
+
+        void removeVertex(const T& vertex);
 
         /*!\fn waveAlgorithm(const Multigraph::T &start, const Multigraph::T &finish, const Cost& limits);
         *\brief Метод поиска пути в графе по волновому алгоритму
@@ -134,6 +140,14 @@ namespace Multigraph {
 
         std::vector<T> getAllVertexes() const;
 
+        std::vector<int> getAllEdges();
+
+        bool operator==(Multigraph& other);
+
+        bool checkAddingEdgeToMultigraph(int oldId, int oldEdgesNumber);
+        bool checkRemovingEdgeFromMultigraph(int oldEdgesNumber);
+        bool checkAddingVertexToMultigraph(const T& vertex);
+        bool checkRemovingVertexFromMultigraph(const T& vertex);
     };
 
     template <typename T, typename Alloc>
@@ -184,12 +198,25 @@ namespace Multigraph {
     }
 
     template <typename T, typename Alloc>
+    Multigraph<T, Alloc>::Multigraph(const Multigraph &other)
+    {
+        for (auto const& element:other.edges)
+        {
+            addEdge(element.first, element.second->getTo(), element.second->getCost());
+        }
+    }
+
+    template <typename T, typename Alloc>
     Multigraph<T, Alloc>::~Multigraph()
     {
         for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
         {
             Edge<T>* edge = (*it).second;
-            delete edge;
+            if (edge != NULL)
+            {
+                delete edge;
+                edge = NULL;
+            }
         }
         edges.clear();
     }
@@ -197,6 +224,10 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     int Multigraph<T, Alloc>::addEdge(const T& from, const T& to, Cost* cost) throw (NullPointerException)
     {
+        assert(checkMultigraph());
+        int oldId = idCounter;
+        int size = edges.size();
+
         if (cost == NULL)
         {
             throw (NullPointerException("Указатель на стоимость дуги при добавлении дуги."));
@@ -204,6 +235,9 @@ namespace Multigraph {
         Edge<T>* edge = new Edge<T>(idCounter, from, to, cost);
         edges.emplace(from, edge);
         idCounter++;
+
+        assert(checkAddingEdgeToMultigraph(oldId, size));
+
         return edge->getId();
     }
 
@@ -211,11 +245,8 @@ namespace Multigraph {
     void Multigraph<T, Alloc>::removeEdge(int id)
     {
         try {
-        Edge<T>* edge = getEdgeById(id);
-            if (edge)
-            {
-                removeEdge(edge);
-            }
+            Edge<T>* edge = getEdgeById(id);
+            removeEdge(edge);
         } catch (EdgeAbsenceMultigraphException e) {
             std::cerr << e.what();
         }
@@ -224,12 +255,43 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     void Multigraph<T, Alloc>::removeEdge(const Edge<T>* edge) throw (NullPointerException)
     {
+        int size = edges.size();
+
         if (edge == NULL)
         {
             throw (NullPointerException("Указатель на дугу при попытке ее удалить нулевой."));
         }
-        edges.erase(edge->getFrom());
+        for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
+        {
+            Edge<T>* curEdge = (*it).second;
+            if (edge == curEdge)
+            {
+                edges.erase(it);
+                break;
+            }
+        }
         delete edge;
+        assert(checkRemovingEdgeFromMultigraph(size));
+    }
+
+    template <typename T, typename Alloc>
+    void Multigraph<T, Alloc>::removeVertex(const T& vertex)
+    {
+        std::vector<int> edgesToRemove;
+        edges.erase(vertex);
+        for (typename std::multimap<T,Edge<T>* >::iterator it = edges.begin(); it != edges.end(); ++it)
+        {
+            Edge<T>* edge = (*it).second;
+            if (edge->getTo() == vertex)
+            {
+                edgesToRemove.emplace_back(edge->getId());
+            }
+        }
+        for (std::vector<int>::iterator it = edgesToRemove.begin(); it != edgesToRemove.end(); ++it)
+        {
+            removeEdge(*it);
+        }
+        assert(checkRemovingVertexFromMultigraph(vertex));
     }
 
     template <typename T, typename Alloc>
@@ -262,12 +324,30 @@ namespace Multigraph {
     {
         std::set<T> vertexes;
         std::vector<T> result;
+
+        assert(checkMultigraph());
+
         for (auto const& element: edges)
         {
             vertexes.insert(element.first);
             vertexes.insert(element.second->getTo());
         }
         std::copy(vertexes.begin(), vertexes.end(), std::back_inserter(result));
+        return result;
+    }
+
+    template <typename T, typename Alloc>
+    std::vector<int> Multigraph<T, Alloc>::getAllEdges()
+    {
+        std::vector<int> result;
+
+        assert(checkMultigraph());
+
+        for (auto const& element: edges)
+        {
+            int edgeid = element.second->getId();
+            result.push_back(edgeid);
+        }
         return result;
     }
 
@@ -283,6 +363,8 @@ namespace Multigraph {
         std::map<T, waveStep> currentStepState;
         std::set<T> keys;
         std::pair <typename std::multimap<T,Edge<T>* >::iterator, typename std::multimap<T,Edge<T>* >::iterator> values;
+
+        assert(checkMultigraph());
 
         if (!checkVertexExistence(start))
         {
@@ -421,8 +503,61 @@ namespace Multigraph {
         input.read(data, sizeof(unsigned int));
         unsigned int count = (unsigned int) *data;
 
+        for (int i = 0; i < count; i++) {
+            _T* first = new _T();
+            Edge<_T>* second = new Edge<_T>();
+            input >> *first;
+            input >> *second;
+
+            object.addEdge(*first, second->getTo(), second->getCost());
+        }
+
         return input;
     }
 
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::operator==(Multigraph& other)
+    {
+        bool result = edges.size() == other.edges.size();
+        typename std::multimap<T,Edge<T>* >::iterator iter;
+        typename std::multimap<T,Edge<T>* >::iterator otherIter;
+        for (iter = edges.begin(), otherIter = other.edges.begin(); iter != edges.end(); ++iter, ++otherIter)
+        {
+            result = result && (*iter).first == (*otherIter).first &&
+                    (*iter).second->operator ==(*((*otherIter).second));
+        }
+
+        return result;
+    }
+
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::checkMultigraph() const
+    {
+        return edges.size() >= 0 && idCounter >=0;
+    }
+
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::checkAddingEdgeToMultigraph(int oldId, int oldEdgesNumber)
+    {
+        return edges.size() - oldEdgesNumber == 1 && idCounter - oldId == 1;
+    }
+
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::checkRemovingEdgeFromMultigraph(int oldEdgesNumber)
+    {
+        return oldEdgesNumber - edges.size() == 1;
+    }
+
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::checkAddingVertexToMultigraph(const T& vertex)
+    {
+        return checkVertexExistence(vertex);
+    }
+
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::checkRemovingVertexFromMultigraph(const T& vertex)
+    {
+        return !checkVertexExistence(vertex);
+    }
 }
 #endif

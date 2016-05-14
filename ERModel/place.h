@@ -49,6 +49,7 @@ public:
     *\param [in] interest - категория интересов, которой принадлежит объект
     *\return место посещения
     */
+    Place();
     Place(double x, double y, std::string placeName, Interest interest);
     Place(const Place& other);
 
@@ -64,6 +65,7 @@ public:
     Interest getIntersestCategory() const;
 
     friend std::ostream& operator<< (std::ostream& output, const Place& object);
+    friend std::istream& operator>> (std::istream& input, Place& object);
 };
 
 #endif

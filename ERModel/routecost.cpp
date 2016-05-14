@@ -83,6 +83,16 @@ std::set<Transport> RouteCost::getTransport() const
 std::ostream& RouteCost::save (std::ostream& output) const {
     output.write((char*) &moneyCost, sizeof(moneyCost));
     output.write((char*) &timeCost, sizeof(timeCost));
+    unsigned int interestsCount = (unsigned int) interests.size();
+    unsigned int transportsCount = (unsigned int) transports.size();
+    output.write((char*) &interestsCount, sizeof(interestsCount));
+    for (auto const& element : interests) {
+        output.write((char*) &element, sizeof(element));
+    }
+    output.write((char*) &transportsCount, sizeof(transportsCount));
+    for (auto const& element : transports) {
+        output.write((char*) &element, sizeof(element));
+    }
 
     return output;
 }

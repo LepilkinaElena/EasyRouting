@@ -44,6 +44,7 @@ namespace Multigraph {
         *\param [in] cost - вес дуги
         *\return дуга
         */
+        Edge();
         Edge(int id, const T& from, const T& to, Cost* cost);
         ~Edge();
 
@@ -71,6 +72,10 @@ namespace Multigraph {
 
         template <typename _T>
         friend std::ostream& operator<< (std::ostream& output, const Edge<_T>& object);
+        template <typename _T>
+        friend std::istream& operator>> (std::istream& input, Edge<_T>& object);
+
+        bool operator==(const Edge& other);
     };
 
     template <typename T>
@@ -109,7 +114,8 @@ namespace Multigraph {
     }
 
     template <typename _T>
-    std::ostream& operator<< (std::ostream& output, const Edge<_T>& object) {
+    std::ostream& operator<< (std::ostream& output, const Edge<_T>& object)
+    {
         int id = object.id;
         _T from = object.from;
         _T to = object.to;
@@ -122,4 +128,18 @@ namespace Multigraph {
 
         return output;
     }
+
+    template <typename _T>
+    std::istream& operator>> (std::istream& input, Edge<_T>& object)
+    {
+        return input;
+    }
+
+    template <typename T>
+    bool Edge<T>::operator==(const Edge& other)
+    {
+        return from == other.from && to == other.to &&
+                cost->operator ==(*(other.cost));
+    }
+
 }

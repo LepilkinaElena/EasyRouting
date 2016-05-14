@@ -72,7 +72,11 @@ namespace Multigraph {
         virtual bool operator<(const Cost& other);
 
         virtual std::ostream& save(std::ostream& output) const;
-        friend std::ostream& operator<< (std::ostream& output, const Cost& object);
+        friend std::ostream& operator<< (std::ostream& output, const Cost& object)
+        {
+            object.save(output);
+            return output;
+        }
     };
 }
 
