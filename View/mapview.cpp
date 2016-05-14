@@ -3,7 +3,6 @@
 
 MapView::MapView(QWidget *parent) : QWebView(parent)
 {
-    connect(this,SIGNAL(loadFinished(bool)),this,SLOT(loadingFinished(bool)));
     this->page()->mainFrame()->addToJavaScriptWindowObject( QString("Js2CppSuperAPI"), this );
     this->state = MapState::VIEW;
 }
@@ -112,7 +111,6 @@ void MapView::loadingFinished()
     qDebug("HTML loaded!");
 }
 
-
 MapState MapView::getState() const
 {
     return state;
@@ -184,13 +182,13 @@ void MapView::redrawMap(bool drawLines)
     std::vector<Place>::iterator it = places.begin();
     while(it != places.end())
     {
-        qDebug((it.operator *()).getName().c_str());
+        //qDebug((it.operator *()).getName().c_str());
         double x = it.operator *().getGeoCoordX();
         double y = it.operator *().getGeoCoordY();
         int id = it.operator *().getId();
         std::string str = it.operator *().getName();
 
-        qDebug() << "x: " << x << " y: " << y;
+        //qDebug() << "x: " << x << " y: " << y;
         drawMark(x,y,"icons/building.png",id,str);
         it++;
     }
