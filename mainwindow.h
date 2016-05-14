@@ -46,7 +46,8 @@ private slots:
     void cancelCreatingRoute();
 
     void onElementRemoved();
-    void endEditing();
+    void save();
+    void cancel();
 
 private:
     void setupUI();
@@ -58,6 +59,7 @@ private:
     bool placeCreatedModeOn;
     bool routeCreatedModeOn;
     bool removeModeOn;
+    void endEditing();
     Controller controller;
     QLabel statusLabel;
 

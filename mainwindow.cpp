@@ -57,7 +57,8 @@ void MainWindow::setupUI()
     connect(&routeDialog,SIGNAL(accepted()),ui->mapWidget,SLOT(createRoute()));
     connect(&routeDialog,SIGNAL(rejected()), this, SLOT(cancelCreatingRoute()));
     connect(&routeDialog,SIGNAL(accepted()),this,SLOT(onRouteDataEntered()));
-    connect(&saveDialog,SIGNAL(accepted()),this,SLOT(endEditing()));
+    connect(&saveDialog,SIGNAL(accepted()),this,SLOT(save()));
+    connect(&saveDialog,SIGNAL(rejected()),this,SLOT(cancel()));
     connect(ui->mapWidget,SIGNAL(placeCreated(double,double)),this,SLOT(onPlaceCreated(double,double)));
     connect(ui->mapWidget,SIGNAL(routeCreated(int,int)),this,SLOT(onRouteCreated(int,int)));
     connect(ui->mapWidget,SIGNAL(firstPlaceSelected()),this,SLOT(onFirstPlaceSelected()));
@@ -133,6 +134,18 @@ void MainWindow::fillPlaces(QComboBox *box)
     }
 }
 
+void MainWindow::save()
+{
+    endEditing();
+    // Todo serialize
+}
+
+void MainWindow::cancel()
+{
+    //TODO read old file
+    endEditing();
+}
+
 void MainWindow::endEditing()
 {
     editModeOn = !editModeOn;
@@ -154,7 +167,7 @@ void MainWindow::endEditing()
     ui->createRouteButton->setEnabled(editModeOn);
     ui->removeButton->setEnabled(editModeOn);
     ui->searchRoutesButton->setEnabled(!editModeOn);
-    // Todo serialize
+
 }
 
 void MainWindow::editMode()
