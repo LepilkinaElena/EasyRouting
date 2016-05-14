@@ -60,6 +60,8 @@ public:
     QTime getTimeCost() const;
     std::set<Interest> getInterests() const;
     std::set<Transport> getTransport() const;
+
+    std::ostream& save(std::ostream& output) const;
 };
 
 #endif

@@ -147,3 +147,8 @@ std::vector<std::vector<Path> > CityMap::getRoutes(const Place &start, const Pla
     }
     return routes;
 }
+
+std::ostream& operator<< (std::ostream& output, const CityMap& object) {
+    output << object.graph;
+    return output;
+}

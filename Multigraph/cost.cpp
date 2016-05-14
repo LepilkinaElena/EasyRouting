@@ -40,3 +40,12 @@ bool Cost::operator<(const Cost& other)
 {
     return false;
 }
+
+std::ostream& Cost::save(std::ostream& output) const {
+    return output;
+}
+
+std::ostream& operator<< (std::ostream& output, const Cost& object) {
+    object.save(output);
+    return output;
+}

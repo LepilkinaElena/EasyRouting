@@ -4,6 +4,7 @@
 #ifndef PLACE_H
 #define PLACE_H
 #include <string>
+#include <iostream>
 
 enum Interest { SIGHT, CULTURE, PARK, ENTERTAINMENT };
 
@@ -61,6 +62,8 @@ public:
     double getGeoCoordY() const;
     std::string getName() const;
     Interest getIntersestCategory() const;
+
+    friend std::ostream& operator<< (std::ostream& output, const Place& object);
 };
 
 #endif

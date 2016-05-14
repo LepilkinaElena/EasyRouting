@@ -79,3 +79,11 @@ std::set<Transport> RouteCost::getTransport() const
 {
     return transports;
 }
+
+std::ostream& RouteCost::save (std::ostream& output) const {
+//    output.write((char*) &moneyCost, sizeof(moneyCost));
+//    output.write((char*) &timeCost, sizeof(timeCost));
+
+    return output;
+}
+

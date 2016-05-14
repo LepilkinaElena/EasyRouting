@@ -3,6 +3,8 @@
 */
 #ifndef COST_H
 #define COST_H
+#include <iostream>
+
 namespace Multigraph {
     /*!\class Cost
     *\brief Класс веса дуги мультиграфа
@@ -68,6 +70,9 @@ namespace Multigraph {
          *\return признак, является ли данный вес дуги меньше или равен переданному
         */
         virtual bool operator<(const Cost& other);
+
+        virtual std::ostream& save(std::ostream& output) const;
+        friend std::ostream& operator<< (std::ostream& output, const Cost& object);
     };
 }
 

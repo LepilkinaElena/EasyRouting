@@ -59,3 +59,20 @@ Place::Place(const Place &other)
     id = other.id;
     intersestCategory = other.intersestCategory;
 }
+
+std::ostream& operator<< (std::ostream& output, const Place& object) {
+    unsigned int id = object.getId();
+    double x = object.getGeoCoordX();
+    double y = object.getGeoCoordY();
+    Interest interest = object.getIntersestCategory();
+    std::string name = object.getName();
+
+    output.write((char*) &id, sizeof(id));
+    output.write((char*) &x, sizeof(x));
+    output.write((char*) &y, sizeof(y));
+    output.write((char*) &interest, sizeof(interest));
+    output.write((char*) &name, sizeof(name));
+
+    return output;
+}
+

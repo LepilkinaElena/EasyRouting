@@ -12,7 +12,7 @@
 #include "Exceptions/nullpointerexception.h"
 #include "Exceptions/edgeabsencemultigraphexception.h"
 #include "Exceptions/vertexabsencemultigraphexception.h"
-
+#include <ERModel/place.h>
 
 namespace Multigraph {
 
@@ -25,6 +25,8 @@ namespace Multigraph {
     {
     public:
         typedef MultigraphIterator<T > iterator;
+        template <typename _T, typename _Alloc>
+        friend std::ostream& operator<< (std::ostream& output, const Multigraph<_T,_Alloc>& object);
     private:
         typedef std::multimap<T, Edge<T>*, std::less<T>, Alloc > MultigraphMultiMap;
         struct waveStep
@@ -394,6 +396,19 @@ namespace Multigraph {
             }
         }
         return false;
+    }
+
+    template <typename _T, typename _Alloc>
+    std::ostream& operator<< (std::ostream& output, const Multigraph<_T, _Alloc>& object)
+    {
+        unsigned int count = (unsigned int) object.edges.size();
+        output.write((char*) &count, sizeof(count));
+        for (auto const& element: object.edges)
+        {
+            output << element.first;
+            output << *(element.second);
+        }
+        return output;
     }
 }
 #endif

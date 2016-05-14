@@ -4,6 +4,7 @@
 
 #include "cost.h"
 #include <algorithm>
+#include <iostream>
 
 namespace Multigraph {
     /*!\class Edge
@@ -67,6 +68,9 @@ namespace Multigraph {
         */
         const T &getFrom() const;
         int getId() const;
+
+        template <typename _T>
+        friend std::ostream& operator<< (std::ostream& output, const Edge<_T>& object);
     };
 
     template <typename T>
@@ -104,4 +108,18 @@ namespace Multigraph {
         return from;
     }
 
+    template <typename _T>
+    std::ostream& operator<< (std::ostream& output, const Edge<_T>& object) {
+        int id = object.id;
+        _T from = object.from;
+        _T to = object.to;
+        Cost* cost = object.cost;
+
+        output.write((char*) &id, sizeof(id));
+        output << from;
+        output << to;
+        output << *cost;
+
+        return output;
+    }
 }

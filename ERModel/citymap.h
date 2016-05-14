@@ -2,7 +2,6 @@
 #define CITYMAP_H
 
 #include "Multigraph/multigraph.h"
-#include <typeinfo.h>
 #include "place.h"
 #include "routecost.h"
 #include "path.h"
@@ -17,6 +16,7 @@ public:
     std::vector<Place> getAllPlaces() const;
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
+    friend std::ostream& operator<< (std::ostream& output, const CityMap& object);
 
 private:
     CityMap();
