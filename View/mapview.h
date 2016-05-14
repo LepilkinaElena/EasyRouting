@@ -33,6 +33,7 @@ public:
     void removeSinglePlace(int id);
     void redrawMap(bool drawLines);
     void drawPath(std::vector<Path> & ref);
+    void resetMode();
 
 signals:
     void mapReady();

@@ -225,3 +225,9 @@ void MapView::drawPath(std::vector<Path> &ref)
         it++;
     }
 }
+
+void MapView::resetMode()
+{
+    this->page()->mainFrame()->evaluateJavaScript("defaultCursor()");
+    this->state = MapState::VIEW;
+}

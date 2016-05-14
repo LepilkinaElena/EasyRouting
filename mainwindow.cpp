@@ -184,12 +184,14 @@ void MainWindow::on_createPlaceButton_clicked()
         placeCreatedModeOn = true;
         routeCreatedModeOn = false;
         removeModeOn = false;
+
     }
     else
     {
         deactivateButton(ui->createPlaceButton);
         placeCreatedModeOn = false;
         placeDialog.close();
+        ui->mapWidget->resetMode();
     }
 }
 
@@ -198,18 +200,21 @@ void MainWindow::cancelCreatingPlace()
     deactivateButton(ui->createPlaceButton);
     placeDialog.clear();
     placeCreatedModeOn = false;
+    ui->mapWidget->resetMode();
 }
 
 void MainWindow::cancelCreatingRoute()
 {
     deactivateButton(ui->createRouteButton);
     routeCreatedModeOn = false;
+    ui->mapWidget->resetMode();
 }
 
 void MainWindow::onElementRemoved()
 {
     deactivateButton(ui->removeButton);
     removeModeOn = false;
+    ui->mapWidget->resetMode();
 }
 
 void MainWindow::onPlaceCreated(double x, double y)
@@ -264,12 +269,14 @@ void MainWindow::on_createRouteButton_clicked()
         routeCreatedModeOn = true;
         placeCreatedModeOn = false;
         removeModeOn = false;
+
     }
     else
     {
         deactivateButton(ui->createRouteButton);
         routeCreatedModeOn = false;
         routeDialog.close();
+        ui->mapWidget->resetMode();
     }
 }
 
