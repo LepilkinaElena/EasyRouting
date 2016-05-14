@@ -483,7 +483,6 @@ namespace Multigraph {
         return false;
     }
 
-<<<<<<< HEAD
     template <typename _T, typename _Alloc>
     std::ostream& operator<< (std::ostream& output, const Multigraph<_T, _Alloc>& object)
     {
@@ -516,8 +515,6 @@ namespace Multigraph {
         return input;
     }
 
-=======
->>>>>>> dev
     template <typename T, typename Alloc>
     bool Multigraph<T, Alloc>::operator==(Multigraph& other)
     {
