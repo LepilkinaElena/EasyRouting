@@ -67,6 +67,7 @@ namespace Multigraph {
         */
         const T &getFrom() const;
         int getId() const;
+        bool operator==(const Edge& other);
     };
 
     template <typename T>
@@ -102,6 +103,13 @@ namespace Multigraph {
     const T& Edge<T>::getFrom() const
     {
         return from;
+    }
+
+    template <typename T>
+    bool Edge<T>::operator==(const Edge& other)
+    {
+        return from == other.from && to == other.to &&
+                cost->operator ==(*(other.cost));
     }
 
 }

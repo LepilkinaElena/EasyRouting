@@ -55,6 +55,7 @@ namespace Multigraph {
     public:
 
         Multigraph();
+        Multigraph(const Multigraph& other);
         ~Multigraph();
 
         /*!\fn void addEdge(const T& from, const T& to, const Cost& cost);
@@ -133,6 +134,8 @@ namespace Multigraph {
 
         std::vector<int> getAllEdges();
 
+        bool operator==(Multigraph& other);
+
     };
 
     template <typename T, typename Alloc>
@@ -180,6 +183,13 @@ namespace Multigraph {
     {
         edges = MultigraphMultiMap();
         idCounter = 0;
+    }
+
+    template <typename T, typename Alloc>
+    Multigraph<T, Alloc>::Multigraph(const Multigraph &other)
+    {
+        idCounter = other.idCounter;
+        edges = MultigraphMultiMap(other.edges);
     }
 
     template <typename T, typename Alloc>
@@ -437,6 +447,21 @@ namespace Multigraph {
             }
         }
         return false;
+    }
+
+    template <typename T, typename Alloc>
+    bool Multigraph<T, Alloc>::operator==(Multigraph& other)
+    {
+        bool result = edges.size() == other.edges.size();
+        typename std::multimap<T,Edge<T>* >::iterator iter;
+        typename std::multimap<T,Edge<T>* >::iterator otherIter;
+        for (iter = edges.begin(), otherIter = other.edges.begin(); iter != edges.end(); ++iter, ++otherIter)
+        {
+            result = result && (*iter).first == (*otherIter).first &&
+                    (*iter).second->operator ==(*((*otherIter).second));
+        }
+
+        return result;
     }
 }
 #endif

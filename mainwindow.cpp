@@ -142,6 +142,8 @@ void MainWindow::editMode()
     else
     {
         ui->mapWidget->redrawMap(false);
+        fillPlaces(ui->startList);
+        fillPlaces(ui->finishList);
         placeDialog.close();
         routeDialog.close();
         deactivateButton(ui->removeButton);
@@ -303,5 +305,4 @@ void MainWindow::on_removeButton_clicked()
         deactivateButton(ui->removeButton);
         removeModeOn = false;
     }
-
 }

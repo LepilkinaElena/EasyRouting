@@ -300,6 +300,18 @@ void Tests::iterator_work()
     QCOMPARE((*it).second->getTo(), place5);
 }
 
+void Tests::iter_cycle()
+{
+    Multigraph::Multigraph<Place> graph = getGraph();
+    Multigraph::Multigraph<Place>::iterator it = graph.begin();
+    int i = 0;
+    for (it; it != graph.end(); ++it)
+    {
+        i++;
+    }
+    QCOMPARE(i, 12);
+}
+
 void Tests::remove_vertex_test()
 {
     Multigraph::Multigraph<Place> graph = getGraph();
@@ -340,4 +352,12 @@ void Tests::remove_vertex_test()
     ++it;
     QCOMPARE((*it).first, place6);
     QCOMPARE((*it).second->getTo(), place5);
+}
+
+void Tests::graph_equals()
+{
+    Multigraph::Multigraph<Place> graph = getGraph();
+    Multigraph::Multigraph<Place> copy = Multigraph::Multigraph<Place>(graph);
+
+    QVERIFY(graph == copy);
 }

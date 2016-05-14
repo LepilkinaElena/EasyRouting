@@ -60,6 +60,30 @@ bool RouteCost::operator <=(const Cost &other) const
     }
 }
 
+bool RouteCost::operator ==(const Cost &other) const
+{
+    try
+    {
+        const RouteCost& routeOther = dynamic_cast<const RouteCost&>(other);
+        bool transportFlag = transports.size() == routeOther.transports.size();
+        for (std::set<Transport>::iterator it = transports.begin(); it != transports.end(); ++it)
+        {
+            transportFlag = transportFlag && routeOther.transports.find(*it) != routeOther.transports.end();
+        }
+        bool interestsFlag = interests.size() == routeOther.interests.size();
+        for (std::set<Interest>::iterator it = interests.begin(); it != interests.end(); ++it)
+        {
+            interestsFlag = interestsFlag && routeOther.interests.find(*it) != routeOther.interests.end();
+        }
+        return moneyCost == routeOther.moneyCost && timeCost == routeOther.timeCost && transportFlag && interestsFlag;
+    }
+    catch (const std::bad_cast& e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "Этот объект не является объектом типа RouteCost" << std::endl;
+    }
+}
+
 int RouteCost::getMoneyCost() const
 {
     return moneyCost;

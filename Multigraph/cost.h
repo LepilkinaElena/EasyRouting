@@ -51,7 +51,7 @@ namespace Multigraph {
          *\param [in] other - сравниваемый вес дуги
          *\return признак, равен ли данный вес дуги переданному
         */
-        virtual bool operator==(const Cost& other);
+        virtual bool operator==(const Cost& other) const;
 
         /*!\fn bool operator>=(const Cost& other);
          *\brief Метод сранения двух весов дуг
