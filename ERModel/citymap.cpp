@@ -162,7 +162,7 @@ std::vector<std::vector<Path> > CityMap::getRoutes(const Place &start, const Pla
                         const RouteCost& limits)
 {
     std::vector<std::vector<Path> > routes;
-    std::vector<std::vector<int> > result = graph.waveAlgorithm(start, finish, limits);
+    std::vector<std::vector<int> > result = graph.searchRoutesWithLimits(start, finish, limits);
     std::vector<std::vector<int> >::iterator it;
 
     for (it = result.begin(); it != result.end(); ++it)

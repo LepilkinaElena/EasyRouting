@@ -88,7 +88,7 @@ void Tests::no_route()
     set1.insert(Interest::CULTURE);
 
     RouteCost cost = RouteCost(20, QTime(4, 0, 0), set1, set11);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place6, cost);
+    std::vector<std::vector<int> > actual = graph.searchRoutesWithLimits(place1, place6, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     QCOMPARE(actual, expected);
 }
@@ -109,7 +109,7 @@ void Tests::one_route()
     transport.insert(Transport::FOOT);
 
     RouteCost cost = RouteCost(1000, QTime(2, 50, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place3, place5, cost);
+    std::vector<std::vector<int> > actual = graph.searchRoutesWithLimits(place3, place5, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
     route.emplace_back(4);
@@ -142,7 +142,7 @@ void Tests::several_routes()
     transport.insert(Transport::TAXI);
 
     RouteCost cost = RouteCost(5000, QTime(10, 0, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place4, cost);
+    std::vector<std::vector<int> > actual = graph.searchRoutesWithLimits(place1, place4, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route1 = std::vector<int>();
     route1.emplace_back(0);
@@ -186,7 +186,7 @@ void Tests::cycle_route()
     transport.insert(Transport::TAXI);
 
     RouteCost cost = RouteCost(5000, QTime(10, 0, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place2, place6, cost);
+    std::vector<std::vector<int> > actual = graph.searchRoutesWithLimits(place2, place6, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
     route.emplace_back(6);
@@ -212,7 +212,7 @@ void Tests::one_suitable_route()
     transport.insert(Transport::UNDERGROUND);
 
     RouteCost cost = RouteCost(100, QTime(1, 10, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place1, place7, cost);
+    std::vector<std::vector<int> > actual = graph.searchRoutesWithLimits(place1, place7, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     std::vector<int> route = std::vector<int>();
     route.emplace_back(0);
@@ -244,7 +244,7 @@ void Tests::no_physical_route()
     transport.insert(Transport::TAXI);
 
     RouteCost cost = RouteCost(5000, QTime(10, 0, 0), interests, transport);
-    std::vector<std::vector<int> > actual = graph.waveAlgorithm(place7, place1, cost);
+    std::vector<std::vector<int> > actual = graph.searchRoutesWithLimits(place7, place1, cost);
     std::vector<std::vector<int> > expected = std::vector<std::vector<int> >();
     QCOMPARE(actual, expected);
 }

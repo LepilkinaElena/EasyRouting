@@ -35,12 +35,19 @@ private:
     */
     Interest intersestCategory;
 
+    /*!\var Place::counter
+    *\brief счетчик мест
+    */
     static unsigned int counter;
 
+    /*!\var Place::id
+    *\brief идентификатор места
+    */
     unsigned int id;
 
 public:
 
+    Place();
     /*!\fn Place(double x, double y, std::string& placeName, Interest interest);
     *\brief Конструктор места посещения
     *\param [in] x - координата x
@@ -49,7 +56,6 @@ public:
     *\param [in] interest - категория интересов, которой принадлежит объект
     *\return место посещения
     */
-    Place();
     Place(double x, double y, std::string placeName, Interest interest);
     Place(const Place& other);
 

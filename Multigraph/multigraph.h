@@ -64,6 +64,10 @@ namespace Multigraph {
         Multigraph(const Multigraph& other);
         ~Multigraph();
 
+        /*!\fn checkMultigraph() const;
+        *\brief Проверить мультиграф на корректность - инвариант предсусловия
+        *\return корректен ли мультиграф
+        */
         bool checkMultigraph() const;
 
         /*!\fn void addEdge(const T& from, const T& to, const Cost& cost);
@@ -87,16 +91,20 @@ namespace Multigraph {
         */
         void removeEdge(const Edge<T> *edge) throw (NullPointerException);
 
+        /*!\fn removeVertex(const T& vertex);
+        *\brief Метод удаления вершины из мультиграфа
+        *\param [in] vertex - удаляемая вершина
+        */
         void removeVertex(const T& vertex);
 
-        /*!\fn waveAlgorithm(const Multigraph::T &start, const Multigraph::T &finish, const Cost& limits);
+        /*!\fn searchRoutesWithLimits(const T &start, const T &finish, const Cost& limits);
         *\brief Метод поиска пути в графе по волновому алгоритму
         *\param [in] start - начальная точка пути
         *\param [in] finish - конечная точка пути
         *\param [in] limits - ограниение на выбираемые пути
         *\return вектор путей, представленных веткором идентификаторов дуг
         */
-        std::vector<std::vector<int> > waveAlgorithm(const T &start, const T &finish,
+        std::vector<std::vector<int> > searchRoutesWithLimits(const T &start, const T &finish,
                                                      const Cost& limits) throw(VertexAbsenceMultigraphException);
         /*!\fn checkKeyExistence(const T key) const;
         *\brief Метод проверки наличия вершины в мультиграфе
@@ -138,15 +146,53 @@ namespace Multigraph {
          */
         iterator end();
 
+        /*!\fn end();
+         *\brief Метод получения всех вершин
+         *\return все вершины
+         */
         std::vector<T> getAllVertexes() const;
 
+        /*!\fn end();
+         *\brief Метод получения всех дуг
+         *\return все дуги
+         */
         std::vector<int> getAllEdges();
 
+        /*!\fn bool operator==(Multigraph& other);
+         *\brief Метод сранения двух графов
+         *\param [in] this - текущий мультиграф
+         *\param [in] other - сравниваемый мультиграф
+         *\return признак, равен ли данный мультиграф переданному
+        */
         bool operator==(Multigraph& other);
 
+        /*!\fn checkAddingEdgeToMultigraph(int oldId, int oldEdgesNumber);
+         *\brief Метод проверки добавления дуги - инвариант постусловия
+         *\param [in] oldId - старое значение счетчика идентификаторов
+         *\param [in] oldEdgesNumber - старое значение кол-ва дуг
+         *\return признак, добавилась ли дуга успешно
+        */
         bool checkAddingEdgeToMultigraph(int oldId, int oldEdgesNumber);
+
+        /*!\fn checkRemovingEdgeFromMultigraph(int oldEdgesNumber);
+         *\brief Метод проверки удаления дуги - инвариант постусловия
+         *\param [in] oldEdgesNumber - старое значение кол-ва дуг
+         *\return признак, удалилась ли дуга успешно
+        */
         bool checkRemovingEdgeFromMultigraph(int oldEdgesNumber);
+
+        /*!\fn checkAddingVertexToMultigraph(const T& vertex);
+         *\brief Метод проверки добавления вершины - инвариант постусловия
+         *\param [in] vertex - добавляемая вершина
+         *\return признак, добавилась ли вершина успешно
+        */
         bool checkAddingVertexToMultigraph(const T& vertex);
+
+        /*!\fn checkRemovingVertexFromMultigraph(const T& vertex);
+         *\brief Метод проверки удаления вершины - инвариант постусловия
+         *\param [in] vertex - удаляемая вершина
+         *\return признак, удалилась ли вершина успешно
+        */
         bool checkRemovingVertexFromMultigraph(const T& vertex);
     };
 
@@ -354,7 +400,7 @@ namespace Multigraph {
     }
 
     template <typename T, typename Alloc>
-    std::vector<std::vector<int>> Multigraph<T, Alloc>::waveAlgorithm(const T& start, const T& finish,
+    std::vector<std::vector<int>> Multigraph<T, Alloc>::searchRoutesWithLimits(const T& start, const T& finish,
                                                                const Cost& limits) throw (VertexAbsenceMultigraphException)
     {
         std::vector<std::vector<int>> result;
