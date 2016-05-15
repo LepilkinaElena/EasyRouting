@@ -331,12 +331,18 @@ void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesI
         routesTableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.cost)));
         routesTableWidget->setItem(i, 3, new QTableWidgetItem(item.time.toString()));
 
-        QGridLayout* layout = new QGridLayout();
+        QHBoxLayout* layout = new QHBoxLayout();
+        layout->setMargin(0);
+
         QPushButton* btn1 = new QPushButton("На карте");
         QPushButton* btn2 = new QPushButton("Подробно");
 
+        layout->setSizeConstraint(QLayout::SetMaximumSize);
+
         btn1->setProperty("index", QVariant(i));
         btn2->setProperty("index", QVariant(i));
+
+        layout->setSpacing(0);
 
         layout->addWidget(btn1);
         layout->addWidget(btn2);
