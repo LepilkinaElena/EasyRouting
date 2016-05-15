@@ -133,7 +133,7 @@ std::ostream& RouteCost::save (std::ostream& output) const {
         strncpy(interestBuf, reinterpret_cast<const char*>(&element), sizeof(Interest));
         output.write(interestBuf, sizeof(Interest));
     }
-    strcpy(intBuf, reinterpret_cast<const char*>(&transportsCount));
+    strтcpy(intBuf, reinterpret_cast<const char*>(&transportsCount), sizeof(int));
     output.write(intBuf, sizeof(transportsCount));
     char transportBuf[sizeof(Transport)];
     for (auto const& element : transports) {
