@@ -508,14 +508,9 @@ namespace Multigraph {
 
         for (int i = 0; i < count; i++) {
             _T first = _T();
-            std::cout << "create first" << std::endl;
             Edge<_T> second = Edge<_T>();
-            std::cout << "create second" << std::endl;
-            std::cout<<i << " ";
             input >> first;
-            std::cout<< "first ";
             input >> second;
-            std::cout<< "second ";
 
             object.addEdge(first, second.getTo(), second.getCost());
         }

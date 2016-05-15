@@ -72,14 +72,20 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
     double y = object.getGeoCoordY();
     Interest interest = object.getIntersestCategory();
     const char* name = object.getName().c_str();
+    unsigned int nameLen = strlen(name);
 
-    output.write(reinterpret_cast<char*>(&id), sizeof(id));
-    output.write(reinterpret_cast<char*>(&x), sizeof(x));
-    output.write(reinterpret_cast<char*>(&y), sizeof(y));
-    output.write(reinterpret_cast<char*>(&interest), sizeof(interest));
-    output.write(name, sizeof(char)*strlen(name));
-
-//    output << id << x << y << interest << name;
+    output.write(reinterpret_cast<char*>(&id), sizeof(unsigned int));
+    std::cout<<"write id " << id<<std::endl;
+    output.write(reinterpret_cast<char*>(&x), sizeof(double));
+    std::cout<<"write x " << x<<std::endl;
+    output.write(reinterpret_cast<char*>(&y), sizeof(double));
+    std::cout<<"write y " << y<<std::endl;
+    output.write(reinterpret_cast<char*>(&interest), sizeof(Interest));
+    std::cout<<"write interest " << (int)interest<<std::endl;
+    output.write(reinterpret_cast<char*>(&nameLen), sizeof(unsigned int));
+    std::cout<<"write nameLen " << nameLen<<std::endl;
+    output.write(name, nameLen);
+    std::cout<<"write name " << name<<std::endl;
 
     return output;
 }
@@ -89,28 +95,31 @@ std::istream& operator>> (std::istream& input, Place& object)
     char idBuf[sizeof(unsigned int)];
     input.read(idBuf, sizeof(unsigned int));
     unsigned int id = *(reinterpret_cast<unsigned int*>(idBuf));
+    std::cout<<"read id " << id<<std::endl;
     char coordBuf[sizeof(double)];
     input.read(coordBuf, sizeof(double));
     double x = *(reinterpret_cast<double*>(coordBuf));
+    std::cout<<"read x " << x<<std::endl;
     input.read(coordBuf, sizeof(double));
     double y = *(reinterpret_cast<double*>(coordBuf));
+    std::cout<<"read y " << y<<std::endl;
     char interestBuf[sizeof(Interest)];
     input.read(interestBuf, sizeof(Interest));
     Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
+    std::cout<<"read interest" << (int)interest<<std::endl;
     input.read(idBuf, sizeof(unsigned int));
     unsigned int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
-    char nameBuf[sizeof(char)*nameLen];
-    input.read(nameBuf, sizeof(std::string));
+    std::cout<<"read nameLen " << nameLen<<std::endl;
+    char nameBuf[nameLen];
+    input.read(nameBuf, nameLen);
     std::string name(nameBuf);
+    std::cout<<"read name " << name<<std::endl;
 
     object.id = id;
     object.geoCoordX = x;
     object.geoCoordY = y;
     object.intersestCategory = interest;
     object.name = name;
-
-//    int category = (int) object.intersestCategory;
-//    input >> object.id >> object.geoCoordX >> object.geoCoordY >> category >> object.name;
 
     return input;
 }
