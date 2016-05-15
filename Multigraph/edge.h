@@ -132,7 +132,9 @@ namespace Multigraph {
         strncpy(buf,reinterpret_cast<const char*>(&id), sizeof(int));
         output.write(buf, sizeof(int));
 
-        output << object.from << object.to << *(object.cost);
+        output << object.from;
+        output << object.to;
+        output << *(object.cost);
 
         return output;
     }
@@ -150,10 +152,11 @@ namespace Multigraph {
         }
         object.id = id;
 
-        _T* to = new _T();
-        input >> *to;
+
         _T* from = new _T();
         input >> *from;
+        _T* to = new _T();
+        input >> *to;
         RouteCost* cost = new RouteCost();
         input >> *cost;
 

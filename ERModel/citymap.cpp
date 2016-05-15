@@ -44,8 +44,10 @@ std::vector<CityMap::routeId> CityMap::getAllRoutes()
         int id = *it;
         CityMap::routeId routeTemp;
         routeTemp.id = id;
-        routeTemp.from = graph.getFrom(id).getId();
-        routeTemp.to = graph.getTo(id).getId();
+        const Place & from = graph.getFrom(id);
+        routeTemp.from = from.getId();
+        const Place & to = graph.getTo(id);
+        routeTemp.to = to.getId();
         result.push_back(routeTemp);
 
         it++;
