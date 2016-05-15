@@ -50,3 +50,11 @@ std::vector<std::vector<SearchParameters> > Controller::runRouteSearch(SearchPar
     }
     return routes;
 }
+
+void Controller::save() {
+    routeSearcher.save();
+}
+
+void Controller::load() {
+    routeSearcher.load();
+}

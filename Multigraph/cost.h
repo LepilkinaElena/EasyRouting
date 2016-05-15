@@ -70,7 +70,10 @@ namespace Multigraph {
          *\param [in] other - сравниваемый вес дуги
          *\return признак, является ли данный вес дуги меньше или равен переданному
         */
+<<<<<<< Updated upstream
         virtual bool operator<(const Cost& other) const;
+=======
+>>>>>>> Stashed changes
 
         virtual std::ostream& save(std::ostream& output) const;
         friend std::ostream& operator<< (std::ostream& output, const Cost& object)
@@ -85,8 +88,12 @@ namespace Multigraph {
             object.load(input);
             return input;
         }
+<<<<<<< Updated upstream
 
 
+=======
+        virtual bool operator<(const Cost& other) const;
+>>>>>>> Stashed changes
     };
 }
 

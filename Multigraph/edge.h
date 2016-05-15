@@ -98,7 +98,11 @@ namespace Multigraph {
     template <typename T>
     Edge<T>::Edge()
     {
+<<<<<<< Updated upstream
         cost = NULL;
+=======
+
+>>>>>>> Stashed changes
     }
 
     template <typename T>
