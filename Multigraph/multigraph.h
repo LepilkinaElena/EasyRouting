@@ -554,6 +554,7 @@ namespace Multigraph {
         memset(buf, 0 , sizeof(unsigned int));
         input.read(buf, sizeof(count));
         count = *(reinterpret_cast<unsigned int*>(buf));
+        object.edges.clear();
 
         for (int i = 0; i < count; i++) {
             _T first = _T();
