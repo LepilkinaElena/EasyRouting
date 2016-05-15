@@ -8,7 +8,7 @@
 #include <QtWebKitWidgets>
 #include <QtWebKitWidgets/QWebFrame>
 #include <ERModel/citymap.h>
-
+#include "Controller/searchparameters.h"
 #include "ERModel/routecost.h"
 
 enum MapState { VIEW, PLACE, ROUTE_BEGIN, ROUTE_END, REMOVE };
@@ -32,6 +32,7 @@ public:
     void addSinglePlace(Place & ref);
     void removeSinglePlace(unsigned int id);
     void redrawMap(bool drawLines);
+    void drawPath(std::vector<SearchParameters> ref);
     void drawPath(std::vector<Path> & ref);
     void resetMode();
     bool hasSinglePlaces();

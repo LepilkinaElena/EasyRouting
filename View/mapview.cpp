@@ -212,6 +212,33 @@ void MapView::redrawMap(bool drawLines)
     }
 }
 
+void MapView::drawPath(std::vector<SearchParameters> pathList) {
+
+    this->page()->mainFrame()->evaluateJavaScript("clearPath()");
+
+    for(int i = 0; i < pathList.size(); i++) {
+        SearchParameters searchParameters = pathList.at(i);
+        int startIndex = searchParameters.getStart();
+        int finishIndex = searchParameters.getFinish();
+
+        Place from = CityMap::Instance().getPlaceById(startIndex);
+        Place to = CityMap::Instance().getPlaceById(finishIndex);
+
+        double x1 = from.getGeoCoordX();
+        double y1 = from.getGeoCoordY();
+        double x2 = to.getGeoCoordX();
+        double y2 = to.getGeoCoordY();
+
+        qDebug() << "x1=" << x1 << ", y1=" << y1 << ", x2=" << x2 << ", y2=" << y2;
+
+        this->page()->mainFrame()->evaluateJavaScript("drawPathLine("+
+                                                      QString::number(x1)+","+
+                                                      QString::number(y1)+","+
+                                                      QString::number(x2)+","+
+                                                      QString::number(y2)+")");
+    }
+}
+
 void MapView::drawPath(std::vector<Path> &ref)
 {
     this->page()->mainFrame()->evaluateJavaScript("clearPath()");

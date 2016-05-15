@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QMainWindow>
 #include <QComboBox>
+#include <QTableWidget>
 
 #include "View/selectionitem.h"
 #include "View/placedialog.h"
@@ -23,6 +24,7 @@ struct RoutesTableItemModel {
     QString end;
     int cost;
     QTime time;
+    std::vector<SearchParameters> pathVector;
 };
 
 class MainWindow : public QMainWindow
@@ -56,6 +58,8 @@ private slots:
     void save();
     void cancel();
 
+    void drawPath();
+
     void on_sortTypeComboBox_currentIndexChanged(int index);
 
     void on_clearButton_clicked();
@@ -64,7 +68,7 @@ private:
     void setupUI();
 
     void fillRoutesList(std::vector<std::vector<SearchParameters> > foundedRoutes);
-
+    void fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index);
     void fillPlaces(QComboBox* box);
     void activateButton(QAbstractButton* button);
     void deactivateButton(QAbstractButton* button);

@@ -299,7 +299,18 @@ QTime defineTime(std::vector<SearchParameters> pathVector) {
     return QTime(hours, minutes);
 }
 
-void fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index) {
+void MainWindow::drawPath() {
+    QPushButton* b = qobject_cast<QPushButton *>(sender());
+
+    int index = b->property("index").toInt();
+
+    qDebug() << "DRAW PATH!!!" << index;
+
+    RoutesTableItemModel routesTableItem = tableRoutesList.at(index);
+    ui->mapWidget->drawPath(routesTableItem.pathVector);
+}
+
+void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index) {
     routesTableWidget->clearContents();
     routesTableWidget->setRowCount(0);
 
@@ -319,6 +330,22 @@ void fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTa
         routesTableWidget->setItem(i, 1, new QTableWidgetItem(item.end));
         routesTableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.cost)));
         routesTableWidget->setItem(i, 3, new QTableWidgetItem(item.time.toString()));
+
+        QGridLayout* layout = new QGridLayout();
+        QPushButton* btn1 = new QPushButton("На карте");
+        QPushButton* btn2 = new QPushButton("Подробно");
+
+        btn1->setProperty("index", QVariant(i));
+        btn2->setProperty("index", QVariant(i));
+
+        layout->addWidget(btn1);
+        layout->addWidget(btn2);
+
+        connect(btn1, SIGNAL(clicked()), this, SLOT(drawPath()));
+
+        QWidget* widget = new QWidget();
+        widget->setLayout(layout);
+        routesTableWidget->setCellWidget(i, 4, widget);
     }
 }
 
@@ -345,6 +372,7 @@ void MainWindow::fillRoutesList(std::vector<std::vector<SearchParameters>> found
             tableItem.end = qEnd;
             tableItem.cost = defineCost(pathVector);
             tableItem.time = defineTime(pathVector);
+            tableItem.pathVector = pathVector;
 
             qDebug() << "SEARCH PARAM #" << i+1 << ": " << tableItem.time.toString();
 
