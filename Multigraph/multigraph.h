@@ -489,7 +489,7 @@ namespace Multigraph {
     std::ostream& operator<< (std::ostream& output, const Multigraph<_T, _Alloc>& object)
     {
         unsigned int count = (unsigned int) object.edges.size();
-        output.write((char*) &count, sizeof(count));
+        output.write(reinterpret_cast<const char*>(&count), sizeof(count));
         for (auto const& element: object.edges)
         {
             output << element.first;
@@ -501,17 +501,23 @@ namespace Multigraph {
     template <typename _T, typename _Alloc>
     std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object)
     {
-        char data[sizeof(unsigned int)];
-        input.read(data, sizeof(unsigned int));
-        unsigned int count = (unsigned int) *data;
+        unsigned int count;
+        char buf[sizeof(count)];
+        input.read(buf, sizeof(count));
+        count = *(reinterpret_cast<unsigned int*>(buf));
 
         for (int i = 0; i < count; i++) {
-            _T* first = new _T();
-            Edge<_T>* second = new Edge<_T>();
-            input >> *first;
-            input >> *second;
+            _T first = _T();
+            std::cout << "create first" << std::endl;
+            Edge<_T> second = Edge<_T>();
+            std::cout << "create second" << std::endl;
+            std::cout<<i << " ";
+            input >> first;
+            std::cout<< "first ";
+            input >> second;
+            std::cout<< "second ";
 
-            object.addEdge(*first, second->getTo(), second->getCost());
+            object.addEdge(first, second.getTo(), second.getCost());
         }
 
         return input;

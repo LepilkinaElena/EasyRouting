@@ -71,13 +71,15 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
     double x = object.getGeoCoordX();
     double y = object.getGeoCoordY();
     Interest interest = object.getIntersestCategory();
-    std::string name = object.getName();
+    const char* name = object.getName().c_str();
 
-    output.write((char*) &id, sizeof(id));
-    output.write((char*) &x, sizeof(x));
-    output.write((char*) &y, sizeof(y));
-    output.write((char*) &interest, sizeof(interest));
-    output.write((char*) &name, sizeof(name));
+    output.write(reinterpret_cast<char*>(&id), sizeof(id));
+    output.write(reinterpret_cast<char*>(&x), sizeof(x));
+    output.write(reinterpret_cast<char*>(&y), sizeof(y));
+    output.write(reinterpret_cast<char*>(&interest), sizeof(interest));
+    output.write(name, sizeof(char)*strlen(name));
+
+//    output << id << x << y << interest << name;
 
     return output;
 }
@@ -86,16 +88,18 @@ std::istream& operator>> (std::istream& input, Place& object)
 {
     char idBuf[sizeof(unsigned int)];
     input.read(idBuf, sizeof(unsigned int));
-    unsigned int id = (int) *idBuf;
+    unsigned int id = *(reinterpret_cast<unsigned int*>(idBuf));
     char coordBuf[sizeof(double)];
     input.read(coordBuf, sizeof(double));
-    double x = (double) *coordBuf;
+    double x = *(reinterpret_cast<double*>(coordBuf));
     input.read(coordBuf, sizeof(double));
-    double y = (double) *coordBuf;
+    double y = *(reinterpret_cast<double*>(coordBuf));
     char interestBuf[sizeof(Interest)];
     input.read(interestBuf, sizeof(Interest));
-    Interest interest = (Interest) *interestBuf;
-    char nameBuf[sizeof(std::string)];
+    Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
+    input.read(idBuf, sizeof(unsigned int));
+    int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
+    char nameBuf[sizeof(char)*nameLen];
     input.read(nameBuf, sizeof(std::string));
     std::string name(nameBuf);
 
@@ -104,6 +108,9 @@ std::istream& operator>> (std::istream& input, Place& object)
     object.geoCoordY = y;
     object.intersestCategory = interest;
     object.name = name;
+
+//    int category = (int) object.intersestCategory;
+//    input >> object.id >> object.geoCoordX >> object.geoCoordY >> category >> object.name;
 
     return input;
 }

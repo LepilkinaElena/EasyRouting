@@ -144,6 +144,7 @@ void MainWindow::save()
 void MainWindow::cancel()
 {
     //TODO read old file
+    controller.load();
     endEditing();
 }
 

@@ -17,13 +17,18 @@ std::vector<std::vector<Path> > RouteSearcher::searchRoutes(int start, int finis
 }
 
 void RouteSearcher::save() {
-    std::ofstream f("data", std::ios::binary);
-    f << cityMap;
+    std::ofstream f = std::ofstream("data", std::ios::binary | std::ios::out);
+    if (!f.fail()) {
+        f << cityMap;
+    }
     f.close();
 }
 
 void RouteSearcher::load() {
-    std::ifstream f("data", std::ios::binary);
-    f >> cityMap;
+    std::ifstream f = std::ifstream("data", std::ios::binary | std::ios::in);
+    if (!f.fail()) {
+        std::cout << "File found" << std::endl;
+        f >> cityMap;
+    }
     f.close();
 }

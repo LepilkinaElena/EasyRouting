@@ -127,15 +127,12 @@ namespace Multigraph {
     template <typename _T>
     std::ostream& operator<< (std::ostream& output, const Edge<_T>& object)
     {
+        char buf[sizeof(int)];
         int id = object.id;
-        _T from = object.from;
-        _T to = object.to;
-        Cost* cost = object.cost;
+        strcpy(buf,reinterpret_cast<const char*>(&id));
+        output.write(buf, sizeof(int));
 
-        output.write((char*) &id, sizeof(id));
-        output << from;
-        output << to;
-        output << *cost;
+        output << object.from << object.to << *(object.cost);
 
         return output;
     }
@@ -143,9 +140,10 @@ namespace Multigraph {
     template <typename _T>
     std::istream& operator>> (std::istream& input, Edge<_T>& object)
     {
-        char buffer[sizeof(int)];
-        input.read(buffer, sizeof(int));
-        int id = (int) *buffer;
+        char buf[sizeof(int)];
+        input.read(buf, sizeof(int));
+        object.id = *(reinterpret_cast<int*>(buf));
+
         _T* to = new _T();
         input >> *to;
         _T* from = new _T();
@@ -153,7 +151,6 @@ namespace Multigraph {
         Cost* cost = new RouteCost();
         input >> *cost;
 
-        object.id = id;
         object.to = *to;
         object.from = *from;
         object.cost = cost;
