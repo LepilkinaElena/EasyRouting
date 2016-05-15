@@ -59,6 +59,7 @@ private slots:
     void cancel();
 
     void drawPath();
+    void showFullInfo();
 
     void on_sortTypeComboBox_currentIndexChanged(int index);
 

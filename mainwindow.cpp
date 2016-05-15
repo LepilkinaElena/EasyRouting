@@ -309,6 +309,30 @@ void MainWindow::drawPath() {
     RoutesTableItemModel routesTableItem = tableRoutesList.at(index);
     ui->mapWidget->drawPath(routesTableItem.pathVector);
 }
+void MainWindow::showFullInfo() {
+    QString startPlace = "Начальная остановка", finishPlace = "Конечная остановка";
+    QString cost = "100$", duration = "00:45:00";
+    std::vector<QString> stopsList;
+    stopsList.push_back("Остановка 1");
+    stopsList.push_back("Остановка 2");
+
+    QString stopsStr;
+    for(int i = 0; i < stopsList.size();i++) {
+        stopsStr += QString::number(i+1);
+        stopsStr += ") ";
+        stopsStr += stopsList.at(i);
+        stopsStr += "\n";
+    }
+
+    QMessageBox::information(this, "Информация о маршруте",
+                             QString("\nИз: ") + startPlace +
+                             QString("\nВ: ") + finishPlace +
+                             QString("\nСтоимость: ") + cost +
+                             QString("\nВремя: ") + duration +
+                             QString("\nОстановки: \n") +
+                             stopsStr);
+
+}
 
 void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index) {
     routesTableWidget->clearContents();
@@ -348,6 +372,7 @@ void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesI
         layout->addWidget(btn2);
 
         connect(btn1, SIGNAL(clicked()), this, SLOT(drawPath()));
+        connect(btn2, SIGNAL(clicked()), this, SLOT(showFullInfo()));
 
         QWidget* widget = new QWidget();
         widget->setLayout(layout);
