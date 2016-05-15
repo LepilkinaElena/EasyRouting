@@ -17,7 +17,8 @@ std::vector<std::vector<Path> > RouteSearcher::searchRoutes(int start, int finis
 }
 
 void RouteSearcher::save() {
-    std::ofstream f = std::ofstream("data", std::ios::binary | std::ios::out);
+    std::ofstream f;
+    f.open("data", std::ios::binary | std::ios::out);
     if (!f.fail()) {
         f << cityMap;
     }
@@ -25,7 +26,8 @@ void RouteSearcher::save() {
 }
 
 void RouteSearcher::load() {
-    std::ifstream f = std::ifstream("data", std::ios::binary | std::ios::in);
+    std::ifstream f;
+    f.open("data", std::ios::binary | std::ios::in);
     if (!f.fail()) {
         std::cout << "File found" << std::endl;
         f >> cityMap;

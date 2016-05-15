@@ -98,7 +98,7 @@ std::istream& operator>> (std::istream& input, Place& object)
     input.read(interestBuf, sizeof(Interest));
     Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
     input.read(idBuf, sizeof(unsigned int));
-    int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
+    unsigned int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
     char nameBuf[sizeof(char)*nameLen];
     input.read(nameBuf, sizeof(std::string));
     std::string name(nameBuf);
