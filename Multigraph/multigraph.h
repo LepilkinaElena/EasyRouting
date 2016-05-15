@@ -492,7 +492,9 @@ namespace Multigraph {
         output.write(reinterpret_cast<const char*>(&count), sizeof(count));
         for (auto const& element: object.edges)
         {
+            std::cout << "Place" << std::endl;
             output << element.first;
+            std::cout << "Edge" << std::endl;
             output << *(element.second);
         }
         return output;
@@ -509,7 +511,9 @@ namespace Multigraph {
         for (int i = 0; i < count; i++) {
             _T first = _T();
             Edge<_T> second = Edge<_T>();
+            std::cout << "Place" << std::endl;
             input >> first;
+            std::cout << "Edge" << std::endl;
             input >> second;
 
             object.addEdge(first, second.getTo(), second.getCost());

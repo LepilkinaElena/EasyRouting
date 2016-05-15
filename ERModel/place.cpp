@@ -76,7 +76,7 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
 
     output.write(reinterpret_cast<char*>(&nameLen), sizeof(unsigned int));
     std::cout<<"write nameLen " << nameLen<<std::endl;
-    output.write(name, (sizeof name));
+    output.write(name, strlen(name));
     std::cout<<"write name " << name<<std::endl;
 
     output.write(reinterpret_cast<char*>(&id), sizeof(unsigned int));
@@ -85,7 +85,8 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
     std::cout<<"write x " << x<<std::endl;
     output.write(reinterpret_cast<char*>(&y), sizeof(double));
     std::cout<<"write y " << y<<std::endl;
-    output.write(reinterpret_cast<char*>(&interest), sizeof(Interest));
+    unsigned int inter = (unsigned int)interest;
+    output.write(reinterpret_cast<char*>(&inter), sizeof(unsigned int));
     std::cout<<"write interest " << (int)interest<<std::endl;
 
     return output;
@@ -98,9 +99,9 @@ std::istream& operator>> (std::istream& input, Place& object)
     input.read(idBuf, sizeof(unsigned int));
     unsigned int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
     std::cout<<"read nameLen " << nameLen<<std::endl;
-    char nameBuf[nameLen];
-    memset(nameBuf,0,nameLen);
-    input.read(nameBuf, sizeof nameBuf);
+    char nameBuf[nameLen+1];
+    memset(nameBuf,0,nameLen+1);
+    input.read(nameBuf, nameLen);
     std::string name(nameBuf);
     std::cout<<"read name " << name<<std::endl;
 
@@ -114,8 +115,8 @@ std::istream& operator>> (std::istream& input, Place& object)
     input.read(coordBuf, sizeof(double));
     double y = *(reinterpret_cast<double*>(coordBuf));
     std::cout<<"read y " << y<<std::endl;
-    char interestBuf[sizeof(Interest)];
-    input.read(interestBuf, sizeof(Interest));
+    char interestBuf[sizeof(unsigned int)];
+    input.read(interestBuf, sizeof(unsigned int));
     Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
     std::cout<<"read interest " << (int)interest<<std::endl;
 

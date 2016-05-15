@@ -148,7 +148,7 @@ namespace Multigraph {
         input >> *to;
         _T* from = new _T();
         input >> *from;
-        Cost cost = RouteCost();
+        RouteCost cost = RouteCost();
         input >> cost;
 
         object.to = *to;
