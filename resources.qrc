@@ -6,4 +6,7 @@
         <file>icons/delete.png</file>
         <file>icons/edit.png</file>
     </qresource>
+    <qresource prefix="/routes">
+        <file>icons/Get-Info-icon.png</file>
+    </qresource>
 </RCC>

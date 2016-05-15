@@ -212,6 +212,10 @@ void MapView::redrawMap(bool drawLines)
     }
 }
 
+void MapView::clearDrawed() {
+    this->page()->mainFrame()->evaluateJavaScript("clearPath()");
+}
+
 void MapView::drawPath(std::vector<SearchParameters> pathList) {
 
     this->page()->mainFrame()->evaluateJavaScript("clearPath()");
@@ -238,6 +242,8 @@ void MapView::drawPath(std::vector<SearchParameters> pathList) {
                                                       QString::number(y2)+")");
     }
 }
+
+
 
 void MapView::drawPath(std::vector<Path> &ref)
 {

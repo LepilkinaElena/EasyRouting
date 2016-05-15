@@ -449,8 +449,8 @@ void MainWindow::fillRoutesTableWidget(QTableWidget* routesTableWidget, int inde
         QHBoxLayout* layout = new QHBoxLayout();
         layout->setMargin(0);
 
-        QPushButton* btn1 = new QPushButton("На карте");
-        QPushButton* btn2 = new QPushButton("Подробно");
+        QPushButton* btn1 = new QPushButton(QIcon(":/map/icons/road.png"), "");
+        QPushButton* btn2 = new QPushButton(QIcon(":/routes/icons/Get-Info-icon.png"), "");
 
         layout->setSizeConstraint(QLayout::SetMaximumSize);
 
@@ -468,52 +468,6 @@ void MainWindow::fillRoutesTableWidget(QTableWidget* routesTableWidget, int inde
         QWidget* widget = new QWidget();
         widget->setLayout(layout);
 
-        routesTableWidget->setCellWidget(i, 4, widget);
-    }
-}
-
-void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index) {
-    routesTableWidget->clearContents();
-    routesTableWidget->setRowCount(0);
-
-    if(index == 0) {
-        // сортировка по времени
-        routesItemList = getSortedByTime(routesItemList);
-    } else {
-        // сортировка по стоимости
-        routesItemList = getSortedByMoney(routesItemList);
-    }
-    qDebug() << "fillRoutesTableWidget, size=" << routesItemList.size();
-    routesTableWidget->setRowCount(routesItemList.size());
-
-    for(int i = 0; i < routesItemList.size(); i++ ) {
-        RoutesTableItemModel item = routesItemList.at(i);
-        routesTableWidget->setItem(i, 0, new QTableWidgetItem(item.start));
-        routesTableWidget->setItem(i, 1, new QTableWidgetItem(item.end));
-        routesTableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.cost)));
-        routesTableWidget->setItem(i, 3, new QTableWidgetItem(item.time.toString()));
-
-        QHBoxLayout* layout = new QHBoxLayout();
-        layout->setMargin(0);
-
-        QPushButton* btn1 = new QPushButton("На карте");
-        QPushButton* btn2 = new QPushButton("Подробно");
-
-        layout->setSizeConstraint(QLayout::SetMaximumSize);
-
-        btn1->setProperty("index", QVariant(i));
-        btn2->setProperty("index", QVariant(i));
-
-        layout->setSpacing(0);
-
-        layout->addWidget(btn1);
-        layout->addWidget(btn2);
-
-        connect(btn1, SIGNAL(clicked()), this, SLOT(drawPath()));
-        connect(btn2, SIGNAL(clicked()), this, SLOT(showFullInfo()));
-
-        QWidget* widget = new QWidget();
-        widget->setLayout(layout);
         routesTableWidget->setCellWidget(i, 4, widget);
     }
 }
@@ -667,4 +621,5 @@ void MainWindow::on_clearButton_clicked()
     ui->timeEdit->setTime(QTime(0, 0));
     ui->startList->setCurrentIndex(0);
     ui->finishList->setCurrentIndex(0);
+    ui->mapWidget->clearDrawed();
 }
