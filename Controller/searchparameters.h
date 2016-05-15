@@ -25,6 +25,8 @@ public:
     void addTransport(Transport transport);
     void addInterest(Interest interest);
 
+    int getMoney();
+    QTime getTime();
     int getStart();
     int getFinish();
     int getTravellersNumber();

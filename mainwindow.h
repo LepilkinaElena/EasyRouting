@@ -18,6 +18,13 @@ namespace Ui {
 class MainWindow;
 }
 
+struct RoutesTableItemModel {
+    QString start;
+    QString end;
+    int cost;
+    QTime time;
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -49,8 +56,12 @@ private slots:
     void save();
     void cancel();
 
+    void on_sortTypeComboBox_currentIndexChanged(int index);
+
 private:
     void setupUI();
+
+    void fillRoutesList(std::vector<std::vector<SearchParameters> > foundedRoutes);
 
     void fillPlaces(QComboBox* box);
     void activateButton(QAbstractButton* button);
@@ -70,6 +81,9 @@ private:
     QStandardItemModel interestsModel;
     QStandardItemModel transportModel;
     Ui::MainWindow *ui;
+
+    // список найденных маршрутов
+    std::vector<RoutesTableItemModel> tableRoutesList;
 };
 
 #endif // MAINWINDOW_H

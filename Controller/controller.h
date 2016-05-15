@@ -11,6 +11,7 @@ private:
 
 public:
     Controller();
+    RouteSearcher getRouteSearcher() { return routeSearcher; }
     std::vector<std::pair<std::string, int> > getAllPlacesOnMap();
     std::vector<std::vector<SearchParameters> > runRouteSearch(SearchParameters parameters);
 };

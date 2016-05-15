@@ -49,6 +49,15 @@ int SearchParameters::getFinish()
     return finish;
 }
 
+int SearchParameters::getMoney()
+{
+    return money;
+}
+
+QTime SearchParameters::getTime() {
+    return time;
+}
+
 int SearchParameters::getTravellersNumber()
 {
     return travellersNumber;
