@@ -95,6 +95,7 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
 std::istream& operator>> (std::istream& input, Place& object)
 {
     char idBuf[sizeof(unsigned int)];
+    memset(idBuf,0,sizeof(int));
 
     input.read(idBuf, sizeof(unsigned int));
     unsigned int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
@@ -109,6 +110,7 @@ std::istream& operator>> (std::istream& input, Place& object)
     unsigned int id = *(reinterpret_cast<unsigned int*>(idBuf));
     std::cout<<"read id " << id<<std::endl;
     char coordBuf[sizeof(double)];
+    memset(coordBuf, 0 , sizeof(double));
     input.read(coordBuf, sizeof(double));
     double x = *(reinterpret_cast<double*>(coordBuf));
     std::cout<<"read x " << x<<std::endl;
@@ -116,6 +118,7 @@ std::istream& operator>> (std::istream& input, Place& object)
     double y = *(reinterpret_cast<double*>(coordBuf));
     std::cout<<"read y " << y<<std::endl;
     char interestBuf[sizeof(unsigned int)];
+    memset(interestBuf, 0 , sizeof(unsigned int));
     input.read(interestBuf, sizeof(unsigned int));
     Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
     std::cout<<"read interest " << (int)interest<<std::endl;

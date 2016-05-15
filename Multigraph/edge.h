@@ -141,8 +141,14 @@ namespace Multigraph {
     std::istream& operator>> (std::istream& input, Edge<_T>& object)
     {
         char buf[sizeof(int)];
+        memset(buf, 0 , sizeof(int));
         input.read(buf, sizeof(int));
-        object.id = *(reinterpret_cast<int*>(buf));
+        int id = *(reinterpret_cast<int*>(buf));
+        if (id < 0) {
+            //error
+            return input;
+        }
+        object.id = id;
 
         _T* to = new _T();
         input >> *to;

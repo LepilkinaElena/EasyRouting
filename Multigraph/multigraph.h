@@ -504,7 +504,8 @@ namespace Multigraph {
     std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object)
     {
         unsigned int count;
-        char buf[sizeof(count)];
+        char buf[sizeof(unsigned int)];
+        memset(buf, 0 , sizeof(unsigned int));
         input.read(buf, sizeof(count));
         count = *(reinterpret_cast<unsigned int*>(buf));
 

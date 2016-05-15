@@ -147,6 +147,7 @@ std::ostream& RouteCost::save (std::ostream& output) const {
 std::istream& RouteCost::load(std::istream& input)
 {
     char intBuf[sizeof(int)];
+    memset(intBuf,0,sizeof(int));
     input.read(intBuf, sizeof(int));
     moneyCost = *(reinterpret_cast<int*>(intBuf));
     std::cout << "read moneyCost "<<moneyCost<<std::endl;
