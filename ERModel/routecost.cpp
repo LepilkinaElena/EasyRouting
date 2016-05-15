@@ -6,6 +6,10 @@ RouteCost::RouteCost() : Multigraph::Cost()
 {
 }
 
+RouteCost::~RouteCost()
+{
+}
+
 RouteCost::RouteCost(int money, QTime time, std::set<Interest> interest, std::set<Transport> transport) : Multigraph::Cost()
 {
     this->moneyCost = money;

@@ -88,7 +88,11 @@ namespace Multigraph {
     template <typename T>
     Edge<T>::~Edge()
     {
-        delete cost;
+        if (cost != NULL)
+        {
+            //delete cost;
+            cost = NULL;
+        }
     }
 
     template <typename T>

@@ -200,6 +200,7 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     Multigraph<T, Alloc>::Multigraph(const Multigraph &other)
     {
+        idCounter = 0;
         for (auto const& element:other.edges)
         {
             addEdge(element.first, element.second->getTo(), element.second->getCost());
@@ -270,6 +271,7 @@ namespace Multigraph {
                 break;
             }
         }
+
         delete edge;
         assert(checkRemovingEdgeFromMultigraph(size));
     }
