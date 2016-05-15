@@ -5,6 +5,7 @@
 #include <QStandardItemModel>
 #include "View/selectionitem.h"
 #include "ERModel/place.h"
+#include "Controller/controller.h"
 #include <QMessageBox>
 #include <QCloseEvent>
 
@@ -40,6 +41,7 @@ public:
 
 private:
     Ui::PlaceDialog *ui;
+    Controller controller;
 protected:
     void accept();
 };
