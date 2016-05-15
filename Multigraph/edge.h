@@ -129,7 +129,7 @@ namespace Multigraph {
     {
         char buf[sizeof(int)];
         int id = object.id;
-        strcpy(buf,reinterpret_cast<const char*>(&id));
+        strncpy(buf,reinterpret_cast<const char*>(&id), sizeof(int));
         output.write(buf, sizeof(int));
 
         output << object.from << object.to << *(object.cost);
