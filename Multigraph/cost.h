@@ -64,13 +64,13 @@ namespace Multigraph {
         */
         virtual bool operator>=(const Cost& other) const;
 
-        /*!\fn bool operator<=(const Cost& other);
+        /*!\fn bool operator<(const Cost& other);
          *\brief Метод сранения двух весов дуг
          *\param [in] this - текущий вес дуги
          *\param [in] other - сравниваемый вес дуги
          *\return признак, является ли данный вес дуги меньше или равен переданному
         */
-<<<<<<< HEAD
+        virtual bool operator<(const Cost& other) const;
 
         virtual std::ostream& save(std::ostream& output) const;
         friend std::ostream& operator<< (std::ostream& output, const Cost& object)
@@ -85,9 +85,8 @@ namespace Multigraph {
             object.load(input);
             return input;
         }
-=======
->>>>>>> 17fbcd41cc534d29da22705d8d13728237e5b21b
-        virtual bool operator<(const Cost& other) const;
+
+
     };
 }
 
