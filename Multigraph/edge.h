@@ -4,6 +4,8 @@
 
 #include "cost.h"
 #include <algorithm>
+#include <iostream>
+#include <ERModel/routecost.h>
 
 namespace Multigraph {
     /*!\class Edge
@@ -17,17 +19,17 @@ namespace Multigraph {
         /*!\var Edge::id
         *\brief уникальный идентификатор дуги
         */
-        const int id;
+        int id;
 
         /*!\var Edge::from
          *\brief вершина, из которой исходит дуга
         */
-        const T from;
+        T from;
 
         /*!\var Edge::from
         *\brief вершина, в которую входит дуга
         */
-        const T to;
+        T to;
 
         /*!\var Edge::cost
         *\brief вес дуги
@@ -43,6 +45,7 @@ namespace Multigraph {
         *\param [in] cost - вес дуги
         *\return дуга
         */
+        Edge();
         Edge(int id, const T& from, const T& to, Cost* cost);
         ~Edge();
 
@@ -67,6 +70,12 @@ namespace Multigraph {
         */
         const T &getFrom() const;
         int getId() const;
+
+        template <typename _T>
+        friend std::ostream& operator<< (std::ostream& output, const Edge<_T>& object);
+        template <typename _T>
+        friend std::istream& operator>> (std::istream& input, Edge<_T>& object);
+
         bool operator==(const Edge& other);
     };
 
@@ -79,7 +88,17 @@ namespace Multigraph {
     template <typename T>
     Edge<T>::~Edge()
     {
-        delete cost;
+        if (cost != NULL)
+        {
+            //delete cost;
+            cost = NULL;
+        }
+    }
+
+    template <typename T>
+    Edge<T>::Edge()
+    {
+        cost = NULL;
     }
 
     template <typename T>
@@ -103,6 +122,43 @@ namespace Multigraph {
     const T& Edge<T>::getFrom() const
     {
         return from;
+    }
+
+    template <typename _T>
+    std::ostream& operator<< (std::ostream& output, const Edge<_T>& object)
+    {
+        int id = object.id;
+        _T from = object.from;
+        _T to = object.to;
+        Cost* cost = object.cost;
+
+        output.write((char*) &id, sizeof(id));
+        output << from;
+        output << to;
+        output << *cost;
+
+        return output;
+    }
+
+    template <typename _T>
+    std::istream& operator>> (std::istream& input, Edge<_T>& object)
+    {
+        char buffer[sizeof(int)];
+        input.read(buffer, sizeof(int));
+        int id = (int) *buffer;
+        _T* to = new _T();
+        input >> *to;
+        _T* from = new _T();
+        input >> *from;
+        Cost* cost = new RouteCost();
+        input >> *cost;
+
+        object.id = id;
+        object.to = *to;
+        object.from = *from;
+        object.cost = cost;
+
+        return input;
     }
 
     template <typename T>

@@ -15,3 +15,15 @@ std::vector<std::vector<Path> > RouteSearcher::searchRoutes(int start, int finis
     Place finishPlace = cityMap.getPlaceById(finish);
     return cityMap.getRoutes(startPlace, finishPlace, limits);
 }
+
+void RouteSearcher::save() {
+    std::ofstream f("data", std::ios::binary);
+    f << cityMap;
+    f.close();
+}
+
+void RouteSearcher::load() {
+    std::ifstream f("data", std::ios::binary);
+    f >> cityMap;
+    f.close();
+}

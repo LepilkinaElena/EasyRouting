@@ -14,6 +14,8 @@ public:
     RouteSearcher getRouteSearcher() { return routeSearcher; }
     std::vector<std::pair<std::string, int> > getAllPlacesOnMap();
     std::vector<std::vector<SearchParameters> > runRouteSearch(SearchParameters parameters);
+    void save();
+    void load();
 };
 
 #endif // CONTROLLER_H

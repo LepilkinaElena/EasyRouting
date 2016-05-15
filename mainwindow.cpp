@@ -167,6 +167,7 @@ void MainWindow::save()
 {
     endEditing();
     // Todo serialize
+    controller.save();
 }
 
 void MainWindow::cancel()

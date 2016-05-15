@@ -40,6 +40,7 @@ private:
 
 public:
     RouteCost();
+    ~RouteCost();
 
     /*!\fn RouteCost(int money, int time, std::set<Interest> interest = std::set<Interest>(),
               std::set<Transport> transport = std::set<Transport>());
@@ -61,6 +62,9 @@ public:
     QTime getTimeCost() const;
     std::set<Interest> getInterests() const;
     std::set<Transport> getTransport() const;
+
+    std::ostream& save(std::ostream& output) const;
+    std::istream& load(std::istream& input);
 };
 
 #endif

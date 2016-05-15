@@ -2,12 +2,10 @@
 #define CITYMAP_H
 
 #include "Multigraph/multigraph.h"
-#include <typeinfo.h>
 #include "place.h"
 #include "routecost.h"
 #include "path.h"
-
-
+#include <typeinfo>
 
 class CityMap
 {
@@ -29,6 +27,8 @@ public:
     void removeRouteById(int id);
     std::vector<std::vector<Path> > getRoutes(const Place &start, const Place &finish,
                    const RouteCost& limits);
+    friend std::ostream& operator<< (std::ostream& output, const CityMap& object);
+    friend std::istream& operator>> (std::istream& input, CityMap& object);
 
 
 private:

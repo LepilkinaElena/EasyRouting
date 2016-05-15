@@ -15,7 +15,6 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    Multigraph/cost.cpp \
     ERModel/place.cpp \
     ERModel/routecost.cpp \
     tests/tests.cpp \
@@ -33,6 +32,7 @@ SOURCES += main.cpp\
     ERModel/routesearcher.cpp \
     Controller/searchparameters.cpp \
     ERModel/path.cpp \
+    Multigraph/cost.cpp \
     View/savedialog.cpp
 
 HEADERS  += mainwindow.h \

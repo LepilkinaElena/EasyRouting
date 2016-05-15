@@ -13,7 +13,7 @@
 #include "Exceptions/nullpointerexception.h"
 #include "Exceptions/edgeabsencemultigraphexception.h"
 #include "Exceptions/vertexabsencemultigraphexception.h"
-
+#include <ERModel/place.h>
 
 namespace Multigraph {
 
@@ -26,6 +26,11 @@ namespace Multigraph {
     {
     public:
         typedef MultigraphIterator<T > iterator;
+        template <typename _T, typename _Alloc>
+        friend std::ostream& operator<< (std::ostream& output, const Multigraph<_T,_Alloc>& object);
+        template <typename _T, typename _Alloc>
+        friend std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object);
+
     private:
         typedef std::multimap<T, Edge<T>*, std::less<T>, Alloc > MultigraphMultiMap;
         struct waveStep
@@ -195,6 +200,7 @@ namespace Multigraph {
     template <typename T, typename Alloc>
     Multigraph<T, Alloc>::Multigraph(const Multigraph &other)
     {
+        idCounter = 0;
         for (auto const& element:other.edges)
         {
             addEdge(element.first, element.second->getTo(), element.second->getCost());
@@ -265,6 +271,7 @@ namespace Multigraph {
                 break;
             }
         }
+
         delete edge;
         assert(checkRemovingEdgeFromMultigraph(size));
     }
@@ -476,6 +483,38 @@ namespace Multigraph {
             }
         }
         return false;
+    }
+
+    template <typename _T, typename _Alloc>
+    std::ostream& operator<< (std::ostream& output, const Multigraph<_T, _Alloc>& object)
+    {
+        unsigned int count = (unsigned int) object.edges.size();
+        output.write((char*) &count, sizeof(count));
+        for (auto const& element: object.edges)
+        {
+            output << element.first;
+            output << *(element.second);
+        }
+        return output;
+    }
+
+    template <typename _T, typename _Alloc>
+    std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object)
+    {
+        char data[sizeof(unsigned int)];
+        input.read(data, sizeof(unsigned int));
+        unsigned int count = (unsigned int) *data;
+
+        for (int i = 0; i < count; i++) {
+            _T* first = new _T();
+            Edge<_T>* second = new Edge<_T>();
+            input >> *first;
+            input >> *second;
+
+            object.addEdge(*first, second->getTo(), second->getCost());
+        }
+
+        return input;
     }
 
     template <typename T, typename Alloc>

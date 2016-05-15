@@ -3,6 +3,8 @@
 
 #include "citymap.h"
 #include "DAO/DataAccessObject.h"
+#include <iostream>
+#include <fstream>
 
 class RouteSearcher {
 private:
