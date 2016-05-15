@@ -245,7 +245,11 @@
          <widget class="QComboBox" name="sortTypeComboBox"/>
         </item>
         <item>
-         <widget class="QTableWidget" name="routesTableWidget"/>
+         <widget class="QTableWidget" name="routesTableWidget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

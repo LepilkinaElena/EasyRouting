@@ -61,21 +61,6 @@ void MainWindow::setupUI()
     horizontalLabels.append("Действия");
     ui->routesTableWidget->setHorizontalHeaderLabels(horizontalLabels);
 
-    //QTableWidgetItem *item1 = new QTableWidgetItem("123");
-
-    //QStringList horizontalHeaders;
-    //horizontalHeaders << "Label1" << "Label2";
-
-    //ui->routesTableWidget->setHorizontalHeaderLabels(horizontalHeaders);
-    //ui->routesTableWidget->setColumnCount(3);
-    //ui->routesTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Начало")));
-    //ui->routesTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Конец")));
-    //ui->routesTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Промежуточные пункты")));
-
-    //ui->routesTableWidget->insertRow(0);
-    //ui->routesTableWidget->setItem(0, 0, new QTableWidgetItem("hello"));
-    //ui->routesTableWidget->setItem(0, 1, new QTableWidgetItem("hello"));
-
     fillPlaces(ui->startList);
     fillPlaces(ui->finishList);
 
