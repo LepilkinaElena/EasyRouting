@@ -111,22 +111,34 @@ std::set<Transport> RouteCost::getTransport() const
 }
 
 std::ostream& RouteCost::save (std::ostream& output) const {
-    output.write((char*) &moneyCost, sizeof(moneyCost));
+    char intBuf[sizeof(int)];
+    strncpy(intBuf, reinterpret_cast<const char*>(&moneyCost), sizeof(int));
+    output.write(intBuf, sizeof(moneyCost));
     int hour = timeCost.hour();
+    strncpy(intBuf, reinterpret_cast<const char*>(&hour), sizeof(int));
+    output.write(intBuf, sizeof(hour));
     int min = timeCost.minute();
+    strncpy(intBuf, reinterpret_cast<const char*>(&min), sizeof(int));
+    output.write(intBuf, sizeof(min));
     int sec = timeCost.second();
-    output.write((char*) &hour, sizeof(int));
-    output.write((char*) &min, sizeof(int));
-    output.write((char*) &sec, sizeof(int));
+    strncpy(intBuf, reinterpret_cast<const char*>(&sec), sizeof(int));
+    output.write(intBuf, sizeof(sec));
+
     unsigned int interestsCount = (unsigned int) interests.size();
     unsigned int transportsCount = (unsigned int) transports.size();
-    output.write((char*) &interestsCount, sizeof(interestsCount));
+    strncpy(intBuf, reinterpret_cast<const char*>(&interestsCount), sizeof(int));
+    output.write(intBuf, sizeof(interestsCount));
+    char interestBuf[sizeof(Interest)];
     for (auto const& element : interests) {
-        output.write((char*) &element, sizeof(element));
+        strncpy(interestBuf, reinterpret_cast<const char*>(&element), sizeof(Interest));
+        output.write(interestBuf, sizeof(Interest));
     }
-    output.write((char*) &transportsCount, sizeof(transportsCount));
+    strncpy(intBuf, reinterpret_cast<const char*>(&transportsCount), sizeof(int));
+    output.write(intBuf, sizeof(transportsCount));
+    char transportBuf[sizeof(Transport)];
     for (auto const& element : transports) {
-        output.write((char*) &element, sizeof(element));
+        strncpy(transportBuf, reinterpret_cast<const char*>(&element), sizeof(Interest));
+        output.write(transportBuf, sizeof(Transport));
     }
 
     return output;
@@ -134,38 +146,45 @@ std::ostream& RouteCost::save (std::ostream& output) const {
 
 std::istream& RouteCost::load(std::istream& input)
 {
-    char moneyBuf[sizeof(int)];
-    input.read(moneyBuf, sizeof(int));
-    this->moneyCost = (int) *moneyBuf;
+    char intBuf[sizeof(int)];
+    memset(intBuf,0,sizeof(int));
+    input.read(intBuf, sizeof(int));
+    moneyCost = *(reinterpret_cast<int*>(intBuf));
+    std::cout << "read moneyCost "<<moneyCost<<std::endl;
 
-    char timeBuf[sizeof(int)];
-    input.read(timeBuf, sizeof(int));
-    int hour = (int) *timeBuf;
-    input.read(timeBuf, sizeof(int));
-    int min = (int) *timeBuf;
-    input.read(timeBuf, sizeof(int));
-    int sec = (int) *timeBuf;
+    int hour,min,sec;
+    input.read(intBuf, sizeof(int));
+    hour = *(reinterpret_cast<int*>(intBuf));
+    input.read(intBuf, sizeof(int));
+    min = *(reinterpret_cast<int*>(intBuf));
+    input.read(intBuf, sizeof(int));
+    sec = *(reinterpret_cast<int*>(intBuf));
     this->timeCost = QTime(hour, min, sec);
 
-    char countBuf[sizeof(unsigned int)];
-    input.read(countBuf, sizeof(unsigned int));
-    unsigned int interestsCount = (unsigned int) *countBuf;
+    std::cout << "read time "<<hour<<" "<<min<<" "<<sec<<std::endl;
+
+    input.read(intBuf, sizeof(int));
+    unsigned int interestsCount = *(reinterpret_cast<int*>(intBuf));
     interests = std::set<Interest>();
 
-    char interestBuf[sizeof(Interest)];
+    std::cout<<"read interests count "<<interestsCount << std::endl;
+
     for (int i = 0; i < interestsCount; i++) {
-        input.read(interestBuf, sizeof(Interest));
-        interests.insert((Interest) *interestBuf);
+        input.read(intBuf, sizeof(int));
+        Interest interest = *(reinterpret_cast<Interest*>(intBuf));
+        interests.insert(interest);
     }
 
-    input.read(countBuf, sizeof(unsigned int));
-    unsigned int transportsCount = (unsigned int) *countBuf;
+    input.read(intBuf, sizeof(int));
+    unsigned int transportsCount = *(reinterpret_cast<int*>(intBuf));
     transports = std::set<Transport>();
 
-    char transportBuf[sizeof(Transport)];
+    std::cout<<"read transports count "<<transportsCount << std::endl;
+
     for (int i = 0; i < transportsCount; i++) {
-        input.read(transportBuf, sizeof(Transport));
-        transports.insert((Transport) *transportBuf);
+        input.read(intBuf, sizeof(int));
+        Transport transport = *(reinterpret_cast<Transport*>(intBuf));
+        transports.insert((Transport) transport);
     }
 
     return input;

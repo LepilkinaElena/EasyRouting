@@ -5,6 +5,7 @@
 #define PLACE_H
 #include <string>
 #include <iostream>
+#include <cstring>
 
 enum Interest { SIGHT, CULTURE, PARK, ENTERTAINMENT };
 
