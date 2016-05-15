@@ -8,12 +8,13 @@
 #include "DAO/DataAccessObject.h"
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 
 /*!\class RouteSearcher
 *\brief Класс поисковика маршрутов
 *\ref RouteSearcher
 */
-class RouteSearcher {
+class RouteSearcher {  
 private:
     /*!\var RouteSearcher::cityMap
     *\brief карта

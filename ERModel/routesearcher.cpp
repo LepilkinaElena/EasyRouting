@@ -1,5 +1,7 @@
 #include "routesearcher.h"
 
+const std::string KEY = "easyroutingdata";
+
 RouteSearcher::RouteSearcher():cityMap(CityMap::Instance())
 {
 }
@@ -16,14 +18,35 @@ std::vector<std::vector<Path> > RouteSearcher::searchRoutes(int start, int finis
     return cityMap.getRoutes(startPlace, finishPlace, limits);
 }
 
+std::ostream& decorate(std::ostream& stream) {
+    stream << KEY;
+    return stream;
+}
+
 void RouteSearcher::save() {
-    std::ofstream f("data", std::ios::binary);
-    f << cityMap;
+    std::ofstream f;
+    f.open("data", std::ios::binary | std::ios::out);
+    if (!f.fail()) {
+        f << decorate << cityMap;
+    }
     f.close();
 }
 
 void RouteSearcher::load() {
-    std::ifstream f("data", std::ios::binary);
-    f >> cityMap;
+    std::ifstream f;
+    f.open("data", std::ios::binary | std::ios::in);
+    if (!f.fail()) {
+        char buffer[KEY.length()];
+        memset(buffer, 0, KEY.length());
+        f.read(buffer, KEY.length());
+        if (strncmp(buffer, KEY.c_str(), KEY.length()) == 0) {
+            f >> cityMap;
+        } else {
+            std::cerr << "File is incorrect" << std::endl;
+        }
+    } else {
+        std::cerr << "Error load file" << std::endl;
+    }
     f.close();
 }
+
