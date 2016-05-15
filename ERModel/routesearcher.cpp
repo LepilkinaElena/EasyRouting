@@ -18,6 +18,11 @@ std::vector<std::vector<Path> > RouteSearcher::searchRoutes(int start, int finis
     return cityMap.getRoutes(startPlace, finishPlace, limits);
 }
 
+/*!\fn decorate (std::ostream& stream);
+ *\brief Манипулятор для ввода ключа в начало файла
+ *\param [in] stream - манипулируемый поток
+ *\return декорированный поток
+ */
 std::ostream& decorate(std::ostream& stream) {
     stream << KEY;
     return stream;

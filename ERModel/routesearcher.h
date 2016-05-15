@@ -34,7 +34,13 @@ public:
     */
     std::vector<std::vector<Path> > searchRoutes (int start, int finish, const RouteCost& limits);
     const CityMap& getCityMap();
+    /*!\fn load ();
+     *\brief Десериализация карты
+    */
     void load();
+    /*!\fn load ();
+     *\brief Сериализация карты
+    */
     void save();
 };
 

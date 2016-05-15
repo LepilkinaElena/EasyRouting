@@ -40,7 +40,13 @@ public:
     *\return найденные пути
     */
     std::vector<std::vector<SearchParameters> > runRouteSearch(SearchParameters parameters);
+    /*!\fn load ();
+     *\brief Вызов сериализации из UI
+    */
     void save();
+    /*!\fn load ();
+     *\brief Вызов десериализации из UI
+    */
     void load();
 };
 
