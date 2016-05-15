@@ -413,18 +413,15 @@ int getCost(std::vector<SearchParameters> params) {
 }
 
 void MainWindow::fillRoutesTableWidget(QTableWidget* routesTableWidget, int index) {
-    qDebug() << "CALL 1";
     routesTableWidget->clearContents();
     routesTableWidget->setRowCount(0);
 
     if(index == 0) {
         // сортировка по времени
         vvPaths = getSortedByTime(vvPaths);
-//        routesItemList = getSortedByTime(routesItemList);
     } else {
         // сортировка по стоимости
         vvPaths = getSortedByMoney(vvPaths);
-//        routesItemList = getSortedByMoney(routesItemList);
     }
 
     routesTableWidget->setRowCount(vvPaths.size());
@@ -524,35 +521,9 @@ void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesI
 void MainWindow::fillRoutesList(std::vector<std::vector<SearchParameters>> foundedRoutes) {
 
     if(foundedRoutes.size() == 0) {
-        // todo: show alert dialog that no one routes has been found
+        QMessageBox::warning(this, "Поиск маршрутов", "Маршруты не найдены. Измените параметры поиска");
     }
     this->vvPaths = foundedRoutes;
-
-
-//    for(int i = 0; i < foundedRoutes.size(); i++) {
-//        std::vector<SearchParameters> pathVector = foundedRoutes.at(i);
-//        if(pathVector.size() == 0) {
-//            //todo: alert dialog
-//        } else {
-//            RoutesTableItemModel tableItem;
-
-//            std::string start = getPlaceName(pathVector.at(0).getStart());
-//            std::string end = getPlaceName(pathVector.at(pathVector.size() - 1).getFinish());
-//            QString qStart = QString::fromStdString(start);
-//            QString qEnd = QString::fromStdString(end);
-
-//            tableItem.start = qStart;
-//            tableItem.end = qEnd;
-//            tableItem.cost = defineCost(pathVector);
-//            tableItem.time = defineTime(pathVector);
-//            tableItem.pathVector = pathVector;
-
-//            qDebug() << "SEARCH PARAM #" << i+1 << ": " << tableItem.time.toString();
-
-//            tableRoutesList.push_back(tableItem);
-//        }
-//    }
-
     fillRoutesTableWidget(ui->routesTableWidget, ui->sortTypeComboBox->currentIndex());
 }
 
