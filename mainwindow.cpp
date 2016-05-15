@@ -44,9 +44,37 @@ void MainWindow::setupUI()
     transportModel.appendRow(new SelectionItem("Маршрутка"));
     transportModel.appendRow(new SelectionItem("Пешком"));
 
+    ui->sortTypeComboBox->addItem("По времени");
+    ui->sortTypeComboBox->addItem("По стоимости");
+
     ui->createPlaceButton->setEnabled(false);
     ui->createRouteButton->setEnabled(false);
     ui->removeButton->setEnabled(false);
+
+    ui->routesTableWidget->setColumnCount(5);
+
+    QStringList horizontalLabels;
+    horizontalLabels.append("Начало");
+    horizontalLabels.append("Конец");
+    horizontalLabels.append("Стоимость");
+    horizontalLabels.append("Время");
+    horizontalLabels.append("Действия");
+    ui->routesTableWidget->setHorizontalHeaderLabels(horizontalLabels);
+
+    //QTableWidgetItem *item1 = new QTableWidgetItem("123");
+
+    //QStringList horizontalHeaders;
+    //horizontalHeaders << "Label1" << "Label2";
+
+    //ui->routesTableWidget->setHorizontalHeaderLabels(horizontalHeaders);
+    //ui->routesTableWidget->setColumnCount(3);
+    //ui->routesTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Начало")));
+    //ui->routesTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Конец")));
+    //ui->routesTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Промежуточные пункты")));
+
+    //ui->routesTableWidget->insertRow(0);
+    //ui->routesTableWidget->setItem(0, 0, new QTableWidgetItem("hello"));
+    //ui->routesTableWidget->setItem(0, 1, new QTableWidgetItem("hello"));
 
     fillPlaces(ui->startList);
     fillPlaces(ui->finishList);
@@ -120,6 +148,7 @@ void MainWindow::runRouteSearching()
         QMessageBox::warning(this,"Ошибка в вводе праметров", "Не выбран ни один вид транспорта!");
     }
     std::vector<std::vector<SearchParameters> > routes = controller.runRouteSearch(parameters);
+    fillRoutesList(routes);
 }
 
 void MainWindow::fillPlaces(QComboBox *box)
@@ -223,6 +252,121 @@ void MainWindow::on_createPlaceButton_clicked()
         placeDialog.close();
         ui->mapWidget->resetMode();
     }
+}
+
+std::string getPlaceName(int index) {
+    return CityMap::Instance().getPlaceById(index).getName();
+}
+
+std::vector<RoutesTableItemModel> getSortedByTime(std::vector<RoutesTableItemModel> tableList) {
+    struct CostSortFunc {
+        bool operator()(RoutesTableItemModel item1, RoutesTableItemModel item2) {
+            if(item1.time.hour() < item2.time.hour()) {
+                return true;
+            } else {
+                if(item1.time.hour() == item2.time.hour()) {
+                    return item1.time.minute() < item2.time.minute();
+                } else {
+                    return false;
+                }
+            }
+
+        }
+    } sortObject;
+
+    std::sort(tableList.begin(), tableList.end(), sortObject);
+    return tableList;
+}
+
+std::vector<RoutesTableItemModel> getSortedByMoney(std::vector<RoutesTableItemModel> tableList) {
+    struct CostSortFunc {
+        bool operator()(RoutesTableItemModel item1, RoutesTableItemModel item2) {
+            return item1.cost < item2.cost;
+        }
+    } sortObject;
+
+    std::sort(tableList.begin(), tableList.end(), sortObject);
+    qDebug() << "123";
+    return tableList;
+}
+
+int defineCost(std::vector<SearchParameters> pathVector) {
+    int cost = 0;
+    for(int i = 0; i < pathVector.size(); i++) {
+        cost += pathVector.at(i).getMoney();
+    }
+    return cost;
+}
+
+QTime defineTime(std::vector<SearchParameters> pathVector) {
+    int minutes = 0;
+    int hours = 0;
+    for(int i = 0; i < pathVector.size();i++) {
+        QTime time = pathVector.at(i).getTime();
+        hours += time.hour();
+        minutes += time.minute();
+    }
+    while(minutes >= 60) {
+        hours++;
+        minutes -= 60;
+    }
+    return QTime(hours, minutes);
+}
+
+void fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index) {
+    routesTableWidget->clearContents();
+    routesTableWidget->setRowCount(0);
+
+    if(index == 0) {
+        // сортировка по времени
+        routesItemList = getSortedByTime(routesItemList);
+    } else {
+        // сортировка по стоимости
+        routesItemList = getSortedByMoney(routesItemList);
+    }
+    qDebug() << "fillRoutesTableWidget, size=" << routesItemList.size();
+    routesTableWidget->setRowCount(routesItemList.size());
+
+    for(int i = 0; i < routesItemList.size(); i++ ) {
+        RoutesTableItemModel item = routesItemList.at(i);
+        routesTableWidget->setItem(i, 0, new QTableWidgetItem(item.start));
+        routesTableWidget->setItem(i, 1, new QTableWidgetItem(item.end));
+        routesTableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.cost)));
+        routesTableWidget->setItem(i, 3, new QTableWidgetItem(item.time.toString()));
+    }
+}
+
+void MainWindow::fillRoutesList(std::vector<std::vector<SearchParameters>> foundedRoutes) {
+
+    if(foundedRoutes.size() == 0) {
+        // todo: show alert dialog that no one routes has been found
+    }
+    tableRoutesList.clear();
+
+    for(int i = 0; i < foundedRoutes.size(); i++) {
+        std::vector<SearchParameters> pathVector = foundedRoutes.at(i);
+        if(pathVector.size() == 0) {
+            //todo: alert dialog
+        } else {
+            RoutesTableItemModel tableItem;
+
+            std::string start = getPlaceName(pathVector.at(0).getStart());
+            std::string end = getPlaceName(pathVector.at(pathVector.size() - 1).getFinish());
+            QString qStart = QString::fromStdString(start);
+            QString qEnd = QString::fromStdString(end);
+
+            tableItem.start = qStart;
+            tableItem.end = qEnd;
+            tableItem.cost = defineCost(pathVector);
+            tableItem.time = defineTime(pathVector);
+
+            qDebug() << "SEARCH PARAM #" << i+1 << ": " << tableItem.time.toString();
+
+            tableRoutesList.push_back(tableItem);
+        }
+    }
+
+    fillRoutesTableWidget(tableRoutesList, ui->routesTableWidget, ui->sortTypeComboBox->currentIndex());
 }
 
 void MainWindow::cancelCreatingPlace()
@@ -350,4 +494,19 @@ void MainWindow::on_removeButton_clicked()
         deactivateButton(ui->removeButton);
         removeModeOn = false;
     }
+}
+
+void MainWindow::on_sortTypeComboBox_currentIndexChanged(int index)
+{
+    fillRoutesTableWidget(tableRoutesList, ui->routesTableWidget, index);
+}
+
+void MainWindow::on_clearButton_clicked()
+{
+    ui->routesTableWidget->clearContents();
+    ui->routesTableWidget->setRowCount(0);
+    ui->moneyCount->setValue(0);
+    ui->timeEdit->setTime(QTime(0, 0));
+    ui->startList->setCurrentIndex(0);
+    ui->finishList->setCurrentIndex(0);
 }

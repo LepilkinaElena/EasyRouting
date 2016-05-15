@@ -58,6 +58,8 @@ private slots:
 
     void on_sortTypeComboBox_currentIndexChanged(int index);
 
+    void on_clearButton_clicked();
+
 private:
     void setupUI();
 
