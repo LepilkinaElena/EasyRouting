@@ -40,6 +40,7 @@ private:
 
 public:
     RouteCost();
+    ~RouteCost();
 
     /*!\fn RouteCost(int money, int time, std::set<Interest> interest = std::set<Interest>(),
               std::set<Transport> transport = std::set<Transport>());
