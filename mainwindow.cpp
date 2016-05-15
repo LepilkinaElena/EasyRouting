@@ -244,6 +244,31 @@ std::string getPlaceName(int index) {
     return CityMap::Instance().getPlaceById(index).getName();
 }
 
+std::vector<std::vector<SearchParameters>> getSortedByTime(std::vector<std::vector<SearchParameters>> tableList) {
+    struct CostSortFunc {
+        bool operator()(std::vector<SearchParameters> item1, std::vector<SearchParameters> item2) {
+            return MainWindow::defineDuration(item1) < MainWindow::defineDuration(item2);
+        }
+        QTime defineTime(std::vector<SearchParameters> pathVector) {
+            int minutes = 0;
+            int hours = 0;
+            for(int i = 0; i < pathVector.size();i++) {
+                QTime time = pathVector.at(i).getTime();
+                hours += time.hour();
+                minutes += time.minute();
+            }
+            while(minutes >= 60) {
+                hours++;
+                minutes -= 60;
+            }
+            return QTime(hours, minutes);
+        }
+    } sortObject;
+
+    std::sort(tableList.begin(), tableList.end(), sortObject);
+    return tableList;
+}
+
 std::vector<RoutesTableItemModel> getSortedByTime(std::vector<RoutesTableItemModel> tableList) {
     struct CostSortFunc {
         bool operator()(RoutesTableItemModel item1, RoutesTableItemModel item2) {
@@ -264,6 +289,18 @@ std::vector<RoutesTableItemModel> getSortedByTime(std::vector<RoutesTableItemMod
     return tableList;
 }
 
+std::vector<std::vector<SearchParameters>> getSortedByMoney(std::vector<std::vector<SearchParameters>> tableList) {
+    struct CostSortFunc {
+        bool operator()(std::vector<SearchParameters> item1, std::vector<SearchParameters> item2) {
+            return MainWindow::defineCost(item1) < MainWindow::defineCost(item2);
+        }
+    } sortObject;
+
+    std::sort(tableList.begin(), tableList.end(), sortObject);
+    qDebug() << "123";
+    return tableList;
+}
+
 std::vector<RoutesTableItemModel> getSortedByMoney(std::vector<RoutesTableItemModel> tableList) {
     struct CostSortFunc {
         bool operator()(RoutesTableItemModel item1, RoutesTableItemModel item2) {
@@ -276,7 +313,7 @@ std::vector<RoutesTableItemModel> getSortedByMoney(std::vector<RoutesTableItemMo
     return tableList;
 }
 
-int defineCost(std::vector<SearchParameters> pathVector) {
+int MainWindow::defineCost(std::vector<SearchParameters> pathVector) {
     int cost = 0;
     for(int i = 0; i < pathVector.size(); i++) {
         cost += pathVector.at(i).getMoney();
@@ -284,7 +321,7 @@ int defineCost(std::vector<SearchParameters> pathVector) {
     return cost;
 }
 
-QTime defineTime(std::vector<SearchParameters> pathVector) {
+QTime MainWindow::defineDuration(std::vector<SearchParameters> pathVector) {
     int minutes = 0;
     int hours = 0;
     for(int i = 0; i < pathVector.size();i++) {
@@ -306,15 +343,33 @@ void MainWindow::drawPath() {
 
     qDebug() << "DRAW PATH!!!" << index;
 
-    RoutesTableItemModel routesTableItem = tableRoutesList.at(index);
-    ui->mapWidget->drawPath(routesTableItem.pathVector);
+    ui->mapWidget->drawPath(vvPaths.at(index));
 }
+
 void MainWindow::showFullInfo() {
-    QString startPlace = "Начальная остановка", finishPlace = "Конечная остановка";
-    QString cost = "100$", duration = "00:45:00";
+    QPushButton* b = qobject_cast<QPushButton *>(sender());
+    int index = b->property("index").toInt();
+
+    std::vector<SearchParameters> path = vvPaths.at(index);
+
+    QString startName = QString::fromStdString(CityMap::Instance().getPlaceById(path.at(0).getStart()).getName());
+    QString finishName = QString::fromStdString(CityMap::Instance().getPlaceById(path.at(path.size() - 1).getFinish()).getName());
+
+    QString cost = QString::number(MainWindow::defineCost(path));
+    QString duration = MainWindow::defineDuration(path).toString();
+
     std::vector<QString> stopsList;
-    stopsList.push_back("Остановка 1");
-    stopsList.push_back("Остановка 2");
+    for(int i = 0; i < path.size(); i++) {
+        SearchParameters sp = path.at(i);
+        QString stopName = QString::fromStdString(CityMap::Instance().getPlaceById(sp.getStart()).getName());
+        stopsList.push_back(stopName);
+    }
+//    for(int i = 0; i < routesTableItem.pathVector.size(); i++) {
+//        SearchParameters searchParams = routesTableItem.pathVector.at(i);
+//        std::string str = CityMap::Instance().getPlaceById(searchParams.getStart()).getName();
+//        stopsList.push_back(QString::fromStdString(str));
+//    }
+    stopsList.push_back(finishName);
 
     QString stopsStr;
     for(int i = 0; i < stopsList.size();i++) {
@@ -325,13 +380,99 @@ void MainWindow::showFullInfo() {
     }
 
     QMessageBox::information(this, "Информация о маршруте",
-                             QString("\nИз: ") + startPlace +
-                             QString("\nВ: ") + finishPlace +
+                             QString("\nИз: ") + startName +
+                             QString("\nВ: ") + finishName +
                              QString("\nСтоимость: ") + cost +
                              QString("\nВремя: ") + duration +
                              QString("\nОстановки: \n") +
                              stopsStr);
 
+}
+
+QTime getTime(std::vector<SearchParameters> params) {
+    int minutes = 0;
+    int hours = 0;
+    for(int i = 0; i < params.size(); i++) {
+        QTime qTime = params.at(i).getTime();
+        minutes += qTime.minute();
+        hours += qTime.hour();
+    }
+    while(minutes >= 60) {
+        minutes-=60;
+        hours++;
+    }
+    return QTime(hours, minutes);
+}
+
+int getCost(std::vector<SearchParameters> params) {
+    int money = 0;
+    for(int i = 0; i < params.size(); i++) {
+        money += params.at(i).getMoney();
+    }
+    return money;
+}
+
+void MainWindow::fillRoutesTableWidget(QTableWidget* routesTableWidget, int index) {
+    qDebug() << "CALL 1";
+    routesTableWidget->clearContents();
+    routesTableWidget->setRowCount(0);
+
+    if(index == 0) {
+        // сортировка по времени
+        vvPaths = getSortedByTime(vvPaths);
+//        routesItemList = getSortedByTime(routesItemList);
+    } else {
+        // сортировка по стоимости
+        vvPaths = getSortedByMoney(vvPaths);
+//        routesItemList = getSortedByMoney(routesItemList);
+    }
+
+    routesTableWidget->setRowCount(vvPaths.size());
+
+    qDebug() << "vvPaths.size: " << vvPaths.size();
+    for(int i = 0; i < vvPaths.size(); i++) {
+        std::vector<SearchParameters> path = vvPaths.at(i);
+
+        int start = path.at(0).getStart();
+        QString startStr = QString::fromStdString(CityMap::Instance().getPlaceById(start).getName());
+
+        int finish = path.at(path.size() - 1).getFinish();
+        QString finishStr = QString::fromStdString(CityMap::Instance().getPlaceById(finish).getName());
+
+        int cost = getCost(path);
+        QString costStr = QString::number(cost);
+
+        QTime time = getTime(path);
+
+        routesTableWidget->setItem(i, 0, new QTableWidgetItem(startStr));
+        routesTableWidget->setItem(i, 1, new QTableWidgetItem(finishStr));
+        routesTableWidget->setItem(i, 2, new QTableWidgetItem(costStr));
+        routesTableWidget->setItem(i, 3, new QTableWidgetItem(time.toString()));
+
+        QHBoxLayout* layout = new QHBoxLayout();
+        layout->setMargin(0);
+
+        QPushButton* btn1 = new QPushButton("На карте");
+        QPushButton* btn2 = new QPushButton("Подробно");
+
+        layout->setSizeConstraint(QLayout::SetMaximumSize);
+
+        btn1->setProperty("index", QVariant(i));
+        btn2->setProperty("index", QVariant(i));
+
+        layout->setSpacing(0);
+
+        layout->addWidget(btn1);
+        layout->addWidget(btn2);
+
+        connect(btn1, SIGNAL(clicked()), this, SLOT(drawPath()));
+        connect(btn2, SIGNAL(clicked()), this, SLOT(showFullInfo()));
+
+        QWidget* widget = new QWidget();
+        widget->setLayout(layout);
+
+        routesTableWidget->setCellWidget(i, 4, widget);
+    }
 }
 
 void MainWindow::fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index) {
@@ -385,33 +526,34 @@ void MainWindow::fillRoutesList(std::vector<std::vector<SearchParameters>> found
     if(foundedRoutes.size() == 0) {
         // todo: show alert dialog that no one routes has been found
     }
-    tableRoutesList.clear();
+    this->vvPaths = foundedRoutes;
 
-    for(int i = 0; i < foundedRoutes.size(); i++) {
-        std::vector<SearchParameters> pathVector = foundedRoutes.at(i);
-        if(pathVector.size() == 0) {
-            //todo: alert dialog
-        } else {
-            RoutesTableItemModel tableItem;
 
-            std::string start = getPlaceName(pathVector.at(0).getStart());
-            std::string end = getPlaceName(pathVector.at(pathVector.size() - 1).getFinish());
-            QString qStart = QString::fromStdString(start);
-            QString qEnd = QString::fromStdString(end);
+//    for(int i = 0; i < foundedRoutes.size(); i++) {
+//        std::vector<SearchParameters> pathVector = foundedRoutes.at(i);
+//        if(pathVector.size() == 0) {
+//            //todo: alert dialog
+//        } else {
+//            RoutesTableItemModel tableItem;
 
-            tableItem.start = qStart;
-            tableItem.end = qEnd;
-            tableItem.cost = defineCost(pathVector);
-            tableItem.time = defineTime(pathVector);
-            tableItem.pathVector = pathVector;
+//            std::string start = getPlaceName(pathVector.at(0).getStart());
+//            std::string end = getPlaceName(pathVector.at(pathVector.size() - 1).getFinish());
+//            QString qStart = QString::fromStdString(start);
+//            QString qEnd = QString::fromStdString(end);
 
-            qDebug() << "SEARCH PARAM #" << i+1 << ": " << tableItem.time.toString();
+//            tableItem.start = qStart;
+//            tableItem.end = qEnd;
+//            tableItem.cost = defineCost(pathVector);
+//            tableItem.time = defineTime(pathVector);
+//            tableItem.pathVector = pathVector;
 
-            tableRoutesList.push_back(tableItem);
-        }
-    }
+//            qDebug() << "SEARCH PARAM #" << i+1 << ": " << tableItem.time.toString();
 
-    fillRoutesTableWidget(tableRoutesList, ui->routesTableWidget, ui->sortTypeComboBox->currentIndex());
+//            tableRoutesList.push_back(tableItem);
+//        }
+//    }
+
+    fillRoutesTableWidget(ui->routesTableWidget, ui->sortTypeComboBox->currentIndex());
 }
 
 void MainWindow::cancelCreatingPlace()
@@ -543,7 +685,7 @@ void MainWindow::on_removeButton_clicked()
 
 void MainWindow::on_sortTypeComboBox_currentIndexChanged(int index)
 {
-    fillRoutesTableWidget(tableRoutesList, ui->routesTableWidget, index);
+    fillRoutesTableWidget(ui->routesTableWidget, index);
 }
 
 void MainWindow::on_clearButton_clicked()

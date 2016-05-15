@@ -34,6 +34,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    static int defineCost(std::vector<SearchParameters>);
+    static QTime defineDuration(std::vector<SearchParameters>);
 
 private slots:
     void on_createPlaceButton_clicked();
@@ -69,7 +71,9 @@ private:
     void setupUI();
 
     void fillRoutesList(std::vector<std::vector<SearchParameters> > foundedRoutes);
+
     void fillRoutesTableWidget(std::vector<RoutesTableItemModel> routesItemList, QTableWidget* routesTableWidget, int index);
+    void fillRoutesTableWidget(QTableWidget* routesTableWidget, int index);
     void fillPlaces(QComboBox* box);
     void activateButton(QAbstractButton* button);
     void deactivateButton(QAbstractButton* button);
@@ -90,7 +94,8 @@ private:
     Ui::MainWindow *ui;
 
     // список найденных маршрутов
-    std::vector<RoutesTableItemModel> tableRoutesList;
+
+    std::vector<std::vector<SearchParameters>> vvPaths;
 };
 
 #endif // MAINWINDOW_H
