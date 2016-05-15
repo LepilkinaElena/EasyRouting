@@ -86,7 +86,9 @@ void MainWindow::setupUI()
 void MainWindow::initMap()
 {
     qDebug("Map ready!");
-    ui->mapWidget->redrawMap(false);
+    controller.load();
+
+    ui->mapWidget->redrawMap(true);
 
 }
 

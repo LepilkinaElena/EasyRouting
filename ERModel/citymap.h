@@ -30,7 +30,7 @@ public:
     friend std::ostream& operator<< (std::ostream& output, const CityMap& object);
     friend std::istream& operator>> (std::istream& input, CityMap& object);
 
-
+    void loadDefaultMap();
 private:
     CityMap();
     ~CityMap();
