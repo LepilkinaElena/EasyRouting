@@ -140,7 +140,8 @@ namespace Multigraph {
     template <typename T>
     void MultigraphAllocator<T>::destroy(pointer p) const
     {
-        p->~T();
+        //p->~T();
+        delete p;
     }
 
     template <typename T>
