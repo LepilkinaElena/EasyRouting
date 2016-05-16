@@ -17,7 +17,7 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     ERModel/place.cpp \
     ERModel/routecost.cpp \
-    tests/tests.cpp \
+#    tests/tests.cpp \
     View/mapview.cpp \
     View/selectionitem.cpp \
     View/placedialog.cpp \
@@ -42,7 +42,7 @@ HEADERS  += mainwindow.h \
     Multigraph/multigraphiterator.h \
     ERModel/place.h \
     ERModel/routecost.h \
-    tests/tests.h \
+#    tests/tests.h \
     View/mapview.h \
     View/selectionitem.h \
     Multigraph/multigraphiterator.h \

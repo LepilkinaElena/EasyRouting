@@ -86,10 +86,12 @@ void MainWindow::setupUI()
 void MainWindow::initMap()
 {
     qDebug("Map ready!");
+    ui->mapWidget->clearSinglePlaces();
     controller.load();
 
-    ui->mapWidget->redrawMap(true);
-
+    ui->mapWidget->redrawMap(false);
+    fillPlaces(ui->startList);
+    fillPlaces(ui->finishList);
 }
 
 void MainWindow::runRouteSearching()
@@ -160,6 +162,7 @@ void MainWindow::save()
 void MainWindow::cancel()
 {
     //TODO read old file
+    ui->mapWidget->clearSinglePlaces();
     controller.load();
     endEditing();
 }

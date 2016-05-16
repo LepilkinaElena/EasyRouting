@@ -174,6 +174,11 @@ void MapView::removeSinglePlace(unsigned int id)
     }
 }
 
+void MapView::clearSinglePlaces()
+{
+    singlePlaces.clear();
+}
+
 void MapView::redrawMap(bool drawLines)
 {
     this->page()->mainFrame()->evaluateJavaScript("clearMap()");

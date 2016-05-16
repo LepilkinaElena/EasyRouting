@@ -9,7 +9,6 @@ CityMap& CityMap::Instance()
 CityMap::CityMap()
 {
     // TODO load from file
-
 }
 
 CityMap::~CityMap()

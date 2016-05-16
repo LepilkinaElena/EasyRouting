@@ -119,6 +119,8 @@ public:
     */
     bool hasSinglePlaces();
 
+    void clearSinglePlaces();
+
 signals:
     void mapReady();
     void placeCreated(double x, double y);

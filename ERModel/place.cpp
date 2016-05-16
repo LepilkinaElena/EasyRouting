@@ -124,8 +124,9 @@ std::istream& operator>> (std::istream& input, Place& object)
     std::cout<<"read interest " << (int)interest<<std::endl;
 
     object.id = id;
-    if (id > Place::counter) {
-        Place::counter = id;
+    if (id >= Place::counter) {
+        Place::counter = id + 1;
+        std::cout<<"====="<<Place::counter<<std::endl;
     }
     object.geoCoordX = x;
     object.geoCoordY = y;
