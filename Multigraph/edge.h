@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <iostream>
 #include <ERModel/routecost.h>
+#include "Exceptions/nullpointerexception.h"
+//#include "ERModel/citymap.h"
 
 namespace Multigraph {
     /*!\class Edge
@@ -142,13 +144,18 @@ namespace Multigraph {
     template <typename _T>
     std::istream& operator>> (std::istream& input, Edge<_T>& object)
     {
+//        if (fileLength < sizeof(int)) {
+//            throw NullPointerException();
+//        }
+//        fileLength -= sizeof(int);
+
         char buf[sizeof(int)];
         memset(buf, 0 , sizeof(int));
         input.read(buf, sizeof(int));
         int id = *(reinterpret_cast<int*>(buf));
-        if (id < 0) {
+        if (id < 0 || id > 1000) {
             //error
-            return input;
+            throw NullPointerException();
         }
         object.id = id;
 

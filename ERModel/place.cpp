@@ -94,44 +94,62 @@ std::ostream& operator<< (std::ostream& output, const Place& object)
 
 std::istream& operator>> (std::istream& input, Place& object)
 {
+//    if (CityMap::Instance().fileLength < sizeof(unsigned int)) {
+//        throw NullPointerException();
+//    }
+//    CityMap::Instance().fileLength -= sizeof(unsigned int);
+
     char idBuf[sizeof(unsigned int)];
     memset(idBuf,0,sizeof(int));
 
     input.read(idBuf, sizeof(unsigned int));
     unsigned int nameLen = *(reinterpret_cast<unsigned int*>(idBuf));
+    if (100 < nameLen) {
+        throw NullPointerException();
+    }
+
     std::cout<<"read nameLen " << nameLen<<std::endl;
     char nameBuf[nameLen+1];
     memset(nameBuf,0,nameLen+1);
-    input.read(nameBuf, nameLen);
-    std::string name(nameBuf);
-    std::cout<<"read name " << name<<std::endl;
 
-    input.read(idBuf, sizeof(unsigned int));
-    unsigned int id = *(reinterpret_cast<unsigned int*>(idBuf));
-    std::cout<<"read id " << id<<std::endl;
-    char coordBuf[sizeof(double)];
-    memset(coordBuf, 0 , sizeof(double));
-    input.read(coordBuf, sizeof(double));
-    double x = *(reinterpret_cast<double*>(coordBuf));
-    std::cout<<"read x " << x<<std::endl;
-    input.read(coordBuf, sizeof(double));
-    double y = *(reinterpret_cast<double*>(coordBuf));
-    std::cout<<"read y " << y<<std::endl;
-    char interestBuf[sizeof(unsigned int)];
-    memset(interestBuf, 0 , sizeof(unsigned int));
-    input.read(interestBuf, sizeof(unsigned int));
-    Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
-    std::cout<<"read interest " << (int)interest<<std::endl;
+        input.read(nameBuf, nameLen);
+        std::string name(nameBuf);
+        std::cout<<"read name " << name<<std::endl;
 
-    object.id = id;
-    if (id >= Place::counter) {
-        Place::counter = id + 1;
-        std::cout<<"====="<<Place::counter<<std::endl;
-    }
-    object.geoCoordX = x;
-    object.geoCoordY = y;
-    object.intersestCategory = interest;
-    object.name = name;
+//        if (CityMap::Instance().fileLength < 2*sizeof(unsigned int)+2*sizeof(double)) {
+//            throw NullPointerException();
+//        }
+//        CityMap::Instance().fileLength -= 2*sizeof(unsigned int)+2*sizeof(double);
+
+        input.read(idBuf, sizeof(unsigned int));
+        unsigned int id = *(reinterpret_cast<unsigned int*>(idBuf));
+        if (1000 < id) {
+            throw NullPointerException();
+        }
+        std::cout<<"read id " << id<<std::endl;
+        char coordBuf[sizeof(double)];
+        memset(coordBuf, 0 , sizeof(double));
+        input.read(coordBuf, sizeof(double));
+        double x = *(reinterpret_cast<double*>(coordBuf));
+        std::cout<<"read x " << x<<std::endl;
+        input.read(coordBuf, sizeof(double));
+        double y = *(reinterpret_cast<double*>(coordBuf));
+        std::cout<<"read y " << y<<std::endl;
+        char interestBuf[sizeof(unsigned int)];
+        memset(interestBuf, 0 , sizeof(unsigned int));
+        input.read(interestBuf, sizeof(unsigned int));
+        Interest interest = *(reinterpret_cast<Interest*>(interestBuf));
+        std::cout<<"read interest " << (int)interest<<std::endl;
+
+        object.id = id;
+        if (id >= Place::counter) {
+            Place::counter = id + 1;
+            std::cout<<"====="<<Place::counter<<std::endl;
+        }
+        object.geoCoordX = x;
+        object.geoCoordY = y;
+        object.intersestCategory = interest;
+        object.name = name;
 
     return input;
 }

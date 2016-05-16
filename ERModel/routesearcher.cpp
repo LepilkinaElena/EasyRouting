@@ -1,4 +1,5 @@
 #include "routesearcher.h"
+#include <Exceptions/nullpointerexception.h>
 
 const std::string KEY = "easyroutingdata";
 
@@ -41,11 +42,14 @@ void RouteSearcher::load() {
     std::ifstream f;
     f.open("data", std::ios::binary | std::ios::in);
     if (!f.fail()) {
+        f.seekg(0, f.end);
+//        fileLength = f.tellg();
+        f.seekg(0, f.beg);
         char buffer[KEY.length()];
         memset(buffer, 0, KEY.length());
         f.read(buffer, KEY.length());
         if (strncmp(buffer, KEY.c_str(), KEY.length()) == 0) {
-            f >> cityMap;
+           f >> cityMap;
         } else {
             std::cerr << "File is incorrect" << std::endl;
         }

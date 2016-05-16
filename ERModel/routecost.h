@@ -9,6 +9,7 @@
 #include <QTime>
 #include <string>
 
+
 enum Transport {CAR, UNDERGROUND, BUS, TROLLEYBUS, TRAM, TAXI, FOOT};
 
 using Multigraph::Cost;

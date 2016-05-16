@@ -6,6 +6,8 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+//#include <ERModel/citymap.h>
+#include <Exceptions/nullpointerexception.h>
 
 enum Interest { SIGHT, CULTURE, PARK, ENTERTAINMENT };
 

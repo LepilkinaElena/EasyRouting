@@ -2,6 +2,7 @@
 #include <typeinfo>
 #include <iostream>
 
+
 RouteCost::RouteCost() : Multigraph::Cost()
 {
 }
@@ -146,6 +147,11 @@ std::ostream& RouteCost::save (std::ostream& output) const {
 
 std::istream& RouteCost::load(std::istream& input)
 {
+//    if (CityMap::Instance().fileLength < 5*sizeof(int)) {
+//        throw NullPointerException();
+//    }
+//    CityMap::Instance().fileLength -= 5*sizeof(int);
+
     char intBuf[sizeof(int)];
     memset(intBuf,0,sizeof(int));
     input.read(intBuf, sizeof(int));
@@ -167,6 +173,10 @@ std::istream& RouteCost::load(std::istream& input)
     unsigned int interestsCount = *(reinterpret_cast<int*>(intBuf));
     interests = std::set<Interest>();
 
+    if (interestsCount > 20) {
+        throw NullPointerException();
+    }
+
     std::cout<<"read interests count "<<interestsCount << std::endl;
 
     for (int i = 0; i < interestsCount; i++) {
@@ -178,6 +188,10 @@ std::istream& RouteCost::load(std::istream& input)
     input.read(intBuf, sizeof(int));
     unsigned int transportsCount = *(reinterpret_cast<int*>(intBuf));
     transports = std::set<Transport>();
+
+    if (transportsCount > 20) {
+        throw NullPointerException();
+    }
 
     std::cout<<"read transports count "<<transportsCount << std::endl;
 

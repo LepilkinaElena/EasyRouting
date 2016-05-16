@@ -87,7 +87,13 @@ void MainWindow::initMap()
 {
     qDebug("Map ready!");
     ui->mapWidget->clearSinglePlaces();
-    controller.load();
+    try {
+        controller.load();
+    } catch (NullPointerException e) {
+        QMessageBox::warning(this, "Ошибка считывания файла", "Вероятно, файл испорчен");
+    }
+
+//    CityMap::Instance().loadDefaultMap();
 
     ui->mapWidget->redrawMap(false);
     fillPlaces(ui->startList);
@@ -163,7 +169,11 @@ void MainWindow::cancel()
 {
     //TODO read old file
     ui->mapWidget->clearSinglePlaces();
-    controller.load();
+    try {
+        controller.load();
+    } catch (NullPointerException e) {
+        QMessageBox::warning(this, "Ошибка считывания файла", "Вероятно, файл испорчен");
+    }
     endEditing();
 }
 

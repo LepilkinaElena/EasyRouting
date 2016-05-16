@@ -14,6 +14,7 @@
 #include "Exceptions/edgeabsencemultigraphexception.h"
 #include "Exceptions/vertexabsencemultigraphexception.h"
 #include <ERModel/place.h>
+#include "ERModel/citymap.h"
 
 namespace Multigraph {
 
@@ -549,12 +550,20 @@ namespace Multigraph {
     template <typename _T, typename _Alloc>
     std::istream& operator>> (std::istream& input, Multigraph<_T,_Alloc>& object)
     {
+//        if (fileLength < sizeof(unsigned int)) {
+//            throw NullPointerException();
+//        }
+//        fileLength -= sizeof(unsigned int);
         unsigned int count;
         char buf[sizeof(unsigned int)];
         memset(buf, 0 , sizeof(unsigned int));
-        input.read(buf, sizeof(count));
+        input.read(buf, sizeof(unsigned int));
         count = *(reinterpret_cast<unsigned int*>(buf));
         object.edges.clear();
+
+        if (count > 1000) {
+            throw NullPointerException();
+        }
 
         for (int i = 0; i < count; i++) {
             _T first = _T();
